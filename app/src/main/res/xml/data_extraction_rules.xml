@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android 12+ (API 31+) backup / device-transfer rules. Same intent as backup_rules.xml: the
+    Room database (player names + their results) is excluded from both cloud backup and
+    device-to-device transfer so this personal data stays on the one device it was entered on.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="database" path="billard-scoreboard.db" />
+        <exclude domain="database" path="billard-scoreboard.db-wal" />
+        <exclude domain="database" path="billard-scoreboard.db-shm" />
+        <exclude domain="database" path="billard-scoreboard.db-journal" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="database" path="billard-scoreboard.db" />
+        <exclude domain="database" path="billard-scoreboard.db-wal" />
+        <exclude domain="database" path="billard-scoreboard.db-shm" />
+        <exclude domain="database" path="billard-scoreboard.db-journal" />
+    </device-transfer>
+</data-extraction-rules>

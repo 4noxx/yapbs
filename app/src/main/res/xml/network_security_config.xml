@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext (ws://) is only used by ObsWebSocketClient to connect to OBS Studio's built-in
+  obs-websocket server, which has no native TLS support (obs-websocket's own SSL-Tunneling wiki
+  page confirms this - TLS there needs a manual reverse-proxy/tunnel most users won't set up).
+  That connection is opt-in (OBS WebSocket toggle in Settings), outbound-only, and always to a
+  LAN address the user types in themselves - never a default or a public host.
+
+  Every other network feature in this app already avoids cleartext: PlayerSyncServer serves over
+  HTTPS with a self-signed cert (sync/SelfSignedTls.kt), and ObsHttpServer/PlayerSyncDiscoveryManager
+  run local servers or fetch over HTTPS rather than acting as a cleartext HTTP client. This is the
+  one deliberate exception, scoped app-wide only because Android's network security config has no
+  way to scope cleartext permission to "private LAN IPs the user enters at runtime" more narrowly
+  than that.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

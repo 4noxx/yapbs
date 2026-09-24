@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android 9-11 (API 28-30) Auto Backup rules. The Room database holds player names plus their
+    match / training / tournament results - personal data whose whole point is that it never
+    leaves the device. Excluding it here keeps Auto Backup from uploading it to the user's Google
+    Drive. Lightweight, non-personal app preferences (SharedPreferences) are still backed up.
+-->
+<full-backup-content>
+    <exclude domain="database" path="billard-scoreboard.db" />
+    <exclude domain="database" path="billard-scoreboard.db-wal" />
+    <exclude domain="database" path="billard-scoreboard.db-shm" />
+    <exclude domain="database" path="billard-scoreboard.db-journal" />
+</full-backup-content>
