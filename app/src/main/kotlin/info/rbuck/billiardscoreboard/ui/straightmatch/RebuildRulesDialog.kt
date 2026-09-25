@@ -2,6 +2,7 @@ package info.rbuck.billiardscoreboard.ui.straightmatch
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -145,6 +147,14 @@ private fun RebuildExampleImages(example: RebuildExample, language: AppLanguage)
     val caption2 = Translations.rebuildRulesCaption(example.number, 2, language) ?: example.caption2
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
     if (isLandscape) {
+        // Sized by height, not by the row's half-width: at the table diagram's tall portrait aspect
+        // ratio, letting width drive the size (the old "fillMaxWidth then derive height" approach)
+        // made each table taller than the screen on a landscape tablet, clipping the bottom pockets
+        // out of view. Reserving a fixed budget for the chrome around it (top bar, title, captions,
+        // spacing) and handing the rest to the images as a height cap keeps a full example - both
+        // table halves - on screen at once without needing to scroll mid-diagram.
+        val tableHeight = (LocalConfiguration.current.screenHeightDp.dp - 220.dp).coerceIn(200.dp, 700.dp)
+
         // Captions and images are two separate rows, not one Column per side: if one caption wraps
         // to more lines than the other, keeping them in the same Column would push that side's image
         // down relative to its neighbor. A shared caption row - stretched to the taller caption's
@@ -165,9 +175,13 @@ private fun RebuildExampleImages(example: RebuildExample, language: AppLanguage)
                 )
             }
             Spacer(Modifier.height(8.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                AufbauTable(example.asset1, caption1, modifier = Modifier.weight(1f))
-                AufbauTable(example.asset2, caption2, modifier = Modifier.weight(1f))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    AufbauTable(example.asset1, caption1, fixedHeight = tableHeight)
+                }
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    AufbauTable(example.asset2, caption2, fixedHeight = tableHeight)
+                }
             }
         }
     } else {
@@ -188,11 +202,19 @@ private fun AufbauImage(caption: String, assetPath: String, modifier: Modifier =
 }
 
 @Composable
-private fun AufbauTable(assetPath: String, caption: String, modifier: Modifier = Modifier) {
+private fun AufbauTable(assetPath: String, caption: String, modifier: Modifier = Modifier, fixedHeight: Dp? = null) {
+    val sizedModifier = if (fixedHeight != null) {
+        // matchHeightConstraintsFirst: derive width from the fixed height instead of the default
+        // (derive height from available width) - that default is exactly what made the table too
+        // tall for the screen in landscape (see the call site's comment).
+        modifier.height(fixedHeight).aspectRatio(525.67f / 947.72f, matchHeightConstraintsFirst = true)
+    } else {
+        modifier.aspectRatio(525.67f / 947.72f)
+    }
     AsyncImage(
         model = "file:///android_asset/$assetPath",
         contentDescription = caption,
-        modifier = modifier.aspectRatio(525.67f / 947.72f),
+        modifier = sizedModifier,
     )
 }
 
