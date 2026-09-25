@@ -72,6 +72,10 @@ object Translations {
      * English - caller falls back to the hardcoded "Example" text. */
     fun rebuildRulesExampleLabel(language: AppLanguage): String? = rebuildRulesExampleLabels[language]
 
+    /** "of" in "Example N of 7", shown next to the rebuild-rules pagination controls. Null for
+     * English - caller falls back to the hardcoded "of" text. */
+    fun rebuildRulesOfCount(language: AppLanguage): String? = rebuildRulesOfCounts[language]
+
     /** One rebuild-rules example's caption, keyed by example number (1-7) and part (1 or 2 - the
      * "before"/"after" diagram). Null for English - caller falls back to the hardcoded English text. */
     fun rebuildRulesCaption(exampleNumber: Int, part: Int, language: AppLanguage): String? =
@@ -205,6 +209,12 @@ object Translations {
         AppLanguage.DE to "Beispiel",
         AppLanguage.ES to "Ejemplo",
         AppLanguage.FR to "Exemple",
+    )
+
+    private val rebuildRulesOfCounts: Map<AppLanguage, String> = mapOf(
+        AppLanguage.DE to "von",
+        AppLanguage.ES to "de",
+        AppLanguage.FR to "sur",
     )
 
     private val rebuildRulesCaptions: Map<AppLanguage, Map<Pair<Int, Int>, String>> = mapOf(
