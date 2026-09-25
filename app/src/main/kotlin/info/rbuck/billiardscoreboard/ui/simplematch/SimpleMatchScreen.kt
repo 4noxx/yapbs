@@ -416,19 +416,19 @@ private fun PlayerScoreCard(
         Spacer(Modifier.height(if (compact) 8.dp else 12.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             SquareIconButton(
-                icon = { Icon(Icons.Filled.Remove, contentDescription = "Remove last rack", modifier = Modifier.size(24.dp * uiScale)) },
+                icon = { Icon(Icons.Filled.Remove, contentDescription = "Remove last rack", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onRemove,
                 enabled = enabled && canRemove,
                 modifier = Modifier.weight(1f).height(buttonSize),
             )
             SquareIconButton(
-                icon = { Icon(Icons.Filled.Add, contentDescription = "Rack win", modifier = Modifier.size(24.dp * uiScale)) },
+                icon = { Icon(Icons.Filled.Add, contentDescription = "Rack win", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onAdd,
                 enabled = enabled,
                 modifier = Modifier.weight(1f).height(buttonSize),
             )
             SquareIconButton(
-                icon = { Icon(Icons.Filled.Rocket, contentDescription = "Runout", modifier = Modifier.size(24.dp * uiScale)) },
+                icon = { Icon(Icons.Filled.Rocket, contentDescription = "Runout", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onRunout,
                 enabled = enabled,
                 modifier = Modifier.weight(1f).height(buttonSize),
