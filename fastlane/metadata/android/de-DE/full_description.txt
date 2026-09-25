@@ -1,0 +1,13 @@
+YAPBS ersetzt Zettel und Kreidetafel am Billardtisch durch ein digitales Scoreboard auf Tablet oder Handy.
+
+Features:
+* 8-Ball, 9-Ball, 10-Ball und 14.1 endlos – mit korrekter Regelumsetzung (14.1 inkl. Anstoßfoul, Wiederaufbau und Drei-Foul-Regel nach DBU-Regelwerk)
+* Turniermodus für bis zu 8 Spieler (mehrere Modi: Verlierer bleibt, Gewinner bleibt, Jeder gegen Jeden, Sudden Death, Einzel-K.O., Wechselnde Doppel)
+* Training mit festen Übungen (14.1 HighRun, Equal Offense Level 1-4)
+* Direktvergleich zwischen zwei Spielern: Bilanz, Formkurve, Serien-Statistik, Filter nach Disziplin/Zeitraum
+* Verlauf mit Filter nach Name, Disziplin und Jahr, konfigurierbare Aufbewahrungsdauer
+* OBS-Fernsteuerung ("Regie"): Aufnahme/Stream aus der App starten/stoppen/pausieren, Szenen-Elemente automatisch ein-/ausblenden, Wake-on-LAN für den Streaming-Rechner
+* Drei Designs (Light/Dark/Vintage)
+* Mehrsprachig (Deutsch/Englisch/Spanisch/Französisch)
+
+Datenschutz: Alle Daten (Spieler, Ergebnisse, Vereine) bleiben ausschließlich auf dem Gerät. Kein Konto, kein Tracking, keine Werbung - nichts wird an den Entwickler oder Dritte übertragen.

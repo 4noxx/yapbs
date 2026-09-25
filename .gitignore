@@ -1,0 +1,28 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+/app/build
+/app/schemas
+
+# Release signing key + passwords - never publish. See keystore/README.md.
+/keystore/
+
+# Old dev-testing screenshots contain real players' names - not for a public repo.
+/screenshots/
+
+# Copyrighted third-party rule PDFs (DBU) kept locally for reference only - the app's own
+# redrawn SVG diagrams live in app/src/main/assets/aufbau/ and ARE part of the source.
+*.pdf
+/Rules_14_1/
+
+# Local Claude Code tooling state - not part of the app.
+/.claude/settings.local.json
+/.claude/scheduled_tasks.lock
+/werbung/

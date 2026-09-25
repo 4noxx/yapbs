@@ -1,0 +1,13 @@
+YAPBS replaces paper score sheets and chalk boards at the pool table with a digital scoreboard on tablet or phone.
+
+Features:
+* 8-Ball, 9-Ball, 10-Ball and 14.1 continuous - with accurate rule handling (14.1 includes break fouls, rebuilding the rack, and the three-foul rule per DBU rules)
+* Tournament mode for up to 8 players (multiple modes: loser stays, winner stays, round robin, sudden death, single elimination, partner rotation)
+* Training with fixed drills (14.1 HighRun, Equal Offense Level 1-4)
+* Head-to-head comparison between two players: balance, momentum chart, streak stats, filter by discipline/timeframe
+* History with filter by name, discipline and year, configurable retention period
+* OBS remote control: start/stop/pause recording or streaming from the app, auto-hide scene elements, Wake-on-LAN for the streaming PC
+* Three themes (Light/Dark/Vintage)
+* Multilingual (German/English/Spanish/French)
+
+Privacy: all data (players, results, clubs) stays on the device only. No account, no tracking, no ads - nothing is sent to the developer or any third party.
