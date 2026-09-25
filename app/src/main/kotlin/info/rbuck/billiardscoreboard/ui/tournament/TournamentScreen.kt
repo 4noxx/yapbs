@@ -405,7 +405,7 @@ private fun EncounterButton(
         modifier = modifier,
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Icon(icon, contentDescription = contentDescription, modifier = Modifier.size(24.dp * uiScale))
+            Icon(icon, contentDescription = contentDescription, modifier = Modifier.size(36.dp * uiScale))
         }
     }
 }

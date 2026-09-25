@@ -606,15 +606,15 @@ private fun RegularStraightLayout(
         // portrait tablet to squeeze the cards short and clip their bottom stats line.
         val uiScale = LocalUiScale.current
         val actionButtonHeight = CompactActionButtonHeight * uiScale
-        val actionIconSize = Modifier.size(24.dp * uiScale)
+        val actionIconSize = Modifier.size(38.dp * uiScale)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            BallsDisplayTile(value = ballsOnTable, fontSize = 18.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Text("-", fontSize = 20.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Text("+", fontSize = 20.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { RackIcon(size = 18.dp * uiScale) }, onClick = onRack, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
             ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
             ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
         }
@@ -734,15 +734,15 @@ private fun CompactStraightLayout(
             Spacer(Modifier.height(12.dp))
             val uiScale = LocalUiScale.current
             val actionButtonHeight = CompactActionButtonHeight * uiScale
-            val actionIconSize = Modifier.size(24.dp * uiScale)
+            val actionIconSize = Modifier.size(38.dp * uiScale)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                BallsDisplayTile(value = ballsOnTable, fontSize = 18.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Text("-", fontSize = 20.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Text("+", fontSize = 20.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { RackIcon(size = 18.dp * uiScale) }, onClick = onRack, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
                 ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
                 ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
             }

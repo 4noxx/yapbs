@@ -545,20 +545,20 @@ private fun TrainingButtonRow(
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
         TrainingTile(onClick = onBallsClick, modifier = Modifier.weight(1f).size(buttonSize)) {
-            Text(ballsOnTable.toString(), fontSize = 20.sp * uiScale, fontWeight = FontWeight.Bold)
+            Text(ballsOnTable.toString(), fontSize = 30.sp * uiScale, fontWeight = FontWeight.Bold)
         }
         TrainingActionButton(
             onClick = onSubtract,
             modifier = Modifier.weight(1f).size(buttonSize),
-        ) { Text("−", fontSize = 24.sp * uiScale, fontWeight = FontWeight.Bold) }
+        ) { Text("−", fontSize = 38.sp * uiScale, fontWeight = FontWeight.Bold) }
         TrainingActionButton(
             onClick = onAdd,
             modifier = Modifier.weight(1f).size(buttonSize),
-        ) { Text("+", fontSize = 24.sp * uiScale, fontWeight = FontWeight.Bold) }
+        ) { Text("+", fontSize = 38.sp * uiScale, fontWeight = FontWeight.Bold) }
         TrainingActionButton(
             onClick = onRack,
             modifier = Modifier.weight(1f).size(buttonSize),
-        ) { RackTriangle(size = 16.dp * uiScale) }
+        ) { RackTriangle(size = 25.dp * uiScale) }
         if (exercise.hasLives) {
             TrainingActionButton(
                 onClick = onError,
@@ -568,7 +568,7 @@ private fun TrainingButtonRow(
                 Icon(
                     Icons.Filled.Favorite,
                     contentDescription = "Miss / foul",
-                    modifier = Modifier.size(22.dp * uiScale),
+                    modifier = Modifier.size(35.dp * uiScale),
                 )
             }
         }
@@ -579,7 +579,7 @@ private fun TrainingButtonRow(
             Icon(
                 Icons.Filled.Check,
                 contentDescription = "Next inning",
-                modifier = Modifier.size(22.dp * uiScale),
+                modifier = Modifier.size(35.dp * uiScale),
             )
         }
     }
