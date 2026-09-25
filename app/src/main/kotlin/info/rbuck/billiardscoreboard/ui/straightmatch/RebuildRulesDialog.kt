@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -35,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -136,13 +136,18 @@ fun RebuildRulesDialog(onDismiss: () -> Unit) {
                 },
             ) { padding ->
                 val example = REBUILD_EXAMPLES[currentIndex]
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
-                ) {
+                val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+                // Landscape gets no verticalScroll and hands the images row a weight(1f): that makes
+                // it fill exactly whatever vertical space is left after the title/captions, however
+                // tall those turn out to be, so the table size stays put (not scroll-then-crop) no
+                // matter how many lines a caption wraps to. Portrait's images stack full-width and can
+                // run taller than the screen on a phone, so it keeps scrolling instead.
+                val columnModifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .let { if (isLandscape) it else it.verticalScroll(rememberScrollState()) }
+                    .padding(16.dp)
+                Column(modifier = columnModifier) {
                     Text(
                         "${Translations.rebuildRulesExampleLabel(language) ?: "Example"} ${example.number} ${
                             Translations.rebuildRulesOfCount(language) ?: "of"
@@ -151,7 +156,12 @@ fun RebuildRulesDialog(onDismiss: () -> Unit) {
                         fontWeight = FontWeight.Bold,
                     )
                     Spacer(Modifier.height(8.dp))
-                    RebuildExampleImages(example, language)
+                    RebuildExampleImages(
+                        example,
+                        language,
+                        isLandscape,
+                        modifier = if (isLandscape) Modifier.weight(1f) else Modifier,
+                    )
                 }
             }
         }
@@ -159,50 +169,52 @@ fun RebuildRulesDialog(onDismiss: () -> Unit) {
 }
 
 @Composable
-private fun RebuildExampleImages(example: RebuildExample, language: AppLanguage) {
+private fun RebuildExampleImages(example: RebuildExample, language: AppLanguage, isLandscape: Boolean, modifier: Modifier = Modifier) {
     val caption1 = Translations.rebuildRulesCaption(example.number, 1, language) ?: example.caption1
     val caption2 = Translations.rebuildRulesCaption(example.number, 2, language) ?: example.caption2
-    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
     if (isLandscape) {
         // Sized by height, not by the row's half-width: at the table diagram's tall portrait aspect
         // ratio, letting width drive the size (the old "fillMaxWidth then derive height" approach)
         // made each table taller than the screen on a landscape tablet, clipping the bottom pockets
-        // out of view. Reserving a fixed budget for the chrome around it (top bar, title, captions,
-        // spacing) and handing the rest to the images as a height cap keeps a full example - both
-        // table halves - on screen at once without needing to scroll mid-diagram.
-        val tableHeight = (LocalConfiguration.current.screenHeightDp.dp - 220.dp).coerceIn(200.dp, 700.dp)
-
+        // out of view. The image row gets weight(1f) from the caller (a bounded-height Column) so it
+        // fills exactly whatever height is left over after the captions above it, whatever that turns
+        // out to be, instead of guessing a fixed height budget that could run short and crop the table.
+        //
         // Captions and images are two separate rows, not one Column per side: if one caption wraps
         // to more lines than the other, keeping them in the same Column would push that side's image
         // down relative to its neighbor. A shared caption row - stretched to the taller caption's
-        // height via IntrinsicSize.Max - keeps both tables starting at the exact same height instead.
-        Column {
+        // height via IntrinsicSize.Max, and floored to minLines = 2 so a 1-line caption doesn't leave
+        // the row shorter than a 2-line one on the next/previous example - keeps the table's position
+        // and size stable when paging between examples instead of jumping.
+        Column(modifier = modifier) {
             Row(modifier = Modifier.height(IntrinsicSize.Max), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
                     caption1,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
+                    minLines = 2,
                     modifier = Modifier.weight(1f),
                 )
                 Text(
                     caption2,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
+                    minLines = 2,
                     modifier = Modifier.weight(1f),
                 )
             }
             Spacer(Modifier.height(8.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    AufbauTable(example.asset1, caption1, fixedHeight = tableHeight)
+            Row(modifier = Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Box(modifier = Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
+                    AufbauTable(example.asset1, caption1, modifier = Modifier.fillMaxHeight(), matchHeightFirst = true)
                 }
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    AufbauTable(example.asset2, caption2, fixedHeight = tableHeight)
+                Box(modifier = Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
+                    AufbauTable(example.asset2, caption2, modifier = Modifier.fillMaxHeight(), matchHeightFirst = true)
                 }
             }
         }
     } else {
-        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
             AufbauImage(caption1, example.asset1, modifier = Modifier.fillMaxWidth())
             AufbauImage(caption2, example.asset2, modifier = Modifier.fillMaxWidth())
         }
@@ -219,19 +231,14 @@ private fun AufbauImage(caption: String, assetPath: String, modifier: Modifier =
 }
 
 @Composable
-private fun AufbauTable(assetPath: String, caption: String, modifier: Modifier = Modifier, fixedHeight: Dp? = null) {
-    val sizedModifier = if (fixedHeight != null) {
-        // matchHeightConstraintsFirst: derive width from the fixed height instead of the default
-        // (derive height from available width) - that default is exactly what made the table too
-        // tall for the screen in landscape (see the call site's comment).
-        modifier.height(fixedHeight).aspectRatio(525.67f / 947.72f, matchHeightConstraintsFirst = true)
-    } else {
-        modifier.aspectRatio(525.67f / 947.72f)
-    }
+private fun AufbauTable(assetPath: String, caption: String, modifier: Modifier = Modifier, matchHeightFirst: Boolean = false) {
+    // matchHeightConstraintsFirst: derive width from the modifier's height instead of the default
+    // (derive height from available width) - that default is exactly what made the table too tall
+    // for the screen in landscape, where the caller instead hands this a fillMaxHeight() modifier.
     AsyncImage(
         model = "file:///android_asset/$assetPath",
         contentDescription = caption,
-        modifier = sizedModifier,
+        modifier = modifier.aspectRatio(525.67f / 947.72f, matchHeightConstraintsFirst = matchHeightFirst),
     )
 }
 
