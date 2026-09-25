@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -115,7 +116,7 @@ fun RebuildRulesDialog(onDismiss: () -> Unit) {
                         title = { Text(Translations.rebuildRulesTitle(language) ?: "Rebuild situations") },
                         navigationIcon = {
                             IconButton(onClick = onDismiss) {
-                                Icon(Icons.Filled.Close, contentDescription = "Close")
+                                Icon(Icons.Filled.Close, contentDescription = "Close", modifier = Modifier.size(48.dp))
                             }
                         },
                         actions = {
@@ -123,13 +124,13 @@ fun RebuildRulesDialog(onDismiss: () -> Unit) {
                                 onClick = { currentIndex -= 1 },
                                 enabled = currentIndex > 0,
                             ) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous")
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous", modifier = Modifier.size(48.dp))
                             }
                             IconButton(
                                 onClick = { currentIndex += 1 },
                                 enabled = currentIndex < REBUILD_EXAMPLES.lastIndex,
                             ) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next")
+                                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next", modifier = Modifier.size(48.dp))
                             }
                         },
                     )

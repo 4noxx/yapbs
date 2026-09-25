@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -263,7 +264,7 @@ private fun NumberTile(number: String, label: String, modifier: Modifier = Modif
 private fun IconTile(icon: ImageVector, label: String, modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit) {
     Tile(modifier = modifier, enabled = enabled, onClick = onClick) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(icon, contentDescription = null, modifier = Modifier.height(28.dp * LocalUiScale.current))
+            Icon(icon, contentDescription = null, modifier = Modifier.size(38.dp * LocalUiScale.current))
             Spacer(Modifier.height(4.dp))
             Text(label, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center, maxLines = 1)
         }
