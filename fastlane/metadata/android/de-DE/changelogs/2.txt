@@ -1,0 +1,1 @@
+Dialog "Situationen beim Wiederaufbau": Beispiele einzeln mit Vor/Zurück-Buttons durchblättern, Tischgrafik im Querformat springt nicht mehr und wird nicht mehr abgeschnitten.

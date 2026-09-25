@@ -1,0 +1,1 @@
+Rebuild-rules dialog: page through examples one at a time with prev/next buttons; the landscape table diagram no longer jumps or gets cropped.
