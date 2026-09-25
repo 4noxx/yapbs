@@ -25,7 +25,13 @@ import androidx.compose.ui.unit.sp
  * (High Run, Equal Offense) so both use the exact same "balls on table" input.
  */
 @Composable
-fun BallRackPicker(remaining: Int, onValueChange: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun BallRackPicker(
+    remaining: Int,
+    onValueChange: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    ballSize: androidx.compose.ui.unit.Dp = 36.dp,
+    fontSize: androidx.compose.ui.unit.TextUnit = 14.sp,
+) {
     val rows = listOf(listOf(15), listOf(14, 13), listOf(12, 11, 10), listOf(9, 8, 7, 6), listOf(5, 4, 3, 2, 1))
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp), modifier = modifier) {
         rows.forEach { row ->
@@ -37,10 +43,10 @@ fun BallRackPicker(remaining: Int, onValueChange: (Int) -> Unit, modifier: Modif
                         shape = CircleShape,
                         color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
                         contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(36.dp),
+                        modifier = Modifier.size(ballSize),
                     ) {
                         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                            Text(n.toString(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            Text(n.toString(), fontWeight = FontWeight.Bold, fontSize = fontSize)
                         }
                     }
                 }

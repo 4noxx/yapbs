@@ -62,8 +62,8 @@ import info.rbuck.billiardscoreboard.domain.training.TrainingMatchEngine
 import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.components.AttemptGrid
-import info.rbuck.billiardscoreboard.ui.components.BallRackPicker
 import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
+import info.rbuck.billiardscoreboard.ui.components.BallsOnTableDialog
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
 import info.rbuck.billiardscoreboard.ui.components.NumberStepper
@@ -253,26 +253,14 @@ fun TrainingScoreScreen(
 
     if (showSetBallsDialog) {
         var tempValue by remember(ballsOnTable) { mutableStateOf(ballsOnTable) }
-        AlertDialog(
+        BallsOnTableDialog(
+            title = "Balls on table?",
+            remaining = tempValue,
+            onValueChange = { tempValue = it },
+            primaryLabel = "Set",
+            onPrimary = { viewModel.setBallsOnTable(tempValue); showSetBallsDialog = false },
+            onCancel = { showSetBallsDialog = false },
             onDismissRequest = { showSetBallsDialog = false },
-            title = {
-                HideStatusBarInDialog()
-                Text("Balls on table?", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-            },
-            text = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                    BallRackPicker(remaining = tempValue, onValueChange = { tempValue = it })
-                    Spacer(Modifier.height(16.dp))
-                    NumberStepper(label = "", value = tempValue, onValueChange = { tempValue = it }, min = 0, max = 15)
-                }
-            },
-            confirmButton = {
-                BallsDialogActions(
-                    primaryLabel = "Set",
-                    onPrimary = { viewModel.setBallsOnTable(tempValue); showSetBallsDialog = false },
-                    onCancel = { showSetBallsDialog = false },
-                )
-            },
         )
     }
 

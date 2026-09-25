@@ -33,6 +33,7 @@ fun NumberStepper(
     min: Int = 0,
     max: Int = Int.MAX_VALUE,
     step: Int = 1,
+    height: androidx.compose.ui.unit.Dp? = null,
     formatValue: (Int) -> String = { it.toString() },
 ) {
     val uiScale = LocalUiScale.current
@@ -43,7 +44,7 @@ fun NumberStepper(
         }
         Row(
             modifier = Modifier
-                .height(44.dp * uiScale)
+                .height(height ?: (44.dp * uiScale))
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.surface)
                 .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(10.dp)),

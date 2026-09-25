@@ -73,8 +73,8 @@ import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.obs.LiveScorePlayer
 import info.rbuck.billiardscoreboard.obs.LiveScoreState
 import info.rbuck.billiardscoreboard.ui.components.ActivePlayerIndicator
-import info.rbuck.billiardscoreboard.ui.components.BallRackPicker
 import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
+import info.rbuck.billiardscoreboard.ui.components.BallsOnTableDialog
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
 import info.rbuck.billiardscoreboard.ui.components.DialogButtonShape
 import info.rbuck.billiardscoreboard.ui.components.NumberStepper
@@ -366,47 +366,35 @@ fun StraightMatchScreen(
     if (showSetBallsDialog) {
         var tempValue by remember(ballsOnTable) { mutableStateOf(ballsOnTable) }
         var foulToggled by remember { mutableStateOf(false) }
-        AlertDialog(
-            onDismissRequest = { showSetBallsDialog = false },
-            title = {
-                HideStatusBarInDialog()
-                Text(t(StraightMatchTextKey.BALLS_ON_TABLE_TITLE, "Balls on table?"), modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-            },
-            text = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                    BallRackPicker(remaining = tempValue, onValueChange = { tempValue = it })
-                    Spacer(Modifier.height(16.dp))
-                    NumberStepper(label = "", value = tempValue, onValueChange = { tempValue = it }, min = 0, max = 15)
+        BallsOnTableDialog(
+            title = t(StraightMatchTextKey.BALLS_ON_TABLE_TITLE, "Balls on table?"),
+            remaining = tempValue,
+            onValueChange = { tempValue = it },
+            primaryLabel = t(StraightMatchTextKey.SET_ACTION, "Set"),
+            onPrimary = {
+                viewModel.setBallsOnTable(tempValue)
+                // If Foul was toggled, run the same break/third-foul detection as the X button so
+                // the penalty (and the turn switch a foul itself already causes) matches pressing X.
+                // Otherwise, a turn switch only makes sense if the run actually stopped mid-rack
+                // (2-15 balls left) - setting 0 or 1 means the rack was run out, which the engine
+                // itself already continues as the SAME player's next rack, so forcing a switch here
+                // would wrongly hand the table to the opponent mid-run.
+                if (foulToggled) {
+                    val freshState = viewModel.match.value ?: state
+                    when {
+                        StraightMatchEngine.isBreakFoulPossible(freshState) -> showBreakFoulDialog = true
+                        StraightMatchEngine.wouldBeThirdConsecutiveFoul(freshState) -> showThirdFoulDialog = true
+                        else -> viewModel.foul(breakFoul = false, reRack = false)
+                    }
+                } else if (tempValue >= 2) {
+                    viewModel.endTurn(InningEndType.NONE)
                 }
+                showSetBallsDialog = false
             },
-            confirmButton = {
-                BallsDialogActions(
-                    primaryLabel = t(StraightMatchTextKey.SET_ACTION, "Set"),
-                    onPrimary = {
-                        viewModel.setBallsOnTable(tempValue)
-                        // If Foul was toggled, run the same break/third-foul detection as the X button so
-                        // the penalty (and the turn switch a foul itself already causes) matches pressing X.
-                        // Otherwise, a turn switch only makes sense if the run actually stopped mid-rack
-                        // (2-15 balls left) - setting 0 or 1 means the rack was run out, which the engine
-                        // itself already continues as the SAME player's next rack, so forcing a switch here
-                        // would wrongly hand the table to the opponent mid-run.
-                        if (foulToggled) {
-                            val freshState = viewModel.match.value ?: state
-                            when {
-                                StraightMatchEngine.isBreakFoulPossible(freshState) -> showBreakFoulDialog = true
-                                StraightMatchEngine.wouldBeThirdConsecutiveFoul(freshState) -> showThirdFoulDialog = true
-                                else -> viewModel.foul(breakFoul = false, reRack = false)
-                            }
-                        } else if (tempValue >= 2) {
-                            viewModel.endTurn(InningEndType.NONE)
-                        }
-                        showSetBallsDialog = false
-                    },
-                    onCancel = { showSetBallsDialog = false },
-                    extraButton = {
-                        FoulToggleButton(selected = foulToggled, onClick = { foulToggled = !foulToggled }, modifier = Modifier.weight(1f))
-                    },
-                )
+            onCancel = { showSetBallsDialog = false },
+            onDismissRequest = { showSetBallsDialog = false },
+            extraButton = { buttonModifier ->
+                FoulToggleButton(selected = foulToggled, onClick = { foulToggled = !foulToggled }, modifier = buttonModifier)
             },
         )
     }
@@ -548,7 +536,7 @@ private fun FoulToggleButton(selected: Boolean, onClick: () -> Unit, modifier: M
         contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
         modifier = modifier,
     ) {
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
             Text("Foul", fontWeight = FontWeight.Medium)
         }
     }
