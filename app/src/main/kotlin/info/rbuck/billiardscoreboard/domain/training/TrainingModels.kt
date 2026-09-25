@@ -90,9 +90,10 @@ enum class TrainingExercise(
         170,
         17.0f,
         true,
-        "Setup: this level is played as real 14.1 - after the break, ball-in-hand is only within the kitchen, " +
-            "with no automatic re-rack of potted balls. Equal Offense stays a call-shot game (call ball and " +
-            "pocket, except for obvious shots).\n\n" +
+        "Setup: same as the other levels - rack all 15 balls, then break from the kitchen; any balls the break " +
+            "pots are re-spotted on the foot spot, so all 15 are always back on the table after it. The only " +
+            "difference from the other levels: you may only place the cue ball within the kitchen, not anywhere " +
+            "on the table. Equal Offense stays a call-shot game (call ball and pocket, except for obvious shots).\n\n" +
             "10 innings, no lives - a single miss or foul ends the inning immediately. Once you reach 14 balls, " +
             "the rack button racks the remaining ball as a breakball instead of re-spotting all 15, and your " +
             "count continues past 14 (\"14+1\", \"14+2\", ...) up to 20 balls per inning. Aim for a session " +

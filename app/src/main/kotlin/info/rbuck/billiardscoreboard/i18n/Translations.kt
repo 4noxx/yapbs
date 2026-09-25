@@ -141,9 +141,12 @@ object Translations {
                 "Weißen weiter (außer sie fällt oder verlässt den Tisch - dann wieder Weiß in der Hand auf dem " +
                 "ganzen Tisch). Ziel ist ein Sitzungstotal von 120 Punkten oder mehr - ein Schnitt von 12,0 pro " +
                 "Aufnahme ist der Referenzwert.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "Aufbau: Hier wird echtes 14.1 gespielt - nach dem Break gibt es " +
-                "Weiß in der Hand nur im Kopffeld, kein automatischer Wiederaufbau der versenkten Bälle. Equal " +
-                "Offense bleibt ein Ansagespiel (Ball und Loch ansagen, außer bei offensichtlichen Kugeln).\n\n" +
+            TrainingExercise.EQUAL_OFFENSE_4 to "Aufbau: Wie bei den anderen Stufen - alle 15 Bälle werden als " +
+                "geschlossenes Dreieck aufgebaut, dann wird aus dem Kopffeld gebreakt; versenkte Bälle werden auf " +
+                "der Fußlinie wieder aufgebaut, sodass nach dem Break immer alle 15 Bälle auf dem Tisch liegen. " +
+                "Einziger Unterschied zu den anderen Stufen: Du darfst die Weiße nur im Kopffeld platzieren, " +
+                "nicht auf dem ganzen Tisch. Equal Offense bleibt ein Ansagespiel (Ball und Loch ansagen, außer " +
+                "bei offensichtlichen Kugeln).\n\n" +
                 "10 Aufnahmen, keine Leben - ein einziger Fehler oder Foul beendet die Aufnahme sofort. Sobald du " +
                 "14 Bälle erreichst, rackt der Rack-Button den verbleibenden Ball als Anspielball, statt alle 15 " +
                 "neu aufzubauen, und deine Zählung läuft über 14 hinaus weiter (\"14+1\", \"14+2\", ...) bis zu " +
@@ -185,10 +188,12 @@ object Translations {
                 "(salvo que se embolse o salga de la mesa - entonces bola en mano de nuevo en toda la mesa). El " +
                 "objetivo es un total de sesión de 120 puntos o más - una media de 12.0 por entrada es la " +
                 "referencia a superar.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "Preparación: este nivel se juega como 14.1 real - tras la " +
-                "rotura, la bola en mano es solo dentro de la zona de salida, sin recolocación automática de las " +
-                "bolas embolsadas. Equal Offense sigue siendo un juego de bola cantada (cantar bola y tronera, " +
-                "salvo en tiros evidentes).\n\n" +
+            TrainingExercise.EQUAL_OFFENSE_4 to "Preparación: igual que en los demás niveles - las 15 bolas se " +
+                "colocan en triángulo cerrado y se rompe desde la zona de salida; las bolas que entronice la " +
+                "rotura se vuelven a colocar en el punto de pie, de modo que tras la rotura siempre quedan las " +
+                "15 bolas en la mesa. La única diferencia con los demás niveles: solo puedes colocar la bola " +
+                "blanca dentro de la zona de salida, no en toda la mesa. Equal Offense sigue siendo un juego de " +
+                "bola cantada (cantar bola y tronera, salvo en tiros evidentes).\n\n" +
                 "10 entradas, sin vidas - un solo fallo o falta termina la entrada de inmediato. Al llegar a 14 " +
                 "bolas, el botón de rack coloca la bola restante como bola de rompida en lugar de volver a " +
                 "colocar las 15, y tu conteo continúa más allá de 14 (\"14+1\", \"14+2\", ...) hasta 20 bolas " +
@@ -230,9 +235,12 @@ object Translations {
                 "(sauf si elle est rentrée ou sort de la table - alors de nouveau bille en main sur toute la " +
                 "table). Visez un total de session de 120 points ou plus - une moyenne de 12,0 par reprise est " +
                 "la référence à battre.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "Préparation : ce niveau se joue en 14.1 réel - après la casse, " +
-                "la bille en main n'est valable que dans la zone de tête, sans replacement automatique des " +
-                "billes rentrées. Equal Offense reste un jeu annoncé (annoncer bille et poche, sauf évidence).\n\n" +
+            TrainingExercise.EQUAL_OFFENSE_4 to "Préparation : comme pour les autres niveaux - les 15 billes " +
+                "sont montées en triangle fermé, puis on casse depuis la zone de tête ; les billes rentrées par " +
+                "la casse sont replacées sur le point de pied, si bien qu'après la casse les 15 billes sont " +
+                "toujours sur la table. Seule différence avec les autres niveaux : vous ne pouvez placer la " +
+                "bille blanche que dans la zone de tête, pas sur toute la table. Equal Offense reste un jeu " +
+                "annoncé (annoncer bille et poche, sauf évidence).\n\n" +
                 "10 reprises, aucune vie - une seule faute termine immédiatement la reprise. Une fois 14 billes " +
                 "atteintes, le bouton de rack replace la bille restante comme bille de casse au lieu de reformer " +
                 "les 15, et votre compte continue au-delà de 14 (\"14+1\", \"14+2\", ...) jusqu'à 20 billes par " +
