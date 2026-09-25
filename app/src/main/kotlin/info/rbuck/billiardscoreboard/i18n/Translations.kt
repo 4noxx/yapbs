@@ -111,63 +111,133 @@ object Translations {
             TrainingExercise.HIGH_RUN to "Spiele durchgehend 14.1: Rack für Rack, ohne Aufnahmenlimit und ohne Leben. " +
                 "Versenke so viele Bälle in Folge wie möglich - das Ziel ist einfach deine längste Serie. Deine " +
                 "aktuelle Serie und die Höchstserie der Sitzung werden unten auf der Kachel angezeigt.",
-            TrainingExercise.EQUAL_OFFENSE_1 to "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Du hast 2 Leben pro " +
-                "Aufnahme - die Aufnahme endet erst vorzeitig, wenn du 3 Mal verfehlst (2 verlorene Leben + der " +
-                "Fehlstoß, der sie beendet). Ziel ist ein Sitzungstotal von 120 Punkten oder mehr - ein Schnitt von " +
-                "4,0 pro Aufnahme ist der Referenzwert.",
-            TrainingExercise.EQUAL_OFFENSE_2 to "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Du hast 1 Leben pro " +
-                "Aufnahme - die Aufnahme endet nach dem zweiten Fehlstoß. Ziel ist ein Sitzungstotal von 120 " +
-                "Punkten oder mehr - ein Schnitt von 6,0 pro Aufnahme ist der Referenzwert.",
-            TrainingExercise.EQUAL_OFFENSE_3 to "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Keine Leben - ein " +
-                "einziger Fehlstoß beendet die Aufnahme sofort. Ziel ist ein Sitzungstotal von 120 Punkten oder " +
-                "mehr - ein Schnitt von 12,0 pro Aufnahme ist der Referenzwert.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "10 Aufnahmen, keine Leben - ein einziger Fehlstoß beendet die " +
-                "Aufnahme sofort. Sobald du 14 Bälle erreichst, rackt der Rack-Button den verbleibenden Ball als " +
-                "Anspielball, statt alle 15 neu aufzubauen, und deine Zählung läuft über 14 hinaus weiter " +
-                "(\"14+1\", \"14+2\", ...) bis zu 20 Bällen pro Aufnahme. Ziel ist ein Sitzungstotal von 170 " +
-                "Punkten oder mehr - ein Schnitt von 17,0 pro Aufnahme ist der Referenzwert.",
+            TrainingExercise.EQUAL_OFFENSE_1 to "Aufbau: Die 15 Bälle werden als geschlossenes Dreieck aufgebaut, " +
+                "dann wird aus dem Kopffeld gebreakt - der Break zählt nicht als normaler Stoß, versenkte Bälle " +
+                "werden auf der Fußlinie wieder aufgebaut, sodass nach dem Break immer alle 15 Bälle auf dem Tisch " +
+                "liegen. Du beginnst mit Weiß in der Hand auf dem ganzen Tisch. Equal Offense ist ein Ansagespiel " +
+                "(Ball und Loch ansagen, außer bei offensichtlichen Kugeln).\n\n" +
+                "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Du hast 2 Leben pro Aufnahme - sie endet erst beim " +
+                "dritten Fehler oder Foul. Nach einem Fehler oder Foul spielst du von der aktuellen Position der " +
+                "Weißen weiter (außer sie fällt oder verlässt den Tisch - dann wieder Weiß in der Hand auf dem " +
+                "ganzen Tisch). Ziel ist ein Sitzungstotal von 120 Punkten oder mehr - ein Schnitt von 4,0 pro " +
+                "Aufnahme ist der Referenzwert.",
+            TrainingExercise.EQUAL_OFFENSE_2 to "Aufbau: Die 15 Bälle werden als geschlossenes Dreieck aufgebaut, " +
+                "dann wird aus dem Kopffeld gebreakt - der Break zählt nicht als normaler Stoß, versenkte Bälle " +
+                "werden auf der Fußlinie wieder aufgebaut, sodass nach dem Break immer alle 15 Bälle auf dem Tisch " +
+                "liegen. Du beginnst mit Weiß in der Hand auf dem ganzen Tisch. Equal Offense ist ein Ansagespiel " +
+                "(Ball und Loch ansagen, außer bei offensichtlichen Kugeln).\n\n" +
+                "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Du hast 1 Leben pro Aufnahme - sie endet nach dem " +
+                "zweiten Fehler oder Foul. Nach einem Fehler oder Foul spielst du von der aktuellen Position der " +
+                "Weißen weiter (außer sie fällt oder verlässt den Tisch - dann wieder Weiß in der Hand auf dem " +
+                "ganzen Tisch). Ziel ist ein Sitzungstotal von 120 Punkten oder mehr - ein Schnitt von 6,0 pro " +
+                "Aufnahme ist der Referenzwert.",
+            TrainingExercise.EQUAL_OFFENSE_3 to "Aufbau: Die 15 Bälle werden als geschlossenes Dreieck aufgebaut, " +
+                "dann wird aus dem Kopffeld gebreakt - der Break zählt nicht als normaler Stoß, versenkte Bälle " +
+                "werden auf der Fußlinie wieder aufgebaut, sodass nach dem Break immer alle 15 Bälle auf dem Tisch " +
+                "liegen. Du beginnst mit Weiß in der Hand auf dem ganzen Tisch. Equal Offense ist ein Ansagespiel " +
+                "(Ball und Loch ansagen, außer bei offensichtlichen Kugeln).\n\n" +
+                "10 Aufnahmen, jeweils ein Rack mit 15 Bällen. Keine Leben - ein einziger Fehler oder Foul beendet " +
+                "die Aufnahme sofort. Nach einem Fehler oder Foul spielst du von der aktuellen Position der " +
+                "Weißen weiter (außer sie fällt oder verlässt den Tisch - dann wieder Weiß in der Hand auf dem " +
+                "ganzen Tisch). Ziel ist ein Sitzungstotal von 120 Punkten oder mehr - ein Schnitt von 12,0 pro " +
+                "Aufnahme ist der Referenzwert.",
+            TrainingExercise.EQUAL_OFFENSE_4 to "Aufbau: Hier wird echtes 14.1 gespielt - nach dem Break gibt es " +
+                "Weiß in der Hand nur im Kopffeld, kein automatischer Wiederaufbau der versenkten Bälle. Equal " +
+                "Offense bleibt ein Ansagespiel (Ball und Loch ansagen, außer bei offensichtlichen Kugeln).\n\n" +
+                "10 Aufnahmen, keine Leben - ein einziger Fehler oder Foul beendet die Aufnahme sofort. Sobald du " +
+                "14 Bälle erreichst, rackt der Rack-Button den verbleibenden Ball als Anspielball, statt alle 15 " +
+                "neu aufzubauen, und deine Zählung läuft über 14 hinaus weiter (\"14+1\", \"14+2\", ...) bis zu " +
+                "20 Bällen pro Aufnahme. Ziel ist ein Sitzungstotal von 170 Punkten oder mehr - ein Schnitt von " +
+                "17,0 pro Aufnahme ist der Referenzwert.",
         ),
         AppLanguage.ES to mapOf(
             TrainingExercise.HIGH_RUN to "Juega al 14.1 de forma continua: rack tras rack, sin límite de entradas " +
                 "y sin vidas. Entroniza tantas bolas seguidas como puedas - el objetivo es simplemente tu tacada " +
                 "más larga. Tu tacada actual y la mejor tacada de la sesión se muestran en la parte inferior de " +
                 "la tarjeta.",
-            TrainingExercise.EQUAL_OFFENSE_1 to "10 entradas, un rack de 15 bolas cada una. Tienes 2 vidas por " +
-                "entrada - la entrada solo termina antes si fallas 3 veces (2 vidas perdidas + el fallo que la " +
-                "termina). El objetivo es un total de sesión de 120 puntos o más - una media de 4.0 por entrada " +
-                "es la referencia a superar.",
-            TrainingExercise.EQUAL_OFFENSE_2 to "10 entradas, un rack de 15 bolas cada una. Tienes 1 vida por " +
-                "entrada - la entrada termina tras tu segundo fallo. El objetivo es un total de sesión de 120 " +
-                "puntos o más - una media de 6.0 por entrada es la referencia a superar.",
-            TrainingExercise.EQUAL_OFFENSE_3 to "10 entradas, un rack de 15 bolas cada una. Sin vidas - un solo " +
-                "fallo termina la entrada de inmediato. El objetivo es un total de sesión de 120 puntos o más - " +
-                "una media de 12.0 por entrada es la referencia a superar.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "10 entradas, sin vidas - un solo fallo termina la entrada de " +
-                "inmediato. Al llegar a 14 bolas, el botón de rack coloca la bola restante como bola de rompida " +
-                "en lugar de volver a colocar las 15, y tu conteo continúa más allá de 14 (\"14+1\", \"14+2\", " +
-                "...) hasta 20 bolas por entrada. El objetivo es un total de sesión de 170 puntos o más - una " +
-                "media de 17.0 por entrada es la referencia a superar.",
+            TrainingExercise.EQUAL_OFFENSE_1 to "Preparación: se colocan las 15 bolas en triángulo cerrado y se " +
+                "rompe desde la zona de salida - el golpe de rotura no cuenta como tiro normal, y las bolas que " +
+                "entronice se vuelven a colocar en el punto de pie, de modo que tras la rotura siempre quedan " +
+                "las 15 bolas en la mesa. Empiezas tu intento con bola en mano en toda la mesa. Equal Offense es " +
+                "un juego de bola cantada (cantar bola y tronera, salvo en tiros evidentes).\n\n" +
+                "10 entradas, un rack de 15 bolas cada una. Tienes 2 vidas por entrada - solo termina antes si " +
+                "fallas 3 veces (2 vidas perdidas + el fallo que la termina). Tras un fallo o falta, sigues " +
+                "jugando desde la posición actual de la bola blanca (salvo que se embolse o salga de la mesa - " +
+                "entonces bola en mano de nuevo en toda la mesa). El objetivo es un total de sesión de 120 " +
+                "puntos o más - una media de 4.0 por entrada es la referencia a superar.",
+            TrainingExercise.EQUAL_OFFENSE_2 to "Preparación: se colocan las 15 bolas en triángulo cerrado y se " +
+                "rompe desde la zona de salida - el golpe de rotura no cuenta como tiro normal, y las bolas que " +
+                "entronice se vuelven a colocar en el punto de pie, de modo que tras la rotura siempre quedan " +
+                "las 15 bolas en la mesa. Empiezas tu intento con bola en mano en toda la mesa. Equal Offense es " +
+                "un juego de bola cantada (cantar bola y tronera, salvo en tiros evidentes).\n\n" +
+                "10 entradas, un rack de 15 bolas cada una. Tienes 1 vida por entrada - termina tras tu segundo " +
+                "fallo o falta. Tras un fallo o falta, sigues jugando desde la posición actual de la bola blanca " +
+                "(salvo que se embolse o salga de la mesa - entonces bola en mano de nuevo en toda la mesa). El " +
+                "objetivo es un total de sesión de 120 puntos o más - una media de 6.0 por entrada es la " +
+                "referencia a superar.",
+            TrainingExercise.EQUAL_OFFENSE_3 to "Preparación: se colocan las 15 bolas en triángulo cerrado y se " +
+                "rompe desde la zona de salida - el golpe de rotura no cuenta como tiro normal, y las bolas que " +
+                "entronice se vuelven a colocar en el punto de pie, de modo que tras la rotura siempre quedan " +
+                "las 15 bolas en la mesa. Empiezas tu intento con bola en mano en toda la mesa. Equal Offense es " +
+                "un juego de bola cantada (cantar bola y tronera, salvo en tiros evidentes).\n\n" +
+                "10 entradas, un rack de 15 bolas cada una. Sin vidas - un solo fallo o falta termina la entrada " +
+                "de inmediato. Tras un fallo o falta, sigues jugando desde la posición actual de la bola blanca " +
+                "(salvo que se embolse o salga de la mesa - entonces bola en mano de nuevo en toda la mesa). El " +
+                "objetivo es un total de sesión de 120 puntos o más - una media de 12.0 por entrada es la " +
+                "referencia a superar.",
+            TrainingExercise.EQUAL_OFFENSE_4 to "Preparación: este nivel se juega como 14.1 real - tras la " +
+                "rotura, la bola en mano es solo dentro de la zona de salida, sin recolocación automática de las " +
+                "bolas embolsadas. Equal Offense sigue siendo un juego de bola cantada (cantar bola y tronera, " +
+                "salvo en tiros evidentes).\n\n" +
+                "10 entradas, sin vidas - un solo fallo o falta termina la entrada de inmediato. Al llegar a 14 " +
+                "bolas, el botón de rack coloca la bola restante como bola de rompida en lugar de volver a " +
+                "colocar las 15, y tu conteo continúa más allá de 14 (\"14+1\", \"14+2\", ...) hasta 20 bolas " +
+                "por entrada. El objetivo es un total de sesión de 170 puntos o más - una media de 17.0 por " +
+                "entrada es la referencia a superar.",
         ),
         AppLanguage.FR to mapOf(
             TrainingExercise.HIGH_RUN to "Jouez au 14.1 en continu : rack après rack, sans limite de reprises et " +
                 "sans vies. Rentrez autant de billes d'affilée que possible - l'objectif est simplement votre " +
                 "plus longue série. Votre série en cours et la meilleure série de la session s'affichent en bas " +
                 "de la carte.",
-            TrainingExercise.EQUAL_OFFENSE_1 to "10 reprises, un rack de 15 billes chacune. Vous avez 2 vies par " +
-                "reprise - la reprise ne se termine prématurément qu'après 3 fautes (2 vies perdues + la faute " +
-                "qui y met fin). Visez un total de session de 120 points ou plus - une moyenne de 4,0 par " +
+            TrainingExercise.EQUAL_OFFENSE_1 to "Préparation : les 15 billes sont montées en triangle fermé, " +
+                "puis on casse depuis la zone de tête - le coup de casse ne compte pas comme un coup normal, et " +
+                "les billes qu'il rentre sont replacées sur le point de pied, si bien qu'après la casse les 15 " +
+                "billes sont toujours sur la table. Vous commencez votre tentative avec la bille en main sur " +
+                "toute la table. Equal Offense est un jeu annoncé (annoncer bille et poche, sauf évidence).\n\n" +
+                "10 reprises, un rack de 15 billes chacune. Vous avez 2 vies par reprise - elle ne se termine " +
+                "qu'après 3 fautes. Après une faute, vous continuez depuis la position actuelle de la bille " +
+                "blanche (sauf si elle est rentrée ou sort de la table - alors de nouveau bille en main sur " +
+                "toute la table). Visez un total de session de 120 points ou plus - une moyenne de 4,0 par " +
                 "reprise est la référence à battre.",
-            TrainingExercise.EQUAL_OFFENSE_2 to "10 reprises, un rack de 15 billes chacune. Vous avez 1 vie par " +
-                "reprise - la reprise se termine après votre deuxième faute. Visez un total de session de 120 " +
-                "points ou plus - une moyenne de 6,0 par reprise est la référence à battre.",
-            TrainingExercise.EQUAL_OFFENSE_3 to "10 reprises, un rack de 15 billes chacune. Aucune vie - une " +
-                "seule faute termine immédiatement la reprise. Visez un total de session de 120 points ou plus " +
-                "- une moyenne de 12,0 par reprise est la référence à battre.",
-            TrainingExercise.EQUAL_OFFENSE_4 to "10 reprises, aucune vie - une seule faute termine immédiatement " +
-                "la reprise. Une fois 14 billes atteintes, le bouton de rack replace la bille restante comme " +
-                "bille de casse au lieu de reformer les 15, et votre compte continue au-delà de 14 (\"14+1\", " +
-                "\"14+2\", ...) jusqu'à 20 billes par reprise. Visez un total de session de 170 points ou plus - " +
-                "une moyenne de 17,0 par reprise est la référence à battre.",
+            TrainingExercise.EQUAL_OFFENSE_2 to "Préparation : les 15 billes sont montées en triangle fermé, " +
+                "puis on casse depuis la zone de tête - le coup de casse ne compte pas comme un coup normal, et " +
+                "les billes qu'il rentre sont replacées sur le point de pied, si bien qu'après la casse les 15 " +
+                "billes sont toujours sur la table. Vous commencez votre tentative avec la bille en main sur " +
+                "toute la table. Equal Offense est un jeu annoncé (annoncer bille et poche, sauf évidence).\n\n" +
+                "10 reprises, un rack de 15 billes chacune. Vous avez 1 vie par reprise - elle se termine après " +
+                "votre deuxième faute. Après une faute, vous continuez depuis la position actuelle de la bille " +
+                "blanche (sauf si elle est rentrée ou sort de la table - alors de nouveau bille en main sur " +
+                "toute la table). Visez un total de session de 120 points ou plus - une moyenne de 6,0 par " +
+                "reprise est la référence à battre.",
+            TrainingExercise.EQUAL_OFFENSE_3 to "Préparation : les 15 billes sont montées en triangle fermé, " +
+                "puis on casse depuis la zone de tête - le coup de casse ne compte pas comme un coup normal, et " +
+                "les billes qu'il rentre sont replacées sur le point de pied, si bien qu'après la casse les 15 " +
+                "billes sont toujours sur la table. Vous commencez votre tentative avec la bille en main sur " +
+                "toute la table. Equal Offense est un jeu annoncé (annoncer bille et poche, sauf évidence).\n\n" +
+                "10 reprises, un rack de 15 billes chacune. Aucune vie - une seule faute termine immédiatement " +
+                "la reprise. Après une faute, vous continuez depuis la position actuelle de la bille blanche " +
+                "(sauf si elle est rentrée ou sort de la table - alors de nouveau bille en main sur toute la " +
+                "table). Visez un total de session de 120 points ou plus - une moyenne de 12,0 par reprise est " +
+                "la référence à battre.",
+            TrainingExercise.EQUAL_OFFENSE_4 to "Préparation : ce niveau se joue en 14.1 réel - après la casse, " +
+                "la bille en main n'est valable que dans la zone de tête, sans replacement automatique des " +
+                "billes rentrées. Equal Offense reste un jeu annoncé (annoncer bille et poche, sauf évidence).\n\n" +
+                "10 reprises, aucune vie - une seule faute termine immédiatement la reprise. Une fois 14 billes " +
+                "atteintes, le bouton de rack replace la bille restante comme bille de casse au lieu de reformer " +
+                "les 15, et votre compte continue au-delà de 14 (\"14+1\", \"14+2\", ...) jusqu'à 20 billes par " +
+                "reprise. Visez un total de session de 170 points ou plus - une moyenne de 17,0 par reprise est " +
+                "la référence à battre.",
         ),
     )
 

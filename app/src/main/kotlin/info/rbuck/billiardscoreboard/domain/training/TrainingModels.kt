@@ -38,9 +38,15 @@ enum class TrainingExercise(
         120,
         4.0f,
         false,
-        "10 innings, one rack of 15 balls each. You get 2 lives per inning - the inning only ends early once " +
-            "you've missed 3 times (2 lives lost + the miss that ends it). Aim for a session total of 120 " +
-            "points or more - a 4.0 average per inning is the reference to beat.",
+        "Setup: rack all 15 balls, then break from the kitchen - the break shot doesn't count as a normal " +
+            "shot, and any balls it pots are re-spotted on the foot spot, so all 15 balls are always back on " +
+            "the table after the break. You start your attempt with ball-in-hand anywhere on the table. Equal " +
+            "Offense is a call-shot game (call ball and pocket, except for obvious shots).\n\n" +
+            "10 innings, one rack of 15 balls each. You get 2 lives per inning - the inning only ends early once " +
+            "you've missed 3 times (2 lives lost + the miss that ends it). After a miss or foul you keep " +
+            "playing from the cue ball's current position (unless it's potted or leaves the table - then " +
+            "ball-in-hand anywhere again). Aim for a session total of 120 points or more - a 4.0 average per " +
+            "inning is the reference to beat.",
     ),
     EQUAL_OFFENSE_2(
         "Equal Offense Level 2",
@@ -50,9 +56,14 @@ enum class TrainingExercise(
         120,
         6.0f,
         false,
-        "10 innings, one rack of 15 balls each. You get 1 life per inning - the inning ends after your second " +
-            "miss. Aim for a session total of 120 points or more - a 6.0 average per inning is the reference " +
-            "to beat.",
+        "Setup: rack all 15 balls, then break from the kitchen - the break shot doesn't count as a normal " +
+            "shot, and any balls it pots are re-spotted on the foot spot, so all 15 balls are always back on " +
+            "the table after the break. You start your attempt with ball-in-hand anywhere on the table. Equal " +
+            "Offense is a call-shot game (call ball and pocket, except for obvious shots).\n\n" +
+            "10 innings, one rack of 15 balls each. You get 1 life per inning - the inning ends after your " +
+            "second miss or foul. After a miss or foul you keep playing from the cue ball's current position " +
+            "(unless it's potted or leaves the table - then ball-in-hand anywhere again). Aim for a session " +
+            "total of 120 points or more - a 6.0 average per inning is the reference to beat.",
     ),
     EQUAL_OFFENSE_3(
         "Equal Offense Level 3",
@@ -62,8 +73,14 @@ enum class TrainingExercise(
         120,
         12.0f,
         false,
-        "10 innings, one rack of 15 balls each. No lives - a single miss ends the inning immediately. Aim for " +
-            "a session total of 120 points or more - a 12.0 average per inning is the reference to beat.",
+        "Setup: rack all 15 balls, then break from the kitchen - the break shot doesn't count as a normal " +
+            "shot, and any balls it pots are re-spotted on the foot spot, so all 15 balls are always back on " +
+            "the table after the break. You start your attempt with ball-in-hand anywhere on the table. Equal " +
+            "Offense is a call-shot game (call ball and pocket, except for obvious shots).\n\n" +
+            "10 innings, one rack of 15 balls each. No lives - a single miss or foul ends the inning " +
+            "immediately. After a miss or foul you keep playing from the cue ball's current position (unless " +
+            "it's potted or leaves the table - then ball-in-hand anywhere again). Aim for a session total of " +
+            "120 points or more - a 12.0 average per inning is the reference to beat.",
     ),
     EQUAL_OFFENSE_4(
         "Equal Offense Level 4",
@@ -73,10 +90,13 @@ enum class TrainingExercise(
         170,
         17.0f,
         true,
-        "10 innings, no lives - a single miss ends the inning immediately. Once you reach 14 balls, the rack " +
-            "button racks the remaining ball as a breakball instead of re-spotting all 15, and your count " +
-            "continues past 14 (\"14+1\", \"14+2\", ...) up to 20 balls per inning. Aim for a session total of " +
-            "170 points or more - a 17.0 average per inning is the reference to beat.",
+        "Setup: this level is played as real 14.1 - after the break, ball-in-hand is only within the kitchen, " +
+            "with no automatic re-rack of potted balls. Equal Offense stays a call-shot game (call ball and " +
+            "pocket, except for obvious shots).\n\n" +
+            "10 innings, no lives - a single miss or foul ends the inning immediately. Once you reach 14 balls, " +
+            "the rack button racks the remaining ball as a breakball instead of re-spotting all 15, and your " +
+            "count continues past 14 (\"14+1\", \"14+2\", ...) up to 20 balls per inning. Aim for a session " +
+            "total of 170 points or more - a 17.0 average per inning is the reference to beat.",
     ),
     ;
 
