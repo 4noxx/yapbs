@@ -46,7 +46,7 @@ enum class TrainingSetupTextKey {
 /** Every fixed (non-templated) string on the training scoreboard screen (in-progress attempt) -
  * see [Translations.trainingScoreText]. */
 enum class TrainingScoreTextKey {
-    DISCARD_TITLE, DISCARD_MESSAGE, DISCARD,
+    DISCARD_TITLE, DISCARD_MESSAGE, DISCARD, HISTORY_TITLE,
 }
 
 /**
@@ -715,18 +715,21 @@ object Translations {
             TrainingScoreTextKey.DISCARD_MESSAGE to "Wenn du jetzt zurückgehst, wird der bisherige " +
                 "Fortschritt dieser Trainingseinheit verworfen - er wurde nicht gespeichert.",
             TrainingScoreTextKey.DISCARD to "Verwerfen",
+            TrainingScoreTextKey.HISTORY_TITLE to "Trainingsverlauf",
         ),
         AppLanguage.ES to mapOf(
             TrainingScoreTextKey.DISCARD_TITLE to "¿Descartar entrenamiento?",
             TrainingScoreTextKey.DISCARD_MESSAGE to "Si vuelves ahora se descarta el progreso de esta " +
                 "sesión de entrenamiento - no se ha guardado.",
             TrainingScoreTextKey.DISCARD to "Descartar",
+            TrainingScoreTextKey.HISTORY_TITLE to "Historial de entrenamiento",
         ),
         AppLanguage.FR to mapOf(
             TrainingScoreTextKey.DISCARD_TITLE to "Abandonner l'entraînement ?",
             TrainingScoreTextKey.DISCARD_MESSAGE to "Revenir en arrière maintenant abandonne la " +
                 "progression de cette séance d'entraînement - elle n'a pas été enregistrée.",
             TrainingScoreTextKey.DISCARD to "Abandonner",
+            TrainingScoreTextKey.HISTORY_TITLE to "Historique d'entraînement",
         ),
     )
 }

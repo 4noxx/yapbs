@@ -32,6 +32,7 @@ open class Strings {
     open val noClub = "No club"
     open val club = "Club"
     open fun createNamed(name: String) = "Create \"$name\""
+    open val noRacksRecordedYet = "No racks recorded yet."
 
     // Start screen
     open val startNewMatch = "New match"
@@ -226,6 +227,7 @@ open class Strings {
         override val noClub = "Kein Verein"
         override val club = "Verein"
         override fun createNamed(name: String) = "\"$name\" anlegen"
+        override val noRacksRecordedYet = "Noch keine Runden erfasst."
 
         override val startNewMatch = "Neues Spiel"
         override val startMore = "Mehr"

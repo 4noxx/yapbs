@@ -62,6 +62,7 @@ import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.simple.SimpleAction
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchEngine
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.i18n.StraightMatchTextKey
 import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.obs.LiveScorePlayer
@@ -153,7 +154,7 @@ fun SimpleMatchScreen(
                 },
                 actions = {
                     IconButton(onClick = { showHistory = true }) {
-                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Match history")
+                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = t(StraightMatchTextKey.MATCH_HISTORY_TITLE, "Match history"))
                     }
                     if (!readOnly) {
                         IconButton(onClick = viewModel::undo, enabled = SimpleMatchEngine.canUndo(state)) {
@@ -270,10 +271,10 @@ fun SimpleMatchScreen(
     if (showHistory) {
         AlertDialog(
             onDismissRequest = { showHistory = false },
-            title = { HideStatusBarInDialog(); Text("Match history") },
+            title = { HideStatusBarInDialog(); Text(t(StraightMatchTextKey.MATCH_HISTORY_TITLE, "Match history")) },
             text = {
                 if (state.actions.isEmpty()) {
-                    Text("No racks recorded yet.")
+                    Text(LocalStrings.current.noRacksRecordedYet)
                 } else {
                     val rows = remember(state.actions) { buildSimpleHistoryRows(state.actions, name1, name2) }
                     LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
@@ -314,7 +315,7 @@ fun SimpleMatchScreen(
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { showHistory = false }) { Text("Close") } },
+            confirmButton = { TextButton(onClick = { showHistory = false }) { Text(t(StraightMatchTextKey.CLOSE, "Close")) } },
         )
     }
 

@@ -135,7 +135,10 @@ fun TrainingScoreScreen(
                 },
                 actions = {
                     IconButton(onClick = { showHistoryDialog = true }) {
-                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = "History")
+                        Icon(
+                            Icons.AutoMirrored.Filled.List,
+                            contentDescription = Translations.trainingScoreText(TrainingScoreTextKey.HISTORY_TITLE, language) ?: "History",
+                        )
                     }
                     IconButton(onClick = { showRulesDialog = true }) {
                         Icon(Icons.Filled.Info, contentDescription = "Rules")
@@ -328,12 +331,12 @@ fun TrainingScoreScreen(
     if (showHistoryDialog) {
         AlertDialog(
             onDismissRequest = { showHistoryDialog = false },
-            title = { HideStatusBarInDialog(); Text("Training history") },
+            title = { HideStatusBarInDialog(); Text(Translations.trainingScoreText(TrainingScoreTextKey.HISTORY_TITLE, language) ?: "Training history") },
             text = {
                 val rows = remember(state.actions) { buildTrainingHistoryRows(state, exercise) }
                 TrainingHistoryTable(rows = rows)
             },
-            confirmButton = { TextButton(onClick = { showHistoryDialog = false }) { Text("Close") } },
+            confirmButton = { TextButton(onClick = { showHistoryDialog = false }) { Text(LocalStrings.current.close) } },
         )
     }
 
