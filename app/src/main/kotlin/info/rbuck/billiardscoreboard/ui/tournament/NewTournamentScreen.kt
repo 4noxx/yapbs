@@ -45,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import info.rbuck.billiardscoreboard.domain.tournament.TournamentMode
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.i18n.TournamentTextKey
 import info.rbuck.billiardscoreboard.ui.bsApplication
@@ -149,7 +150,7 @@ fun NewTournamentScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(modifier = Modifier.weight(1f)) {
                                 PlayerSlotPicker(
-                                    label = "Player ${index + 1}",
+                                    label = "${LocalStrings.current.player} ${index + 1}",
                                     selected = selectedPlayer,
                                     players = players.filter { it.id !in takenElsewhere },
                                     clubs = clubs,

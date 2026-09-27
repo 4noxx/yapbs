@@ -222,7 +222,7 @@ fun ConfirmDialog(
     confirmText: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    dismissText: String = "Cancel",
+    dismissText: String = LocalStrings.current.cancel,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -253,6 +253,7 @@ fun PlayerPickerDialog(
     onDismiss: () -> Unit,
     defaultClubId: String? = null,
 ) {
+    val s = LocalStrings.current
     var query by remember { mutableStateOf("") }
     // null = "All clubs", NO_CLUB_FILTER = "No club", otherwise a club id. Pre-set to the app's default
     // club - but only if that club still exists: a stale saved default (its club since deleted, e.g.
@@ -262,9 +263,9 @@ fun PlayerPickerDialog(
 
     val clubById = remember(clubs) { clubs.associateBy { it.id } }
     val clubFilterLabel = when (clubFilter) {
-        null -> "All clubs"
-        NO_CLUB_FILTER -> "No club"
-        else -> clubById[clubFilter]?.name ?: "All clubs"
+        null -> s.allClubs
+        NO_CLUB_FILTER -> s.noClub
+        else -> clubById[clubFilter]?.name ?: s.allClubs
     }
 
     val clubFiltered = remember(players, clubFilter) {
@@ -293,7 +294,7 @@ fun PlayerPickerDialog(
                             value = clubFilterLabel,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Club") },
+                            label = { Text(s.club) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = clubMenuExpanded) },
                             modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                         )
@@ -303,8 +304,8 @@ fun PlayerPickerDialog(
                             modifier = Modifier.exposedDropdownSize(),
                             properties = PopupProperties(focusable = false),
                         ) {
-                            DropdownMenuItem(text = { Text("All clubs") }, onClick = { clubFilter = null; clubMenuExpanded = false })
-                            DropdownMenuItem(text = { Text("No club") }, onClick = { clubFilter = NO_CLUB_FILTER; clubMenuExpanded = false })
+                            DropdownMenuItem(text = { Text(s.allClubs) }, onClick = { clubFilter = null; clubMenuExpanded = false })
+                            DropdownMenuItem(text = { Text(s.noClub) }, onClick = { clubFilter = NO_CLUB_FILTER; clubMenuExpanded = false })
                             clubs.forEach { club ->
                                 DropdownMenuItem(text = { Text(club.name) }, onClick = { clubFilter = club.id; clubMenuExpanded = false })
                             }
@@ -315,13 +316,13 @@ fun PlayerPickerDialog(
                     OutlinedTextField(
                         value = query,
                         onValueChange = { query = it },
-                        label = { Text("Search or create") },
+                        label = { Text(s.searchOrCreate) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     if (canCreate) {
                         ListItem(
-                            headlineContent = { Text("Create \"${query.trim()}\"") },
+                            headlineContent = { Text(s.createNamed(query.trim())) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { onCreateNew(query.trim()) },
@@ -353,7 +354,7 @@ fun PlayerPickerDialog(
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(s.close) } },
     )
 }
 

@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.data.Player
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AmberAttention
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
@@ -104,7 +105,7 @@ fun PlayerSlotPicker(
                     }
                     Column {
                         Text(
-                            selected?.name ?: "Select player...",
+                            selected?.name ?: LocalStrings.current.selectPlayer,
                             fontSize = 13.sp * uiScale,
                             fontWeight = FontWeight.Medium,
                             color = if (selected != null) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,

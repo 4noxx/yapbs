@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -59,7 +60,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import info.rbuck.billiardscoreboard.domain.training.TrainingAttempt
 import info.rbuck.billiardscoreboard.domain.training.TrainingExercise
 import info.rbuck.billiardscoreboard.domain.training.TrainingMatchEngine
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.i18n.Translations
+import info.rbuck.billiardscoreboard.i18n.TrainingScoreTextKey
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.components.AttemptGrid
 import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
@@ -336,18 +339,25 @@ fun TrainingScoreScreen(
 
     if (showRulesDialog) {
         AlertDialog(
+            modifier = Modifier.widthIn(max = 560.dp * uiScale),
             onDismissRequest = { showRulesDialog = false },
             title = { HideStatusBarInDialog(); Text(exercise.displayName) },
-            text = { Text(Translations.trainingRule(exercise, language)) },
+            text = {
+                Text(
+                    Translations.trainingRule(exercise, language),
+                    modifier = Modifier.heightIn(max = 420.dp * uiScale).verticalScroll(rememberScrollState()),
+                )
+            },
             confirmButton = { TextButton(onClick = { showRulesDialog = false }) { Text("Close") } },
         )
     }
 
     if (showDiscardConfirm) {
         ConfirmDialog(
-            title = "Discard training?",
-            message = "Going back now discards this training session's progress - it hasn't been saved.",
-            confirmText = "Discard",
+            title = Translations.trainingScoreText(TrainingScoreTextKey.DISCARD_TITLE, language) ?: "Discard training?",
+            message = Translations.trainingScoreText(TrainingScoreTextKey.DISCARD_MESSAGE, language)
+                ?: "Going back now discards this training session's progress - it hasn't been saved.",
+            confirmText = Translations.trainingScoreText(TrainingScoreTextKey.DISCARD, language) ?: "Discard",
             onConfirm = { showDiscardConfirm = false; onBack() },
             onDismiss = { showDiscardConfirm = false },
         )
@@ -427,7 +437,7 @@ private fun TrainingHeader(
     if (exercise.showsAttemptGrid) {
         val baseInningStyle = MaterialTheme.typography.bodyMedium
         Text(
-            "Inning ${completedAttempts.size + 1}/${exercise.attemptCount}",
+            "${LocalStrings.current.historyInning} ${completedAttempts.size + 1}/${exercise.attemptCount}",
             style = baseInningStyle.copy(
                 fontSize = baseInningStyle.fontSize * compactTextMultiplier,
                 lineHeight = baseInningStyle.lineHeight * compactTextMultiplier,
@@ -523,7 +533,7 @@ private fun TrainingPointsCard(
                     )
                 } else {
                     Text(
-                        "High run: ${stats.highRun}  ·  Inning: ${completedAttempts.size + 1}",
+                        "High run: ${stats.highRun}  ·  ${LocalStrings.current.historyInning}: ${completedAttempts.size + 1}",
                         style = statsStyle,
                         textAlign = TextAlign.Center,
                     )

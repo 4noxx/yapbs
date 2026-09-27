@@ -62,6 +62,8 @@ import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.simple.SimpleAction
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchEngine
+import info.rbuck.billiardscoreboard.i18n.StraightMatchTextKey
+import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.obs.LiveScorePlayer
 import info.rbuck.billiardscoreboard.obs.LiveScoreState
 import info.rbuck.billiardscoreboard.ui.bsApplication
@@ -91,6 +93,8 @@ fun SimpleMatchScreen(
     val isArchived by viewModel.isArchived.collectAsStateWithLifecycle()
     val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
     val isFelt = appTheme == AppTheme.FELT
+    val language by app.settingsRepository.language.collectAsStateWithLifecycle()
+    fun t(key: StraightMatchTextKey, fallback: String) = Translations.straightMatchText(key, language) ?: fallback
     val state = match ?: return
 
     // An archived match (opened from History) is a saved result - view only, no scoring controls.
@@ -316,9 +320,12 @@ fun SimpleMatchScreen(
 
     if (showDiscardConfirm) {
         ConfirmDialog(
-            title = "Discard match?",
-            message = "Going back now discards this match's progress - it hasn't been saved. Use the save icon instead to keep it.",
-            confirmText = "Discard",
+            title = t(StraightMatchTextKey.DISCARD_MATCH_TITLE, "Discard match?"),
+            message = t(
+                StraightMatchTextKey.DISCARD_MATCH_MESSAGE,
+                "Going back now discards this match's progress - it hasn't been saved. Use the save icon instead to keep it.",
+            ),
+            confirmText = t(StraightMatchTextKey.DISCARD, "Discard"),
             onConfirm = { showDiscardConfirm = false; onBack() },
             onDismiss = { showDiscardConfirm = false },
         )

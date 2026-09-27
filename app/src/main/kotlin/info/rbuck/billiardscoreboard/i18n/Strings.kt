@@ -25,6 +25,13 @@ open class Strings {
     open val back = "Back"
     open val change = "Change"
     open val add = "Add"
+    open val player = "Player"
+    open val selectPlayer = "Select player..."
+    open val searchOrCreate = "Search or create"
+    open val allClubs = "All clubs"
+    open val noClub = "No club"
+    open val club = "Club"
+    open fun createNamed(name: String) = "Create \"$name\""
 
     // Start screen
     open val startNewMatch = "New match"
@@ -212,6 +219,13 @@ open class Strings {
         override val back = "Zurück"
         override val change = "Ändern"
         override val add = "Hinzufügen"
+        override val player = "Spieler"
+        override val selectPlayer = "Spieler wählen..."
+        override val searchOrCreate = "Suchen oder anlegen"
+        override val allClubs = "Alle Vereine"
+        override val noClub = "Kein Verein"
+        override val club = "Verein"
+        override fun createNamed(name: String) = "\"$name\" anlegen"
 
         override val startNewMatch = "Neues Spiel"
         override val startMore = "Mehr"

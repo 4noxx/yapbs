@@ -46,6 +46,7 @@ import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.Handicap
 import info.rbuck.billiardscoreboard.domain.MatchStatePayload
 import info.rbuck.billiardscoreboard.domain.straight.StraightMatchEngine
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.headtohead.HeadToHeadInline
 import info.rbuck.billiardscoreboard.ui.components.ChoiceChip
@@ -167,7 +168,7 @@ fun NewStraightMatchScreen(
                     Row(modifier = Modifier.fillMaxSize()) {
                         Column(modifier = Modifier.weight(1f).fillMaxHeight().padding(16.dp)) {
                             PlayerSlotPicker(
-                                label = "Player 1",
+                                label = "${LocalStrings.current.player} 1",
                                 selected = player1,
                                 players = players.filter { it.id != player2?.id },
                                 clubs = clubs,
@@ -176,7 +177,7 @@ fun NewStraightMatchScreen(
                             )
                             Spacer(Modifier.height(12.dp))
                             PlayerSlotPicker(
-                                label = "Player 2",
+                                label = "${LocalStrings.current.player} 2",
                                 selected = player2,
                                 players = players.filter { it.id != player1?.id },
                                 clubs = clubs,
@@ -360,7 +361,7 @@ fun NewStraightMatchScreen(
             } else {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
                 PlayerSlotPicker(
-                    label = "Player 1",
+                    label = "${LocalStrings.current.player} 1",
                     selected = player1,
                     players = players.filter { it.id != player2?.id },
                     clubs = clubs,
@@ -369,7 +370,7 @@ fun NewStraightMatchScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 PlayerSlotPicker(
-                    label = "Player 2",
+                    label = "${LocalStrings.current.player} 2",
                     selected = player2,
                     players = players.filter { it.id != player1?.id },
                     clubs = clubs,

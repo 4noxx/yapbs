@@ -43,6 +43,12 @@ enum class TrainingSetupTextKey {
     PLAYER, OPEN_ENDED, INNINGS_TARGET, REF_SUFFIX,
 }
 
+/** Every fixed (non-templated) string on the training scoreboard screen (in-progress attempt) -
+ * see [Translations.trainingScoreText]. */
+enum class TrainingScoreTextKey {
+    DISCARD_TITLE, DISCARD_MESSAGE, DISCARD,
+}
+
 /**
  * Translated copy for the app's translated UI text (Training's per-exercise rules, the OBS WebSocket
  * consent notice, the 14.1 rebuild-rules info dialog, and the Tournament screens) - the only UI text
@@ -105,6 +111,11 @@ object Translations {
      * English - caller falls back to the hardcoded English text. */
     fun trainingSetupText(key: TrainingSetupTextKey, language: AppLanguage): String? =
         trainingSetupTexts[language]?.get(key)
+
+    /** A fixed (non-templated) training-scoreboard string. Null for English - caller falls back to
+     * the hardcoded English text. */
+    fun trainingScoreText(key: TrainingScoreTextKey, language: AppLanguage): String? =
+        trainingScoreTexts[language]?.get(key)
 
     private val trainingRules: Map<AppLanguage, Map<TrainingExercise, String>> = mapOf(
         AppLanguage.DE to mapOf(
@@ -695,6 +706,27 @@ object Translations {
             TrainingSetupTextKey.OPEN_ENDED to "Illimité · sans limite de reprises",
             TrainingSetupTextKey.INNINGS_TARGET to "%d reprises · objectif %d points",
             TrainingSetupTextKey.REF_SUFFIX to " · réf Ø %s",
+        ),
+    )
+
+    private val trainingScoreTexts: Map<AppLanguage, Map<TrainingScoreTextKey, String>> = mapOf(
+        AppLanguage.DE to mapOf(
+            TrainingScoreTextKey.DISCARD_TITLE to "Training verwerfen?",
+            TrainingScoreTextKey.DISCARD_MESSAGE to "Wenn du jetzt zurückgehst, wird der bisherige " +
+                "Fortschritt dieser Trainingseinheit verworfen - er wurde nicht gespeichert.",
+            TrainingScoreTextKey.DISCARD to "Verwerfen",
+        ),
+        AppLanguage.ES to mapOf(
+            TrainingScoreTextKey.DISCARD_TITLE to "¿Descartar entrenamiento?",
+            TrainingScoreTextKey.DISCARD_MESSAGE to "Si vuelves ahora se descarta el progreso de esta " +
+                "sesión de entrenamiento - no se ha guardado.",
+            TrainingScoreTextKey.DISCARD to "Descartar",
+        ),
+        AppLanguage.FR to mapOf(
+            TrainingScoreTextKey.DISCARD_TITLE to "Abandonner l'entraînement ?",
+            TrainingScoreTextKey.DISCARD_MESSAGE to "Revenir en arrière maintenant abandonne la " +
+                "progression de cette séance d'entraînement - elle n'a pas été enregistrée.",
+            TrainingScoreTextKey.DISCARD to "Abandonner",
         ),
     )
 }
