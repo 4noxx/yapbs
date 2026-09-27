@@ -358,11 +358,7 @@ private fun EncounterScoreCard(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(names.joinToString(" & "), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center, maxLines = 2)
-                if (isFelt) {
-                    LockWheelNumber(value = score, fontSize = 44.sp * uiScale, color = MaterialTheme.colorScheme.primary)
-                } else {
-                    Text(score.toString(), fontSize = 44.sp * uiScale, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                }
+                LockWheelNumber(value = score, fontSize = 44.sp * uiScale, color = MaterialTheme.colorScheme.primary)
                 Text(roleLabel ?: "", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
             }
         }

@@ -496,7 +496,7 @@ private fun TrainingPointsCard(
             ) {
                 if (header != null) header()
                 val plainCount = !(exercise.breakballBonus && currentRun > 14)
-                if (isFelt && plainCount) {
+                if (plainCount) {
                     LockWheelNumber(
                         value = currentRun,
                         fontSize = scoreFontSize,

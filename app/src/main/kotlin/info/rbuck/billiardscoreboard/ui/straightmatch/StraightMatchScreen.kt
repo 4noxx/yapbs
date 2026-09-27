@@ -890,20 +890,11 @@ private fun StraightPlayerCard(
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                 )
-                if (isFelt) {
-                    LockWheelNumber(
-                        value = score,
-                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                } else {
-                    Text(
-                        text = score.toString(),
-                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+                LockWheelNumber(
+                    value = score,
+                    fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                    color = MaterialTheme.colorScheme.primary,
+                )
                 val avg = (stats.average * 10).roundToInt() / 10f
                 val baseStatsStyle = MaterialTheme.typography.bodyMedium
                 Text(

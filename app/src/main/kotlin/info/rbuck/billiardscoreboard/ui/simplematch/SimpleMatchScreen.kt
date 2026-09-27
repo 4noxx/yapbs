@@ -400,20 +400,11 @@ private fun PlayerScoreCard(
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                     )
-                    if (isFelt) {
-                        LockWheelNumber(
-                            value = score,
-                            fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                            color = MaterialTheme.colorScheme.primary,
-                        )
-                    } else {
-                        Text(
-                            text = score.toString(),
-                            fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary,
-                        )
-                    }
+                    LockWheelNumber(
+                        value = score,
+                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
                     val baseStatsStyle = MaterialTheme.typography.bodyMedium
                     Text(
                         "Runouts: $runouts",
