@@ -46,7 +46,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -67,6 +69,7 @@ import info.rbuck.billiardscoreboard.obs.ObsOutputState
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
+import kotlin.math.hypot
 
 /** Above this width there's room for all 4 game tiles (or all 4 "More" tiles) in a single row - typical of landscape/tablet. */
 private val WideLayoutBreakpoint = 560.dp
@@ -266,14 +269,14 @@ private fun GameTile(number: String, label: String, modifier: Modifier = Modifie
     // Same whole-tile treatment as the "Mehr" row: a light-center-to-dark-edge radial gradient
     // (grootstudio.dev's styled-button recipe), a lighter accent rim border, and a matching glow -
     // tried testweise here too instead of just the neutral card + accent bar.
-    val tileBrush = Brush.radialGradient(listOf(lerp(accent, Color.White, 0.35f), lerp(accent, Color.Black, 0.35f)))
+    val tileGradient = Pair(lerp(accent, Color.White, 0.35f), lerp(accent, Color.Black, 0.35f))
     val tileBorderColor = lerp(accent, Color.White, 0.45f)
     NumberTile(
         number,
         label,
         modifier,
         shape = if (isFelt) RoundedCornerShape(24.dp) else RoundedCornerShape(20.dp),
-        tileBrush = if (isFelt) tileBrush else null,
+        tileGradient = if (isFelt) tileGradient else null,
         tileContentColor = if (isFelt) Color.White else null,
         tileBorderColor = if (isFelt) tileBorderColor else null,
         glowColor = if (isFelt) accent.copy(alpha = 0.6f) else null,
@@ -298,7 +301,7 @@ private fun MoreTile(
     // The whole tile gets the vivid treatment now, not just a small inner badge - a light-center-
     // to-dark-edge radial gradient (grootstudio.dev's styled-button recipe: e.g. blue-500 core
     // fading to blue-800 rim), a lighter accent rim border, and a matching glow.
-    val tileBrush = Brush.radialGradient(listOf(lerp(accent, Color.White, 0.35f), lerp(accent, Color.Black, 0.35f)))
+    val tileGradient = Pair(lerp(accent, Color.White, 0.35f), lerp(accent, Color.Black, 0.35f))
     val tileBorderColor = lerp(accent, Color.White, 0.45f)
     IconTile(
         icon,
@@ -306,7 +309,7 @@ private fun MoreTile(
         modifier,
         enabled = enabled,
         shape = if (isFelt) RoundedCornerShape(18.dp) else RoundedCornerShape(20.dp),
-        tileBrush = if (isFelt) tileBrush else null,
+        tileGradient = if (isFelt) tileGradient else null,
         tileContentColor = if (isFelt) Color.White else null,
         tileBorderColor = if (isFelt) tileBorderColor else null,
         tileGlowColor = if (isFelt) accent.copy(alpha = 0.6f) else null,
@@ -320,7 +323,7 @@ private fun Tile(
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(20.dp),
     color: Color? = null,
-    brush: Brush? = null,
+    gradientColors: Pair<Color, Color>? = null,
     contentColor: Color? = null,
     glowColor: Color? = null,
     borderColor: Color? = null,
@@ -336,12 +339,29 @@ private fun Tile(
         onClick = onClick,
         enabled = enabled,
         shape = shape,
-        color = if (brush != null) Color.Transparent else color ?: if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+        color = if (gradientColors != null) Color.Transparent else color ?: if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
         contentColor = contentColor ?: if (enabled) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
         border = borderColor?.let { BorderStroke(1.5.dp, it) },
         modifier = modifier.aspectRatio(1f).then(glowModifier),
     ) {
-        Box(modifier = if (brush != null) Modifier.fillMaxSize().background(brush) else Modifier.fillMaxSize()) {
+        val gradientModifier = if (gradientColors != null) {
+            // Farthest-corner radius (half the tile's diagonal), matching CSS radial-gradient's
+            // default - Brush.radialGradient's own default radius is only half the tile's side,
+            // which faded to the dark edge color well before the corners, drawing a small,
+            // hard-edged circle instead of a gradient that spans the whole tile.
+            Modifier.fillMaxSize().drawWithCache {
+                val radius = hypot(size.width, size.height) / 2f
+                val brush = Brush.radialGradient(
+                    colors = listOf(gradientColors.first, gradientColors.second),
+                    center = Offset(size.width / 2f, size.height / 2f),
+                    radius = radius,
+                )
+                onDrawBehind { drawRect(brush) }
+            }
+        } else {
+            Modifier.fillMaxSize()
+        }
+        Box(modifier = gradientModifier) {
             Box(modifier = Modifier.fillMaxSize().padding(8.dp), contentAlignment = Alignment.Center) {
                 content()
             }
@@ -359,7 +379,7 @@ private fun NumberTile(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(20.dp),
     tileColor: Color? = null,
-    tileBrush: Brush? = null,
+    tileGradient: Pair<Color, Color>? = null,
     tileContentColor: Color? = null,
     tileBorderColor: Color? = null,
     accentBrush: Brush? = null,
@@ -371,7 +391,7 @@ private fun NumberTile(
         modifier = modifier,
         shape = shape,
         color = tileColor,
-        brush = tileBrush,
+        gradientColors = tileGradient,
         contentColor = tileContentColor,
         borderColor = tileBorderColor,
         glowColor = glowColor,
@@ -401,7 +421,7 @@ private fun NumberTile(
     }
 }
 
-/** [tileBrush]/[tileBorderColor]/[tileGlowColor] give the whole tile Felt's vivid gradient +
+/** [tileGradient]/[tileBorderColor]/[tileGlowColor] give the whole tile Felt's vivid gradient +
  * glow + light-rim-border treatment (the same recipe as grootstudio.dev's styled button: a
  * light-center-to-dark-edge radial gradient, a lighter accent ring, and a matching colored
  * shadow) instead of the plain flat-colored tile the other 3 themes use (null keeps their look
@@ -414,7 +434,7 @@ private fun IconTile(
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(20.dp),
     tileColor: Color? = null,
-    tileBrush: Brush? = null,
+    tileGradient: Pair<Color, Color>? = null,
     tileContentColor: Color? = null,
     tileBorderColor: Color? = null,
     tileGlowColor: Color? = null,
@@ -425,7 +445,7 @@ private fun IconTile(
         enabled = enabled,
         shape = shape,
         color = tileColor,
-        brush = tileBrush,
+        gradientColors = tileGradient,
         contentColor = tileContentColor,
         borderColor = tileBorderColor,
         glowColor = tileGlowColor,

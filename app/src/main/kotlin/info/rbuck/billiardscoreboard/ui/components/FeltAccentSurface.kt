@@ -1,7 +1,6 @@
 package info.rbuck.billiardscoreboard.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -9,13 +8,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.math.hypot
 
 /**
  * Felt theme's "styled button" treatment (grootstudio.dev's styled-button recipe): a light-center-
@@ -49,7 +51,8 @@ fun FeltAccentSurface(
         }
         return
     }
-    val brush = Brush.radialGradient(listOf(lerp(accent, Color.White, 0.35f), lerp(accent, Color.Black, 0.35f)))
+    val lightColor = lerp(accent, Color.White, 0.35f)
+    val darkColor = lerp(accent, Color.Black, 0.35f)
     val borderColor = lerp(accent, Color.White, 0.45f)
     val glowColor = accent.copy(alpha = 0.6f)
     Surface(
@@ -68,7 +71,22 @@ fun FeltAccentSurface(
         // unconstrained (Start button, ChoiceChip). matchParentSize instead sizes the background to
         // whatever [content] (plus the surrounding Box's own constraints) actually resolves to.
         Box(contentAlignment = Alignment.Center) {
-            Box(modifier = Modifier.matchParentSize().background(brush))
+            Box(
+                modifier = Modifier.matchParentSize().drawWithCache {
+                    // CSS radial-gradient's default (farthest-corner) reaches the box's far corner,
+                    // so the highlight fades out gently across the whole shape. Brush.radialGradient's
+                    // own default radius is only half the SHORTER side, which completed the fade well
+                    // before a wide button's edges - drawing a small, hard-edged circle in the middle
+                    // instead of a subtle sheen (see grootstudio.dev's reference button vs. ours).
+                    val radius = hypot(size.width, size.height) / 2f
+                    val brush = Brush.radialGradient(
+                        colors = listOf(lightColor, darkColor),
+                        center = Offset(size.width / 2f, size.height / 2f),
+                        radius = radius,
+                    )
+                    onDrawBehind { drawRect(brush) }
+                },
+            )
             content()
         }
     }
