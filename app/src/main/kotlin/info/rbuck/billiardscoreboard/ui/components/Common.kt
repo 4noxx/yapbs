@@ -61,6 +61,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.data.Player
 import info.rbuck.billiardscoreboard.domain.GameType
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
@@ -144,7 +145,7 @@ fun MatchSetupHeaderTitle(gameType: GameType, onGameTypeSelected: (GameType) -> 
             Text(gameType.badgeText(), color = MaterialTheme.colorScheme.onPrimary, fontSize = 12.sp * uiScale, fontWeight = FontWeight.Bold)
         }
         Column {
-            Text("New Match", fontSize = 16.sp * uiScale, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface, lineHeight = 18.sp * uiScale)
+            Text(LocalStrings.current.startNewMatch, fontSize = 16.sp * uiScale, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface, lineHeight = 18.sp * uiScale)
             Box {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
