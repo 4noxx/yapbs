@@ -12,11 +12,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-/** The 3 selectable app themes - see Settings > Display. */
+/** The 4 selectable app themes - see Settings > Display. */
 enum class AppTheme(val label: String) {
     LIGHT("Light"),
     DARK("Dark"),
     VINTAGE("Vintage"),
+    FELT("Felt"),
 }
 
 private val LightColors = lightColorScheme(
@@ -114,6 +115,39 @@ private val VintageColors = lightColorScheme(
     inversePrimary = VintageInversePrimary,
 )
 
+// Felt: a modern dark palette keyed off the table itself (felt-green primary, warm copper
+// secondary) rather than Dark's calculator-neutral black/orange. Same light-on-dark contrast
+// direction throughout as DarkColors (surfaceVariant/onSurfaceVariant included), since screens
+// use onSurfaceVariant as a generic secondary-text color regardless of what it sits on.
+private val FeltColors = darkColorScheme(
+    primary = FeltGreen,
+    onPrimary = Color.White,
+    primaryContainer = FeltGreenContainer,
+    onPrimaryContainer = FeltTextPrimary,
+    secondary = FeltCopper,
+    onSecondary = FeltCopperText,
+    tertiary = FeltCopper,
+    background = FeltBackground,
+    onBackground = FeltTextPrimary,
+    surface = FeltSurface,
+    onSurface = FeltTextPrimary,
+    surfaceVariant = FeltSurfaceHigh,
+    onSurfaceVariant = FeltTextSecondary,
+    outline = FeltOutline,
+    outlineVariant = FeltOutlineVariant,
+    error = ErrorRed,
+    surfaceContainerLowest = FeltBackground,
+    surfaceContainerLow = FeltSurfaceLow,
+    surfaceContainer = FeltSurface,
+    surfaceContainerHigh = FeltSurfaceHigh,
+    surfaceContainerHighest = FeltSurfaceHighest,
+    surfaceDim = FeltBackground,
+    surfaceBright = FeltSurfaceBright,
+    inverseSurface = FeltTextPrimary,
+    inverseOnSurface = FeltBackground,
+    inversePrimary = FeltGreenLight,
+)
+
 @Composable
 fun BilliardScoreboardTheme(
     appTheme: AppTheme = if (isSystemInDarkTheme()) AppTheme.DARK else AppTheme.LIGHT,
@@ -122,12 +156,13 @@ fun BilliardScoreboardTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
-        dynamicColor && appTheme != AppTheme.VINTAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicColor && (appTheme == AppTheme.LIGHT || appTheme == AppTheme.DARK) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (appTheme == AppTheme.DARK) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         appTheme == AppTheme.DARK -> DarkColors
         appTheme == AppTheme.VINTAGE -> VintageColors
+        appTheme == AppTheme.FELT -> FeltColors
         else -> LightColors
     }
     val uiScale = rememberUiScale()

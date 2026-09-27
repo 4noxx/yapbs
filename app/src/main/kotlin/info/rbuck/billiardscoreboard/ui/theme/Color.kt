@@ -97,3 +97,23 @@ val DarkSurfaceBright = Color(0xFF3A393C)
 val DarkInverseSurface = Color(0xFFE4E2E1)
 val DarkInverseOnSurface = Color(0xFF1D1C1F)
 val DarkInversePrimary = Color(0xFF9C6A00)
+
+// "Felt" theme, a modern dark design keyed off the table's own colors - a deep charcoal with a
+// green undertone (not neutral black, so it doesn't read as a copy of the Dark/calculator theme)
+// as the base, felt-green as the primary accent, and a warm copper as the secondary accent that
+// marks 14.1 as the flagship mode. Sora/Manrope typography, not Material's default.
+val FeltBackground = Color(0xFF101513)
+val FeltSurface = Color(0xFF1B2422)
+val FeltSurfaceLow = Color(0xFF141B19)
+val FeltSurfaceHigh = Color(0xFF212C29)
+val FeltSurfaceHighest = Color(0xFF283530)
+val FeltSurfaceBright = Color(0xFF2B3733)
+val FeltGreen = Color(0xFF22A57C)
+val FeltGreenContainer = Color(0xFF17332B)
+val FeltGreenLight = Color(0xFF7FD9B7)
+val FeltCopper = Color(0xFFE3985C)
+val FeltCopperText = Color(0xFF2A1B0E)
+val FeltTextPrimary = Color(0xFFF4F6F5)
+val FeltTextSecondary = Color(0xFF93A19C)
+val FeltOutline = Color(0xFF3A4744)
+val FeltOutlineVariant = Color(0x14FFFFFF)

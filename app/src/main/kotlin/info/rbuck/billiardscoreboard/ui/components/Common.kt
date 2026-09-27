@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -56,9 +57,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.data.Player
 import info.rbuck.billiardscoreboard.domain.GameType
+import info.rbuck.billiardscoreboard.ui.bsApplication
+import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 
 /** clubId used as the "no club" filter option - distinct from null, which means "all clubs". */
@@ -86,6 +90,30 @@ fun BoxScope.ActivePlayerIndicator(compact: Boolean = false) {
  * otherwise - same READY/OPEN-style at-a-glance state the old status pill gave, but tappable. */
 @Composable
 fun TopBarStartButton(label: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val appTheme by bsApplication().settingsRepository.appTheme.collectAsStateWithLifecycle()
+    val labelContent = @Composable {
+        Text(
+            label,
+            fontSize = 12.sp * LocalUiScale.current,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.6.sp,
+        )
+    }
+    if (appTheme == AppTheme.FELT && enabled) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            shape = CircleShape,
+            glowElevation = 10.dp,
+            // wrapContentWidth first: without it, widthIn(min=...) alone let this expand to fill
+            // whatever width the TopAppBar's actions slot handed it (the whole app bar) instead of
+            // just sizing to its own label text plus the 140dp floor.
+            modifier = modifier.wrapContentWidth().widthIn(min = 140.dp * LocalUiScale.current).height(40.dp * LocalUiScale.current),
+        ) {
+            Box(modifier = Modifier.padding(horizontal = 16.dp), contentAlignment = Alignment.Center) { labelContent() }
+        }
+        return
+    }
     Button(
         onClick = onClick,
         enabled = enabled,
@@ -93,12 +121,7 @@ fun TopBarStartButton(label: String, enabled: Boolean, onClick: () -> Unit, modi
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = modifier.widthIn(min = 140.dp * LocalUiScale.current),
     ) {
-        Text(
-            label,
-            fontSize = 12.sp * LocalUiScale.current,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.6.sp,
-        )
+        labelContent()
     }
 }
 

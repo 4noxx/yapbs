@@ -77,9 +77,12 @@ import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
 import info.rbuck.billiardscoreboard.ui.components.BallsOnTableDialog
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
 import info.rbuck.billiardscoreboard.ui.components.DialogButtonShape
+import info.rbuck.billiardscoreboard.ui.components.FeltAccentSurface
+import info.rbuck.billiardscoreboard.ui.components.LockWheelNumber
 import info.rbuck.billiardscoreboard.ui.components.NumberStepper
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
 import info.rbuck.billiardscoreboard.ui.bsApplication
+import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.roundToInt
 
@@ -101,6 +104,8 @@ fun StraightMatchScreen(
     val match by viewModel.match.collectAsStateWithLifecycle()
     val players by viewModel.players.collectAsStateWithLifecycle()
     val isArchived by viewModel.isArchived.collectAsStateWithLifecycle()
+    val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
+    val isFelt = appTheme == AppTheme.FELT
     val state = match ?: return
 
     // An archived match (opened from History) is a saved result - view only, no scoring controls.
@@ -228,6 +233,7 @@ fun StraightMatchScreen(
                     onRack = { showRackDialog = true },
                     onSaveAndFinish = { viewModel.saveToArchive(); onBack() },
                     onSaveAndRematch = { viewModel.saveToArchive(); onSaveAndRematch() },
+                    isFelt = isFelt,
                 )
             } else {
                 RegularStraightLayout(
@@ -256,6 +262,7 @@ fun StraightMatchScreen(
                     onRack = { showRackDialog = true },
                     onSaveAndFinish = { viewModel.saveToArchive(); onBack() },
                     onSaveAndRematch = { viewModel.saveToArchive(); onSaveAndRematch() },
+                    isFelt = isFelt,
                 )
             }
         }
@@ -569,6 +576,7 @@ private fun RegularStraightLayout(
     onRack: () -> Unit,
     onSaveAndFinish: () -> Unit,
     onSaveAndRematch: () -> Unit,
+    isFelt: Boolean = false,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -585,7 +593,7 @@ private fun RegularStraightLayout(
         Spacer(Modifier.height(12.dp))
 
         val inningLabel = t(StraightMatchTextKey.INNING_ABBREV, "I")
-        StraightPlayerCard(name1, score1, stats1, currentRun1, isCurrent = currentPlayer == 0, modifier = Modifier.fillMaxWidth().weight(1f), inningLabel = inningLabel)
+        StraightPlayerCard(name1, score1, stats1, currentRun1, isCurrent = currentPlayer == 0, modifier = Modifier.fillMaxWidth().weight(1f), inningLabel = inningLabel, isFelt = isFelt)
 
         Spacer(Modifier.height(16.dp))
         // Same fixed-height, full-width-stretched row as the landscape layout uses - keeps button
@@ -599,16 +607,16 @@ private fun RegularStraightLayout(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-            ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = !isOver && editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = !isOver && editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = !isOver && editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = !isOver && editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = !isOver && editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+            ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = !isOver && editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
         }
         Spacer(Modifier.height(16.dp))
 
-        StraightPlayerCard(name2, score2, stats2, currentRun2, isCurrent = currentPlayer == 1, modifier = Modifier.fillMaxWidth().weight(1f), inningLabel = inningLabel)
+        StraightPlayerCard(name2, score2, stats2, currentRun2, isCurrent = currentPlayer == 1, modifier = Modifier.fillMaxWidth().weight(1f), inningLabel = inningLabel, isFelt = isFelt)
 
         if (isOver) {
             Spacer(Modifier.height(20.dp))
@@ -661,6 +669,7 @@ private fun CompactStraightLayout(
     onRack: () -> Unit,
     onSaveAndFinish: () -> Unit,
     onSaveAndRematch: () -> Unit,
+    isFelt: Boolean = false,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
@@ -686,6 +695,7 @@ private fun CompactStraightLayout(
                 compact = true,
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 inningLabel = inningLabel,
+                isFelt = isFelt,
             )
             StraightPlayerCard(
                 name2, score2, stats2, currentRun2,
@@ -693,6 +703,7 @@ private fun CompactStraightLayout(
                 compact = true,
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 inningLabel = inningLabel,
+                isFelt = isFelt,
             )
         }
 
@@ -727,12 +738,12 @@ private fun CompactStraightLayout(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
-                ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = editable, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                BallsDisplayTile(value = ballsOnTable, fontSize = 28.sp * uiScale, onClick = onBallsClick, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Text("-", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onSubtractBall, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Text("+", fontSize = 32.sp * uiScale, fontWeight = FontWeight.Bold) }, onClick = onAddBall, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { RackIcon(size = 28.dp * uiScale) }, onClick = onRack, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Icon(Icons.Filled.SwapVert, contentDescription = "Switch", modifier = actionIconSize) }, onClick = onSwitch, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
+                ActionIconButton(icon = { Icon(Icons.Filled.Close, contentDescription = "Foul", modifier = actionIconSize) }, onClick = onFoul, enabled = editable, isFelt = isFelt, modifier = Modifier.weight(1f).height(actionButtonHeight))
             }
         }
     }
@@ -749,8 +760,19 @@ private fun ActionIconButton(
     icon: @Composable () -> Unit,
     onClick: () -> Unit,
     enabled: Boolean,
+    isFelt: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
+    if (isFelt) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            enabled = enabled,
+            shape = ActionButtonShape,
+            modifier = modifier,
+        ) { icon() }
+        return
+    }
     Surface(
         onClick = onClick,
         enabled = enabled,
@@ -767,7 +789,24 @@ private fun ActionIconButton(
 
 /** Landscape-row-sized sibling of [BallsNumberTile] - same filled, tappable styling, smaller text. */
 @Composable
-private fun BallsDisplayTile(value: Int, fontSize: TextUnit, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
+private fun BallsDisplayTile(
+    value: Int,
+    fontSize: TextUnit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    isFelt: Boolean = false,
+) {
+    if (isFelt) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            enabled = enabled,
+            shape = ActionButtonShape,
+            modifier = modifier,
+        ) { Text(value.toString(), fontSize = fontSize, fontWeight = FontWeight.Bold) }
+        return
+    }
     Surface(
         onClick = onClick,
         enabled = enabled,
@@ -813,6 +852,7 @@ private fun StraightPlayerCard(
     compact: Boolean = false,
     modifier: Modifier = Modifier,
     inningLabel: String = "I",
+    isFelt: Boolean = false,
 ) {
     // Extra boost on top of the normal LocalUiScale multiplier, on a tablet (uiScale > 1f) - phone
     // (uiScale == 1f) is untouched. Same in portrait and landscape, so text doesn't shrink on rotation.
@@ -850,12 +890,20 @@ private fun StraightPlayerCard(
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                 )
-                Text(
-                    text = score.toString(),
-                    fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                )
+                if (isFelt) {
+                    LockWheelNumber(
+                        value = score,
+                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                } else {
+                    Text(
+                        text = score.toString(),
+                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
                 val avg = (stats.average * 10).roundToInt() / 10f
                 val baseStatsStyle = MaterialTheme.typography.bodyMedium
                 Text(

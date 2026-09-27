@@ -58,6 +58,9 @@ import info.rbuck.billiardscoreboard.i18n.Translations
 import info.rbuck.billiardscoreboard.i18n.TournamentTextKey
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
+import info.rbuck.billiardscoreboard.ui.components.FeltAccentSurface
+import info.rbuck.billiardscoreboard.ui.components.LockWheelNumber
+import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,6 +80,8 @@ fun TournamentScreen(
     val players by viewModel.players.collectAsStateWithLifecycle()
     val language by app.settingsRepository.language.collectAsStateWithLifecycle()
     fun t(key: TournamentTextKey, fallback: String) = Translations.tournamentText(key, language) ?: fallback
+    val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
+    val isFelt = appTheme == AppTheme.FELT
     val state = tournament ?: return
 
     fun nameOf(id: String) = players[id]?.name ?: "?"
@@ -206,6 +211,7 @@ fun TournamentScreen(
                             onAdd = { viewModel.recordEncounterGame(winnerId = sides.first[0], loserId = sides.second[0]) },
                             onRemove = { viewModel.removeLastEncounterGameFor(0) },
                             modifier = Modifier.weight(1f),
+                            isFelt = isFelt,
                         )
                         EncounterScoreCard(
                             names = sides.second.map { nameOf(it) },
@@ -215,6 +221,7 @@ fun TournamentScreen(
                             onAdd = { viewModel.recordEncounterGame(winnerId = sides.second[0], loserId = sides.first[0]) },
                             onRemove = { viewModel.removeLastEncounterGameFor(1) },
                             modifier = Modifier.weight(1f),
+                            isFelt = isFelt,
                         )
                     }
                 } else if (isOver) {
@@ -335,6 +342,7 @@ private fun EncounterScoreCard(
     onAdd: () -> Unit,
     onRemove: () -> Unit,
     modifier: Modifier = Modifier,
+    isFelt: Boolean = false,
 ) {
     val uiScale = LocalUiScale.current
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -350,7 +358,11 @@ private fun EncounterScoreCard(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(names.joinToString(" & "), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center, maxLines = 2)
-                Text(score.toString(), fontSize = 44.sp * uiScale, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                if (isFelt) {
+                    LockWheelNumber(value = score, fontSize = 44.sp * uiScale, color = MaterialTheme.colorScheme.primary)
+                } else {
+                    Text(score.toString(), fontSize = 44.sp * uiScale, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                }
                 Text(roleLabel ?: "", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
             }
         }
@@ -362,6 +374,7 @@ private fun EncounterScoreCard(
                 onClick = onRemove,
                 enabled = canRemove,
                 filled = false,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).height(48.dp * uiScale),
             )
             EncounterButton(
@@ -370,6 +383,7 @@ private fun EncounterScoreCard(
                 onClick = onAdd,
                 enabled = true,
                 filled = true,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).height(48.dp * uiScale),
             )
         }
@@ -377,7 +391,8 @@ private fun EncounterScoreCard(
 }
 
 /** "−" reads as a muted, secondary action (same tone as the card itself); "+" is the primary
- * call-to-action - matching how the redesign's reference visually separates the two. */
+ * call-to-action - matching how the redesign's reference visually separates the two. Felt's vivid
+ * gradient treatment only applies to the filled ("+") button, so "−" stays deliberately muted. */
 @Composable
 private fun EncounterButton(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
@@ -385,9 +400,20 @@ private fun EncounterButton(
     onClick: () -> Unit,
     enabled: Boolean,
     filled: Boolean,
+    isFelt: Boolean = false,
     modifier: Modifier,
 ) {
     val uiScale = LocalUiScale.current
+    if (isFelt && filled) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            enabled = enabled,
+            shape = RoundedCornerShape(12.dp),
+            modifier = modifier,
+        ) { Icon(icon, contentDescription = contentDescription, modifier = Modifier.size(36.dp * uiScale)) }
+        return
+    }
     Surface(
         onClick = onClick,
         enabled = enabled,

@@ -65,8 +65,11 @@ import info.rbuck.billiardscoreboard.ui.components.AttemptGrid
 import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
 import info.rbuck.billiardscoreboard.ui.components.BallsOnTableDialog
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
+import info.rbuck.billiardscoreboard.ui.components.FeltAccentSurface
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
+import info.rbuck.billiardscoreboard.ui.components.LockWheelNumber
 import info.rbuck.billiardscoreboard.ui.components.NumberStepper
+import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.roundToInt
 
@@ -87,6 +90,8 @@ fun TrainingScoreScreen(
     val player by viewModel.player.collectAsStateWithLifecycle()
     val language by app.settingsRepository.language.collectAsStateWithLifecycle()
     val saveTrainingToHistory by app.settingsRepository.saveTrainingToHistory.collectAsStateWithLifecycle()
+    val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
+    val isFelt = appTheme == AppTheme.FELT
 
     val ballsOnTable = TrainingMatchEngine.ballsOnTable(state)
     val currentRun = TrainingMatchEngine.currentRun(state)
@@ -162,6 +167,7 @@ fun TrainingScoreScreen(
                     compact = landscape,
                     modifier = modifier,
                     header = if (showHeader) header else null,
+                    isFelt = isFelt,
                 )
             }
             val grid: @Composable (Int, Dp?) -> Unit = { perRow, tileHeight ->
@@ -184,6 +190,7 @@ fun TrainingScoreScreen(
                     livesRemaining = livesRemaining,
                     buttonSize = buttonSize,
                     uiScale = uiScale,
+                    isFelt = isFelt,
                     onSubtract = { viewModel.addBalls(-1) },
                     onAdd = { viewModel.addBalls(1) },
                     onBallsClick = { showSetBallsDialog = true },
@@ -453,6 +460,7 @@ private fun TrainingPointsCard(
     compact: Boolean,
     modifier: Modifier = Modifier,
     header: (@Composable () -> Unit)? = null,
+    isFelt: Boolean = false,
 ) {
     // Same name/score/stats sizing formula and SpaceBetween layout as every match scoreboard's
     // player card (StraightPlayerCard for 14.1, PlayerScoreCard for 8/9/10-Ball), so Training reads
@@ -487,12 +495,21 @@ private fun TrainingPointsCard(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 if (header != null) header()
-                Text(
-                    TrainingMatchEngine.formatBallCount(exercise, currentRun),
-                    fontSize = scoreFontSize,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                )
+                val plainCount = !(exercise.breakballBonus && currentRun > 14)
+                if (isFelt && plainCount) {
+                    LockWheelNumber(
+                        value = currentRun,
+                        fontSize = scoreFontSize,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                } else {
+                    Text(
+                        TrainingMatchEngine.formatBallCount(exercise, currentRun),
+                        fontSize = scoreFontSize,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
                 val baseStatsStyle = MaterialTheme.typography.bodyMedium
                 val statsStyle = baseStatsStyle.copy(
                     fontSize = baseStatsStyle.fontSize * compactTextMultiplier,
@@ -530,27 +547,32 @@ private fun TrainingButtonRow(
     onError: () -> Unit,
     onEndAttempt: () -> Unit,
     modifier: Modifier = Modifier,
+    isFelt: Boolean = false,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
-        TrainingTile(onClick = onBallsClick, modifier = Modifier.weight(1f).size(buttonSize)) {
+        TrainingTile(onClick = onBallsClick, isFelt = isFelt, modifier = Modifier.weight(1f).size(buttonSize)) {
             Text(ballsOnTable.toString(), fontSize = 30.sp * uiScale, fontWeight = FontWeight.Bold)
         }
         TrainingActionButton(
             onClick = onSubtract,
+            isFelt = isFelt,
             modifier = Modifier.weight(1f).size(buttonSize),
         ) { Text("−", fontSize = 38.sp * uiScale, fontWeight = FontWeight.Bold) }
         TrainingActionButton(
             onClick = onAdd,
+            isFelt = isFelt,
             modifier = Modifier.weight(1f).size(buttonSize),
         ) { Text("+", fontSize = 38.sp * uiScale, fontWeight = FontWeight.Bold) }
         TrainingActionButton(
             onClick = onRack,
+            isFelt = isFelt,
             modifier = Modifier.weight(1f).size(buttonSize),
         ) { RackTriangle(size = 25.dp * uiScale) }
         if (exercise.hasLives) {
             TrainingActionButton(
                 onClick = onError,
                 enabled = livesRemaining > 0,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).size(buttonSize),
             ) {
                 Icon(
@@ -562,6 +584,7 @@ private fun TrainingButtonRow(
         }
         TrainingActionButton(
             onClick = onEndAttempt,
+            isFelt = isFelt,
             modifier = Modifier.weight(1f).size(buttonSize),
         ) {
             Icon(
@@ -576,7 +599,16 @@ private fun TrainingButtonRow(
 /** Filled balls-on-table tile, matching the other action buttons - tapping it opens the same "set balls
  * on table" dialog as the 14.1 match scoreboard. */
 @Composable
-private fun TrainingTile(onClick: () -> Unit, modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+private fun TrainingTile(onClick: () -> Unit, modifier: Modifier = Modifier, isFelt: Boolean = false, content: @Composable () -> Unit) {
+    if (isFelt) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            shape = RoundedCornerShape(14.dp),
+            modifier = modifier,
+        ) { content() }
+        return
+    }
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
@@ -593,8 +625,19 @@ private fun TrainingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isFelt: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    if (isFelt) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            enabled = enabled,
+            shape = RoundedCornerShape(14.dp),
+            modifier = modifier,
+        ) { content() }
+        return
+    }
     Surface(
         onClick = onClick,
         enabled = enabled,

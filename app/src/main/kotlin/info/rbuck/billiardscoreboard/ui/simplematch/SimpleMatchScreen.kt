@@ -67,7 +67,10 @@ import info.rbuck.billiardscoreboard.obs.LiveScoreState
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.components.ActivePlayerIndicator
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
+import info.rbuck.billiardscoreboard.ui.components.FeltAccentSurface
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
+import info.rbuck.billiardscoreboard.ui.components.LockWheelNumber
+import info.rbuck.billiardscoreboard.ui.theme.AppTheme
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,6 +89,8 @@ fun SimpleMatchScreen(
     val match by viewModel.match.collectAsStateWithLifecycle()
     val players by viewModel.players.collectAsStateWithLifecycle()
     val isArchived by viewModel.isArchived.collectAsStateWithLifecycle()
+    val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
+    val isFelt = appTheme == AppTheme.FELT
     val state = match ?: return
 
     // An archived match (opened from History) is a saved result - view only, no scoring controls.
@@ -192,6 +197,7 @@ fun SimpleMatchScreen(
                         onRemove = { viewModel.removeLastFor(0) },
                         buttonSize = buttonSize,
                         compact = compact,
+                        isFelt = isFelt,
                         modifier = if (compact) Modifier.weight(1f).fillMaxHeight() else Modifier.fillMaxWidth().weight(1f),
                     )
                 }
@@ -208,6 +214,7 @@ fun SimpleMatchScreen(
                         onRemove = { viewModel.removeLastFor(1) },
                         buttonSize = buttonSize,
                         compact = compact,
+                        isFelt = isFelt,
                         modifier = if (compact) Modifier.weight(1f).fillMaxHeight() else Modifier.fillMaxWidth().weight(1f),
                     )
                 }
@@ -355,6 +362,7 @@ private fun PlayerScoreCard(
     onRemove: () -> Unit,
     buttonSize: Dp,
     compact: Boolean,
+    isFelt: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val uiScale = LocalUiScale.current
@@ -392,12 +400,20 @@ private fun PlayerScoreCard(
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                     )
-                    Text(
-                        text = score.toString(),
-                        fontSize = 44.sp * uiScale * compactScoreMultiplier,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                    if (isFelt) {
+                        LockWheelNumber(
+                            value = score,
+                            fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    } else {
+                        Text(
+                            text = score.toString(),
+                            fontSize = 44.sp * uiScale * compactScoreMultiplier,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
                     val baseStatsStyle = MaterialTheme.typography.bodyMedium
                     Text(
                         "Runouts: $runouts",
@@ -419,18 +435,21 @@ private fun PlayerScoreCard(
                 icon = { Icon(Icons.Filled.Remove, contentDescription = "Remove last rack", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onRemove,
                 enabled = enabled && canRemove,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).height(buttonSize),
             )
             SquareIconButton(
                 icon = { Icon(Icons.Filled.Add, contentDescription = "Rack win", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onAdd,
                 enabled = enabled,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).height(buttonSize),
             )
             SquareIconButton(
                 icon = { Icon(Icons.Filled.Rocket, contentDescription = "Runout", modifier = Modifier.size(38.dp * uiScale)) },
                 onClick = onRunout,
                 enabled = enabled,
+                isFelt = isFelt,
                 modifier = Modifier.weight(1f).height(buttonSize),
             )
         }
@@ -442,8 +461,19 @@ private fun SquareIconButton(
     icon: @Composable () -> Unit,
     onClick: () -> Unit,
     enabled: Boolean,
+    isFelt: Boolean,
     modifier: Modifier,
 ) {
+    if (isFelt) {
+        FeltAccentSurface(
+            accent = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            enabled = enabled,
+            shape = RoundedCornerShape(12.dp),
+            modifier = modifier,
+        ) { icon() }
+        return
+    }
     Surface(
         onClick = onClick,
         enabled = enabled,
