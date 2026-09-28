@@ -194,23 +194,21 @@ fun NewStraightMatchScreen(
                                 modifier = Modifier.weight(1f).fillMaxHeight().padding(16.dp).verticalScroll(rememberScrollState()),
                                 verticalArrangement = Arrangement.spacedBy(22.dp),
                             ) {
-                                Row(horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel(LocalStrings.current.raceToPoints)
-                                        NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1, step = 5)
-                                    }
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel(LocalStrings.current.inningsLimit)
-                                        NumberStepper(
-                                            label = "",
-                                            value = maxInningsLimit ?: 0,
-                                            onValueChange = { maxInningsLimit = if (it <= 0) null else it },
-                                            min = 0,
-                                            max = 50,
-                                            step = 5,
-                                            formatValue = { if (it <= 0) "-" else it.toString() },
-                                        )
-                                    }
+                                Column {
+                                    SettingsLabel(LocalStrings.current.raceToPoints)
+                                    NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1, step = 5)
+                                }
+                                Column {
+                                    SettingsLabel(LocalStrings.current.inningsLimit)
+                                    NumberStepper(
+                                        label = "",
+                                        value = maxInningsLimit ?: 0,
+                                        onValueChange = { maxInningsLimit = if (it <= 0) null else it },
+                                        min = 0,
+                                        max = 50,
+                                        step = 5,
+                                        formatValue = { if (it <= 0) "-" else it.toString() },
+                                    )
                                 }
                                 Column {
                                     SettingsLabel(LocalStrings.current.openingBreak)
