@@ -196,11 +196,11 @@ fun NewStraightMatchScreen(
                             ) {
                                 Row(horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
                                     Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel("Race to (points)")
+                                        SettingsLabel(LocalStrings.current.raceToPoints)
                                         NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1, step = 5)
                                     }
                                     Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel("Innings limit")
+                                        SettingsLabel(LocalStrings.current.inningsLimit)
                                         NumberStepper(
                                             label = "",
                                             value = maxInningsLimit ?: 0,
@@ -213,18 +213,18 @@ fun NewStraightMatchScreen(
                                     }
                                 }
                                 Column {
-                                    SettingsLabel("Opening break")
+                                    SettingsLabel(LocalStrings.current.openingBreak)
                                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                                         ChoiceChip(
                                             selected = firstPlayer == 0,
                                             onClick = { firstPlayer = 0 },
-                                            label = player1?.name ?: "Player 1",
+                                            label = player1?.name ?: "${LocalStrings.current.player} 1",
                                             modifier = Modifier.weight(1f),
                                         )
                                         ChoiceChip(
                                             selected = firstPlayer == 1,
                                             onClick = { firstPlayer = 1 },
-                                            label = player2?.name ?: "Player 2",
+                                            label = player2?.name ?: "${LocalStrings.current.player} 2",
                                             modifier = Modifier.weight(1f),
                                         )
                                     }
@@ -234,30 +234,30 @@ fun NewStraightMatchScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.fillMaxWidth(),
                                 ) {
-                                    SettingsLabel("Handicap")
+                                    SettingsLabel(LocalStrings.current.handicap)
                                     Switch(checked = handicapEnabled, onCheckedChange = { handicapEnabled = it })
                                 }
                                 AnimatedVisibility(visible = handicapEnabled) {
                                     Column(verticalArrangement = Arrangement.spacedBy(22.dp)) {
                                         Column {
-                                            SettingsLabel("Handicap for")
+                                            SettingsLabel(LocalStrings.current.handicapFor)
                                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                                                 ChoiceChip(
                                                     selected = handicapPlayer == 0,
                                                     onClick = { handicapPlayer = 0 },
-                                                    label = player1?.name ?: "Player 1",
+                                                    label = player1?.name ?: "${LocalStrings.current.player} 1",
                                                     modifier = Modifier.weight(1f),
                                                 )
                                                 ChoiceChip(
                                                     selected = handicapPlayer == 1,
                                                     onClick = { handicapPlayer = 1 },
-                                                    label = player2?.name ?: "Player 2",
+                                                    label = player2?.name ?: "${LocalStrings.current.player} 2",
                                                     modifier = Modifier.weight(1f),
                                                 )
                                             }
                                         }
                                         Column {
-                                            SettingsLabel("Points")
+                                            SettingsLabel(LocalStrings.current.points)
                                             NumberStepper(
                                                 label = "",
                                                 value = handicapPoints,
@@ -277,11 +277,11 @@ fun NewStraightMatchScreen(
                             ) {
                                 Row(horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
                                     Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel("Race to (points)")
+                                        SettingsLabel(LocalStrings.current.raceToPoints)
                                         NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1, step = 5)
                                     }
                                     Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel("Innings limit")
+                                        SettingsLabel(LocalStrings.current.inningsLimit)
                                         NumberStepper(
                                             label = "",
                                             value = maxInningsLimit ?: 0,
@@ -294,36 +294,36 @@ fun NewStraightMatchScreen(
                                     }
                                 }
                                 Column(modifier = Modifier.fillMaxWidth()) {
-                                    SettingsLabel("Opening break")
+                                    SettingsLabel(LocalStrings.current.openingBreak)
                                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                                         ChoiceChip(
                                             selected = firstPlayer == 0,
                                             onClick = { firstPlayer = 0 },
-                                            label = player1?.name ?: "Player 1",
+                                            label = player1?.name ?: "${LocalStrings.current.player} 1",
                                             modifier = Modifier.weight(1f),
                                         )
                                         ChoiceChip(
                                             selected = firstPlayer == 1,
                                             onClick = { firstPlayer = 1 },
-                                            label = player2?.name ?: "Player 2",
+                                            label = player2?.name ?: "${LocalStrings.current.player} 2",
                                             modifier = Modifier.weight(1f),
                                         )
                                     }
                                 }
                                 AnimatedVisibility(visible = handicapEnabled) {
                                     Column(modifier = Modifier.fillMaxWidth()) {
-                                        SettingsLabel("Handicap for")
+                                        SettingsLabel(LocalStrings.current.handicapFor)
                                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                                             ChoiceChip(
                                                 selected = handicapPlayer == 0,
                                                 onClick = { handicapPlayer = 0 },
-                                                label = player1?.name ?: "Player 1",
+                                                label = player1?.name ?: "${LocalStrings.current.player} 1",
                                                 modifier = Modifier.weight(1f),
                                             )
                                             ChoiceChip(
                                                 selected = handicapPlayer == 1,
                                                 onClick = { handicapPlayer = 1 },
-                                                label = player2?.name ?: "Player 2",
+                                                label = player2?.name ?: "${LocalStrings.current.player} 2",
                                                 modifier = Modifier.weight(1f),
                                             )
                                         }
@@ -335,13 +335,13 @@ fun NewStraightMatchScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                 ) {
                                     Column(modifier = Modifier.weight(1f)) {
-                                        SettingsLabel("Handicap")
+                                        SettingsLabel(LocalStrings.current.handicap)
                                         Switch(checked = handicapEnabled, onCheckedChange = { handicapEnabled = it })
                                     }
                                     Column(modifier = Modifier.weight(1f)) {
                                         AnimatedVisibility(visible = handicapEnabled) {
                                             Column {
-                                                SettingsLabel("Points")
+                                                SettingsLabel(LocalStrings.current.points)
                                                 NumberStepper(
                                                     label = "",
                                                     value = handicapPoints,
@@ -383,11 +383,11 @@ fun NewStraightMatchScreen(
                 SettingsCard {
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f)) {
-                            SettingsLabel("Race to (points)")
+                            SettingsLabel(LocalStrings.current.raceToPoints)
                             NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1, step = 5)
                         }
                         Column(modifier = Modifier.weight(1f)) {
-                            SettingsLabel("Innings limit")
+                            SettingsLabel(LocalStrings.current.inningsLimit)
                             NumberStepper(
                                 label = "",
                                 value = maxInningsLimit ?: 0,
@@ -400,18 +400,18 @@ fun NewStraightMatchScreen(
                         }
                     }
                     Column {
-                        SettingsLabel("Opening break")
+                        SettingsLabel(LocalStrings.current.openingBreak)
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                             ChoiceChip(
                                 selected = firstPlayer == 0,
                                 onClick = { firstPlayer = 0 },
-                                label = player1?.name ?: "Player 1",
+                                label = player1?.name ?: "${LocalStrings.current.player} 1",
                                 modifier = Modifier.weight(1f),
                             )
                             ChoiceChip(
                                 selected = firstPlayer == 1,
                                 onClick = { firstPlayer = 1 },
-                                label = player2?.name ?: "Player 2",
+                                label = player2?.name ?: "${LocalStrings.current.player} 2",
                                 modifier = Modifier.weight(1f),
                             )
                         }
@@ -422,7 +422,7 @@ fun NewStraightMatchScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        SettingsLabel("Handicap")
+                        SettingsLabel(LocalStrings.current.handicap)
                         Switch(checked = handicapEnabled, onCheckedChange = { handicapEnabled = it })
                     }
                 }
@@ -432,25 +432,25 @@ fun NewStraightMatchScreen(
                         Spacer(Modifier.height(20.dp))
                         SettingsCard {
                             Column {
-                                SettingsLabel("Handicap for")
+                                SettingsLabel(LocalStrings.current.handicapFor)
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                                     ChoiceChip(
                                         selected = handicapPlayer == 0,
                                         onClick = { handicapPlayer = 0 },
-                                        label = player1?.name ?: "Player 1",
+                                        label = player1?.name ?: "${LocalStrings.current.player} 1",
                                         modifier = Modifier.weight(1f),
                                     )
                                     ChoiceChip(
                                         selected = handicapPlayer == 1,
                                         onClick = { handicapPlayer = 1 },
-                                        label = player2?.name ?: "Player 2",
+                                        label = player2?.name ?: "${LocalStrings.current.player} 2",
                                         modifier = Modifier.weight(1f),
                                     )
                                 }
                             }
                             Column {
                                 NumberStepper(
-                                    label = "Points",
+                                    label = LocalStrings.current.points,
                                     value = handicapPoints,
                                     onValueChange = { handicapPoints = it.coerceIn(0, maxHandicap) },
                                     min = 0,

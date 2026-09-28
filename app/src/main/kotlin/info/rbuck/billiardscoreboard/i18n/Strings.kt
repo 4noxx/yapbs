@@ -224,6 +224,19 @@ open class Strings {
     open val deleteClubTitle = "Delete club?"
     open fun deleteClubMessage(name: String) = "This will delete $name. Players stay, just without a club."
 
+    // New match setup screens (8/9/10-Ball and 14.1)
+    open val raceToTarget = "Race to (target)"
+    open val raceToPoints = "Race to (points)"
+    open val inningsLimit = "Innings limit"
+    open val breakMode = "Break mode"
+    open val openingBreak = "Opening break"
+    open val alternate = "Alternate"
+    open val winner = "Winner"
+    open val firstBreak = "First break"
+    open val handicap = "Handicap"
+    open val handicapFor = "Handicap for"
+    open val points = "Points"
+
     companion object {
         fun of(language: AppLanguage): Strings = when (language) {
             AppLanguage.EN -> En
@@ -436,6 +449,18 @@ open class Strings {
         override val noClubsYet = "Noch keine Vereine angelegt. Tippe auf +, um einen anzulegen."
         override val deleteClubTitle = "Verein löschen?"
         override fun deleteClubMessage(name: String) = "$name wird gelöscht. Spieler bleiben erhalten, nur ohne Verein."
+
+        override val raceToTarget = "Race to (Ziel)"
+        override val raceToPoints = "Race to (Punkte)"
+        override val inningsLimit = "Aufnahmenlimit"
+        override val breakMode = "Anstoßmodus"
+        override val openingBreak = "Anstoß"
+        override val alternate = "Wechselnd"
+        override val winner = "Gewinner"
+        override val firstBreak = "Erster Anstoß"
+        override val handicap = "Vorgabe"
+        override val handicapFor = "Vorgabe für"
+        override val points = "Punkte"
     }
 
     object Es : Strings()
