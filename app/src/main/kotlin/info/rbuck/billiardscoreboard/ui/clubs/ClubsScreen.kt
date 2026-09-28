@@ -51,6 +51,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil3.compose.AsyncImage
 import info.rbuck.billiardscoreboard.data.Club
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
@@ -65,6 +66,7 @@ fun ClubsScreen(onBack: () -> Unit) {
         },
     )
     val clubs by viewModel.clubs.collectAsStateWithLifecycle()
+    val s = LocalStrings.current
 
     var showEditor by remember { mutableStateOf(false) }
     var editingClub by remember { mutableStateOf<Club?>(null) }
@@ -73,15 +75,15 @@ fun ClubsScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Clubs") },
+                title = { Text(s.clubsTitle) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
+                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = s.back) }
                 },
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text("New club") },
+                text = { Text(s.newClub) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
                 onClick = { editingClub = null; showEditor = true },
             )
@@ -92,7 +94,7 @@ fun ClubsScreen(onBack: () -> Unit) {
                 modifier = Modifier.fillMaxSize().padding(padding),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                Text("No clubs created yet. Tap + to add one.")
+                Text(s.noClubsYet)
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
@@ -105,7 +107,7 @@ fun ClubsScreen(onBack: () -> Unit) {
                         },
                         trailingContent = {
                             IconButton(onClick = { pendingDelete = club }) {
-                                Icon(Icons.Filled.Delete, contentDescription = "Delete")
+                                Icon(Icons.Filled.Delete, contentDescription = s.delete)
                             }
                         },
                     )
@@ -128,9 +130,9 @@ fun ClubsScreen(onBack: () -> Unit) {
 
     pendingDelete?.let { club ->
         ConfirmDialog(
-            title = "Delete club?",
-            message = "This will delete ${club.name}. Players stay, just without a club.",
-            confirmText = "Delete",
+            title = s.deleteClubTitle,
+            message = s.deleteClubMessage(club.name),
+            confirmText = s.delete,
             onConfirm = { viewModel.delete(club); pendingDelete = null },
             onDismiss = { pendingDelete = null },
         )
@@ -169,6 +171,7 @@ private fun ClubEditorDialog(
     onSave: (String, Uri?) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val s = LocalStrings.current
     var name by remember { mutableStateOf(initialName) }
     var pickedUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -179,7 +182,7 @@ private fun ClubEditorDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         modifier = Modifier.fillMaxWidth(0.9f).widthIn(max = 420.dp),
-        title = { HideStatusBarInDialog(); Text(if (initialName.isEmpty()) "New club" else "Edit club") },
+        title = { HideStatusBarInDialog(); Text(if (initialName.isEmpty()) s.newClub else s.editClub) },
         text = {
             androidx.compose.foundation.layout.Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -206,12 +209,12 @@ private fun ClubEditorDialog(
                 Spacer(Modifier.height(4.dp))
                 OutlinedButton(onClick = {
                     pickImage.launch(androidx.activity.result.PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }) { Text(if (initialCrestPath == null && pickedUri == null) "Choose crest" else "Change crest") }
+                }) { Text(if (initialCrestPath == null && pickedUri == null) s.chooseCrest else s.changeCrest) }
                 Spacer(Modifier.height(12.dp))
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Club name") },
+                    label = { Text(s.clubName) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -219,9 +222,9 @@ private fun ClubEditorDialog(
         },
         confirmButton = {
             TextButton(onClick = { if (name.isNotBlank()) onSave(name, pickedUri) }, enabled = name.isNotBlank()) {
-                Text("Save")
+                Text(s.save)
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(s.cancel) } },
     )
 }

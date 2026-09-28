@@ -59,6 +59,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import info.rbuck.billiardscoreboard.data.Club
 import info.rbuck.billiardscoreboard.data.Player
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.clubs.ClubCrest
 import info.rbuck.billiardscoreboard.ui.components.BallsDialogActions
@@ -80,6 +81,7 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
     )
     val players by viewModel.players.collectAsStateWithLifecycle()
     val clubs by viewModel.clubs.collectAsStateWithLifecycle()
+    val s = LocalStrings.current
 
     var showEditor by remember { mutableStateOf(false) }
     var editingPlayer by remember { mutableStateOf<Player?>(null) }
@@ -91,9 +93,9 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
     var clubMenuExpanded by remember { mutableStateOf(false) }
     val clubById = remember(clubs) { clubs.associateBy { it.id } }
     val clubFilterLabel = when (clubFilter) {
-        null -> "All clubs"
-        NO_CLUB_FILTER -> "No club"
-        else -> clubById[clubFilter]?.name ?: "All clubs"
+        null -> s.allClubs
+        NO_CLUB_FILTER -> s.noClub
+        else -> clubById[clubFilter]?.name ?: s.allClubs
     }
     val filteredPlayers = remember(players, clubFilter) {
         when (clubFilter) {
@@ -106,23 +108,23 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Players") },
+                title = { Text(s.playersTitle) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
+                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = s.back) }
                 },
                 actions = {
-                    IconButton(onClick = onOpenHeadToHead) { Icon(Icons.Filled.CompareArrows, contentDescription = "Head-to-head") }
-                    IconButton(onClick = onOpenClubs) { Icon(Icons.Filled.Groups, contentDescription = "Clubs") }
-                    IconButton(onClick = { sortMenuOpen = true }) { Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = "Sort") }
+                    IconButton(onClick = onOpenHeadToHead) { Icon(Icons.Filled.CompareArrows, contentDescription = s.h2hTitle) }
+                    IconButton(onClick = onOpenClubs) { Icon(Icons.Filled.Groups, contentDescription = s.clubsTitle) }
+                    IconButton(onClick = { sortMenuOpen = true }) { Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = s.sort) }
                     DropdownMenu(
                         expanded = sortMenuOpen,
                         onDismissRequest = { sortMenuOpen = false },
                         properties = PopupProperties(focusable = false),
                     ) {
-                        DropdownMenuItem(text = { Text("Sort by name") }, onClick = {
+                        DropdownMenuItem(text = { Text(s.sortByName) }, onClick = {
                             viewModel.setSort(PlayerSort.NAME); sortMenuOpen = false
                         })
-                        DropdownMenuItem(text = { Text("Sort by frequency") }, onClick = {
+                        DropdownMenuItem(text = { Text(s.sortByFrequency) }, onClick = {
                             viewModel.setSort(PlayerSort.FREQUENCY); sortMenuOpen = false
                         })
                     }
@@ -131,7 +133,7 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text("New player") },
+                text = { Text(s.newPlayer) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
                 onClick = { editingPlayer = null; showEditor = true },
             )
@@ -148,7 +150,7 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
                         value = clubFilterLabel,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Club") },
+                        label = { Text(s.club) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = clubMenuExpanded) },
                         modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     )
@@ -158,8 +160,8 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
                         properties = PopupProperties(focusable = false),
                         modifier = Modifier.exposedDropdownSize(),
                     ) {
-                        DropdownMenuItem(text = { Text("All clubs") }, onClick = { clubFilter = null; clubMenuExpanded = false })
-                        DropdownMenuItem(text = { Text("No club") }, onClick = { clubFilter = NO_CLUB_FILTER; clubMenuExpanded = false })
+                        DropdownMenuItem(text = { Text(s.allClubs) }, onClick = { clubFilter = null; clubMenuExpanded = false })
+                        DropdownMenuItem(text = { Text(s.noClub) }, onClick = { clubFilter = NO_CLUB_FILTER; clubMenuExpanded = false })
                         clubs.forEach { club ->
                             DropdownMenuItem(text = { Text(club.name) }, onClick = { clubFilter = club.id; clubMenuExpanded = false })
                         }
@@ -171,7 +173,7 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    Text(if (players.isEmpty()) "No players created yet. Tap + to add one." else "No players in this club.")
+                    Text(if (players.isEmpty()) s.noPlayersYet else s.noPlayersInClub)
                 }
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -192,7 +194,7 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
                             },
                             trailingContent = {
                                 IconButton(onClick = { pendingDelete = player }) {
-                                    Icon(Icons.Filled.Delete, contentDescription = "Delete")
+                                    Icon(Icons.Filled.Delete, contentDescription = s.delete)
                                 }
                             },
                         )
@@ -217,9 +219,9 @@ fun PlayersScreen(onBack: () -> Unit, onOpenClubs: () -> Unit, onOpenHeadToHead:
 
     pendingDelete?.let { player ->
         ConfirmDialog(
-            title = "Delete player?",
-            message = "This will delete ${player.name} permanently.",
-            confirmText = "Delete",
+            title = s.deletePlayerTitle,
+            message = s.deletePlayerMessage(player.name),
+            confirmText = s.delete,
             onConfirm = { viewModel.delete(player); pendingDelete = null },
             onDismiss = { pendingDelete = null },
         )
@@ -253,6 +255,7 @@ private fun PlayerEditorDialog(
     onSave: (String, String?) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val s = LocalStrings.current
     var name by remember { mutableStateOf(initialName) }
     var clubId by remember { mutableStateOf(initialClubId) }
     var showClubPicker by remember { mutableStateOf(false) }
@@ -261,25 +264,25 @@ private fun PlayerEditorDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         modifier = Modifier.fillMaxWidth(0.9f).widthIn(max = 420.dp),
-        title = { HideStatusBarInDialog(); Text(if (initialName.isEmpty()) "New player" else "Edit player") },
+        title = { HideStatusBarInDialog(); Text(if (initialName.isEmpty()) s.newPlayer else s.editPlayer) },
         text = {
             Column {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Player name") },
+                    label = { Text(s.playerName) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(12.dp))
                 OutlinedButton(onClick = { showClubPicker = true }, modifier = Modifier.fillMaxWidth()) {
-                    Text(selectedClub?.name ?: "No club")
+                    Text(selectedClub?.name ?: s.noClub)
                 }
             }
         },
         confirmButton = {
             BallsDialogActions(
-                primaryLabel = "Save",
+                primaryLabel = s.save,
                 onPrimary = { if (name.isNotBlank()) onSave(name, clubId) },
                 onCancel = onDismiss,
                 primaryEnabled = name.isNotBlank(),
@@ -302,13 +305,14 @@ private fun ClubPickerDialog(
     onSelect: (Club?) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    val s = LocalStrings.current
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { HideStatusBarInDialog(); Text("Club") },
+        title = { HideStatusBarInDialog(); Text(s.club) },
         text = {
             Column {
                 ListItem(
-                    headlineContent = { Text("No club") },
+                    headlineContent = { Text(s.noClub) },
                     modifier = Modifier.fillMaxWidth().clickable { onSelect(null) },
                 )
                 HorizontalDivider()
@@ -324,6 +328,6 @@ private fun ClubPickerDialog(
                 }
             }
         },
-        confirmButton = { SingleDialogAction(label = "Close", onClick = onDismiss) },
+        confirmButton = { SingleDialogAction(label = s.close, onClick = onDismiss) },
     )
 }

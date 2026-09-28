@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import info.rbuck.billiardscoreboard.i18n.LocalStrings
 
 /** Corner radius shared by every button in a "balls on table"/"re-rack" style dialog's action row,
  * so Cancel, Set/Re-rack (and an optional extra toggle) all read as one consistent group. */
@@ -26,7 +27,7 @@ fun BallsDialogActions(
     primaryLabel: String,
     onPrimary: () -> Unit,
     onCancel: () -> Unit,
-    cancelLabel: String = "Cancel",
+    cancelLabel: String = LocalStrings.current.cancel,
     primaryEnabled: Boolean = true,
     extraButton: (@Composable RowScope.() -> Unit)? = null,
 ) {

@@ -200,6 +200,30 @@ open class Strings {
     open val genericPlayer1 = "Player 1"
     open val genericPlayer2 = "Player 2"
 
+    // Players screen
+    open val playersTitle = "Players"
+    open val newPlayer = "New player"
+    open val editPlayer = "Edit player"
+    open val playerName = "Player name"
+    open val sort = "Sort"
+    open val sortByName = "Sort by name"
+    open val sortByFrequency = "Sort by frequency"
+    open val noPlayersYet = "No players created yet. Tap + to add one."
+    open val noPlayersInClub = "No players in this club."
+    open val deletePlayerTitle = "Delete player?"
+    open fun deletePlayerMessage(name: String) = "This will delete $name permanently."
+
+    // Clubs screen
+    open val clubsTitle = "Clubs"
+    open val newClub = "New club"
+    open val editClub = "Edit club"
+    open val clubName = "Club name"
+    open val chooseCrest = "Choose crest"
+    open val changeCrest = "Change crest"
+    open val noClubsYet = "No clubs created yet. Tap + to add one."
+    open val deleteClubTitle = "Delete club?"
+    open fun deleteClubMessage(name: String) = "This will delete $name. Players stay, just without a club."
+
     companion object {
         fun of(language: AppLanguage): Strings = when (language) {
             AppLanguage.EN -> En
@@ -390,6 +414,28 @@ open class Strings {
         override val genericPlayer = "Spieler"
         override val genericPlayer1 = "Spieler 1"
         override val genericPlayer2 = "Spieler 2"
+
+        override val playersTitle = "Spieler"
+        override val newPlayer = "Neuer Spieler"
+        override val editPlayer = "Spieler bearbeiten"
+        override val playerName = "Spielername"
+        override val sort = "Sortieren"
+        override val sortByName = "Nach Name sortieren"
+        override val sortByFrequency = "Nach Häufigkeit sortieren"
+        override val noPlayersYet = "Noch keine Spieler angelegt. Tippe auf +, um einen anzulegen."
+        override val noPlayersInClub = "Keine Spieler in diesem Verein."
+        override val deletePlayerTitle = "Spieler löschen?"
+        override fun deletePlayerMessage(name: String) = "$name wird endgültig gelöscht."
+
+        override val clubsTitle = "Vereine"
+        override val newClub = "Neuer Verein"
+        override val editClub = "Verein bearbeiten"
+        override val clubName = "Vereinsname"
+        override val chooseCrest = "Wappen wählen"
+        override val changeCrest = "Wappen ändern"
+        override val noClubsYet = "Noch keine Vereine angelegt. Tippe auf +, um einen anzulegen."
+        override val deleteClubTitle = "Verein löschen?"
+        override fun deleteClubMessage(name: String) = "$name wird gelöscht. Spieler bleiben erhalten, nur ohne Verein."
     }
 
     object Es : Strings()

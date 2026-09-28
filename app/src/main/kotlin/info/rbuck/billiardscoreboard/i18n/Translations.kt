@@ -588,8 +588,8 @@ object Translations {
                 "Spielverlauf verworfen - er wurde nicht gespeichert. Nutze stattdessen das Speicher-Symbol, um " +
                 "ihn zu behalten.",
             StraightMatchTextKey.DISCARD to "Verwerfen",
-            StraightMatchTextKey.RACE_TO to "Bis %d Punkte",
-            StraightMatchTextKey.RACE_TO_INNINGS_LIMIT to "Bis %d Punkte - Aufnahmenlimit %d",
+            StraightMatchTextKey.RACE_TO to "Race to %d",
+            StraightMatchTextKey.RACE_TO_INNINGS_LIMIT to "Race to %d - Aufnahmenlimit %d",
             StraightMatchTextKey.MATCH_WON_BY to "%s hat gewonnen!",
             StraightMatchTextKey.MATCH_DRAW to "Unentschieden!",
             StraightMatchTextKey.MATCH_FINISHED to "Spiel beendet",
