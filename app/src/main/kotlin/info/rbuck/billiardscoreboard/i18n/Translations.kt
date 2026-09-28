@@ -476,8 +476,8 @@ object Translations {
             TournamentTextKey.LEAVE_TOURNAMENT_MESSAGE to "Das Turnier ist noch nicht beendet. Der Stand ist gespeichert - du kannst später über Turniere fortsetzen.",
             TournamentTextKey.LEAVE to "Verlassen",
             TournamentTextKey.STARTING_ORDER to "Startreihenfolge",
-            TournamentTextKey.ORDER_AS_LISTED to "Wie in der Liste",
-            TournamentTextKey.ORDER_RANDOM to "Zufällig auslosen",
+            TournamentTextKey.ORDER_AS_LISTED to "Liste",
+            TournamentTextKey.ORDER_RANDOM to "Zufall",
             TournamentTextKey.STARTING_ORDER_HINT to "Legt fest, wer beginnt und in welcher Reihenfolge die übrigen Spieler in die Warteschlange kommen.",
         ),
         AppLanguage.ES to mapOf(
