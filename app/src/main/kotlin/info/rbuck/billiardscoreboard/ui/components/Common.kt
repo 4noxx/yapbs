@@ -100,7 +100,7 @@ fun TopBarStartButton(label: String, enabled: Boolean, onClick: () -> Unit, modi
             letterSpacing = 0.6.sp,
         )
     }
-    if (appTheme == AppTheme.FELT && enabled) {
+    if ((appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT) && enabled) {
         FeltAccentSurface(
             accent = MaterialTheme.colorScheme.primary,
             onClick = onClick,

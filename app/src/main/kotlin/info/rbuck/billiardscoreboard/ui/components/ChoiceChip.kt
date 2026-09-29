@@ -35,7 +35,7 @@ fun ChoiceChip(
 ) {
     val uiScale = LocalUiScale.current
     val appTheme by bsApplication().settingsRepository.appTheme.collectAsStateWithLifecycle()
-    if (selected && appTheme == AppTheme.FELT) {
+    if (selected && (appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT)) {
         FeltAccentSurface(
             accent = MaterialTheme.colorScheme.primary,
             onClick = onClick,

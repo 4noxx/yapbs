@@ -81,7 +81,7 @@ fun TournamentScreen(
     val language by app.settingsRepository.language.collectAsStateWithLifecycle()
     fun t(key: TournamentTextKey, fallback: String) = Translations.tournamentText(key, language) ?: fallback
     val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
-    val isFelt = appTheme == AppTheme.FELT
+    val isFelt = appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT
     val state = tournament ?: return
 
     fun nameOf(id: String) = players[id]?.name ?: "?"

@@ -93,7 +93,7 @@ fun SimpleMatchScreen(
     val players by viewModel.players.collectAsStateWithLifecycle()
     val isArchived by viewModel.isArchived.collectAsStateWithLifecycle()
     val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
-    val isFelt = appTheme == AppTheme.FELT
+    val isFelt = appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT
     val language by app.settingsRepository.language.collectAsStateWithLifecycle()
     fun t(key: StraightMatchTextKey, fallback: String) = Translations.straightMatchText(key, language) ?: fallback
     val state = match ?: return

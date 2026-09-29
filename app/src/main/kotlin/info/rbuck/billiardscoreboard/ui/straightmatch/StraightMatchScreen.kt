@@ -105,7 +105,7 @@ fun StraightMatchScreen(
     val players by viewModel.players.collectAsStateWithLifecycle()
     val isArchived by viewModel.isArchived.collectAsStateWithLifecycle()
     val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
-    val isFelt = appTheme == AppTheme.FELT
+    val isFelt = appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT
     val state = match ?: return
 
     // An archived match (opened from History) is a saved result - view only, no scoring controls.

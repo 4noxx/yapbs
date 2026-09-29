@@ -94,7 +94,7 @@ fun TrainingScoreScreen(
     val language by app.settingsRepository.language.collectAsStateWithLifecycle()
     val saveTrainingToHistory by app.settingsRepository.saveTrainingToHistory.collectAsStateWithLifecycle()
     val appTheme by app.settingsRepository.appTheme.collectAsStateWithLifecycle()
-    val isFelt = appTheme == AppTheme.FELT
+    val isFelt = appTheme == AppTheme.FELT || appTheme == AppTheme.LIGHT
 
     val ballsOnTable = TrainingMatchEngine.ballsOnTable(state)
     val currentRun = TrainingMatchEngine.currentRun(state)
