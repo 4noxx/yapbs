@@ -153,20 +153,20 @@ fun StartScreen(
                 }
                 if (wide) {
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        GameTile("8", s.eightBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.EIGHT_BALL) }
-                        GameTile("9", s.nineBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.NINE_BALL) }
-                        GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.TEN_BALL) }
-                        GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, copper = true, onClick = onNewStraightMatch)
+                        GameTile("8", s.eightBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.EIGHT_BALL) }
+                        GameTile("9", s.nineBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.NINE_BALL) }
+                        GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.TEN_BALL) }
+                        GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewStraightMatch)
                     }
                 } else {
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        GameTile("8", s.eightBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.EIGHT_BALL) }
-                        GameTile("9", s.nineBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.NINE_BALL) }
+                        GameTile("8", s.eightBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.EIGHT_BALL) }
+                        GameTile("9", s.nineBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.NINE_BALL) }
                     }
                     Spacer(Modifier.height(10.dp))
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles) { onNewSimpleMatch(GameType.TEN_BALL) }
-                        GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, copper = true, onClick = onNewStraightMatch)
+                        GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.TEN_BALL) }
+                        GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewStraightMatch)
                     }
                 }
 
@@ -177,28 +177,28 @@ fun StartScreen(
                 }
                 if (wide) {
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        MoreTile(Icons.Filled.Groups, s.tilePlayers, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenPlayers)
-                        MoreTile(Icons.Filled.History, s.tileHistory, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenArchive)
-                        MoreTile(Icons.Filled.Settings, s.tileSettings, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenSettings)
-                        MoreTile(Icons.Filled.FitnessCenter, s.tileTraining, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenTraining)
+                        MoreTile(Icons.Filled.Groups, s.tilePlayers, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenPlayers)
+                        MoreTile(Icons.Filled.History, s.tileHistory, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenArchive)
+                        MoreTile(Icons.Filled.Settings, s.tileSettings, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenSettings)
+                        MoreTile(Icons.Filled.FitnessCenter, s.tileTraining, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenTraining)
                         if (tournamentEnabled) {
-                            MoreTile(Icons.Filled.EmojiEvents, s.tileTournament, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenTournaments)
+                            MoreTile(Icons.Filled.EmojiEvents, s.tileTournament, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenTournaments)
                         }
                         if (showRegieTile) {
-                            MoreTile(Icons.Filled.Videocam, s.tileRegie, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenObsControl)
+                            MoreTile(Icons.Filled.Videocam, s.tileRegie, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenObsControl)
                         }
                     }
                 } else {
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        MoreTile(Icons.Filled.Groups, s.tilePlayers, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenPlayers)
-                        MoreTile(Icons.Filled.History, s.tileHistory, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenArchive)
+                        MoreTile(Icons.Filled.Groups, s.tilePlayers, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenPlayers)
+                        MoreTile(Icons.Filled.History, s.tileHistory, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenArchive)
                     }
                     Spacer(Modifier.height(10.dp))
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                        MoreTile(Icons.Filled.Settings, s.tileSettings, tileModifier(WideMoreTileMaxSize), useGradientTiles, onClick = onOpenSettings)
-                        MoreTile(Icons.Filled.FitnessCenter, s.tileTraining, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenTraining)
+                        MoreTile(Icons.Filled.Settings, s.tileSettings, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, onClick = onOpenSettings)
+                        MoreTile(Icons.Filled.FitnessCenter, s.tileTraining, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenTraining)
                         if (tournamentEnabled) {
-                            MoreTile(Icons.Filled.EmojiEvents, s.tileTournament, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenTournaments)
+                            MoreTile(Icons.Filled.EmojiEvents, s.tileTournament, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenTournaments)
                         } else {
                             Spacer(Modifier.weight(1f))
                         }
@@ -206,7 +206,7 @@ fun StartScreen(
                     if (showRegieTile) {
                         Spacer(Modifier.height(10.dp))
                         Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
-                            MoreTile(Icons.Filled.Videocam, s.tileRegie, tileModifier(WideMoreTileMaxSize), useGradientTiles, copper = true, onClick = onOpenObsControl)
+                            MoreTile(Icons.Filled.Videocam, s.tileRegie, tileModifier(WideMoreTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onOpenObsControl)
                             Spacer(Modifier.weight(1f))
                         }
                     }
@@ -266,10 +266,19 @@ private fun LiveIndicator(recording: Boolean, streaming: Boolean, s: Strings, on
 
 /** Wraps [NumberTile] with the gradient/glow accent treatment when [gradientStyle] (Felt and Light),
  * leaving Dark/Vintage's plain filled tile untouched. [copper] marks 14.1 as the flagship mode with
- * the secondary accent instead of the primary one every other game tile uses. */
+ * the secondary accent instead of the primary one every other game tile uses - but only under
+ * [twoToneAccent] (Felt alone): Light stays a single blue, just with the gradient added. */
 @Composable
-private fun GameTile(number: String, label: String, modifier: Modifier = Modifier, gradientStyle: Boolean, copper: Boolean = false, onClick: () -> Unit) {
-    val accent = if (copper) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+private fun GameTile(
+    number: String,
+    label: String,
+    modifier: Modifier = Modifier,
+    gradientStyle: Boolean,
+    twoToneAccent: Boolean = false,
+    copper: Boolean = false,
+    onClick: () -> Unit,
+) {
+    val accent = if (copper && twoToneAccent) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
     // Same whole-tile treatment as the "Mehr" row: a light-center-to-dark-edge radial gradient
     // (grootstudio.dev's styled-button recipe), a lighter accent rim border, and a matching glow -
     // tried testweise here too instead of just the neutral card + accent bar.
@@ -290,18 +299,20 @@ private fun GameTile(number: String, label: String, modifier: Modifier = Modifie
 
 /** Wraps [IconTile] with the gradient/glow accent treatment when [gradientStyle] (Felt and Light),
  * leaving Dark/Vintage's plain filled tile untouched. [copper] groups Training/Turnier/Regie under
- * the secondary accent, separately from Spieler/Verlauf/Einstellungen's primary one. */
+ * the secondary accent, separately from Spieler/Verlauf/Einstellungen's primary one - but only under
+ * [twoToneAccent] (Felt alone): Light stays a single blue, just with the gradient added. */
 @Composable
 private fun MoreTile(
     icon: ImageVector,
     label: String,
     modifier: Modifier = Modifier,
     gradientStyle: Boolean,
+    twoToneAccent: Boolean = false,
     copper: Boolean = false,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    val accent = if (copper) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
+    val accent = if (copper && twoToneAccent) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
     // The whole tile gets the vivid treatment now, not just a small inner badge - a light-center-
     // to-dark-edge radial gradient (grootstudio.dev's styled-button recipe: e.g. blue-500 core
     // fading to blue-800 rim), a lighter accent rim border, and a matching glow.
