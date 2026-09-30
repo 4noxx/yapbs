@@ -166,10 +166,15 @@ fun BilliardScoreboardTheme(
         else -> LightColors
     }
     val uiScale = rememberUiScale()
+    val themedFontFamily = when (appTheme) {
+        AppTheme.FELT -> AudiowideFontFamily
+        AppTheme.VINTAGE -> ChicleFontFamily
+        else -> null
+    }
     CompositionLocalProvider(LocalUiScale provides uiScale) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = scaledTypography(uiScale),
+            typography = scaledTypography(uiScale, themedFontFamily),
             content = content,
         )
     }

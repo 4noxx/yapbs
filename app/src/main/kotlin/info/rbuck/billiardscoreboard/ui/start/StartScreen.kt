@@ -68,6 +68,7 @@ import info.rbuck.billiardscoreboard.i18n.Strings
 import info.rbuck.billiardscoreboard.obs.ObsOutputState
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
+import info.rbuck.billiardscoreboard.ui.theme.AudiowideFontFamily
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.hypot
 
@@ -489,7 +490,7 @@ private fun FeltWordmark(uiScale: Float) {
             )
             Text(
                 "YAPBS",
-                fontWeight = FontWeight.ExtraBold,
+                fontFamily = AudiowideFontFamily,
                 fontSize = 26.sp * uiScale,
                 letterSpacing = 3.sp,
                 color = MaterialTheme.colorScheme.onBackground,

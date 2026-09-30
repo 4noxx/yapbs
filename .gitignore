@@ -26,3 +26,7 @@
 /.claude/settings.local.json
 /.claude/scheduled_tasks.lock
 /werbung/
+
+# Raw font zips as downloaded from fonts.google.com - the extracted .ttf lives in
+# app/src/main/res/font/ (that IS part of the source), this is just the drop folder.
+/_fonts/

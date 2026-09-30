@@ -6,6 +6,7 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 
@@ -35,26 +36,29 @@ fun TextStyle.scaled(factor: Float): TextStyle {
     return copy(fontSize = scaledFontSize, lineHeight = scaledLineHeight)
 }
 
-/** Multiplies every style in the default Material3 [Typography] by [factor], so every `MaterialTheme.typography.*` usage scales automatically. */
-fun scaledTypography(factor: Float): Typography {
-    if (factor == 1f) return Typography()
+/** Multiplies every style in the default Material3 [Typography] by [factor] and, if [fontFamily] is
+ * given (Felt/Vintage's themed display fonts - see Fonts.kt), applies it to every style too, so
+ * every `MaterialTheme.typography.*` usage scales/re-fonts automatically. */
+fun scaledTypography(factor: Float, fontFamily: FontFamily? = null): Typography {
+    if (factor == 1f && fontFamily == null) return Typography()
     val base = Typography()
+    fun TextStyle.styled() = scaled(factor).let { if (fontFamily != null) it.copy(fontFamily = fontFamily) else it }
     return Typography(
-        displayLarge = base.displayLarge.scaled(factor),
-        displayMedium = base.displayMedium.scaled(factor),
-        displaySmall = base.displaySmall.scaled(factor),
-        headlineLarge = base.headlineLarge.scaled(factor),
-        headlineMedium = base.headlineMedium.scaled(factor),
-        headlineSmall = base.headlineSmall.scaled(factor),
-        titleLarge = base.titleLarge.scaled(factor),
-        titleMedium = base.titleMedium.scaled(factor),
-        titleSmall = base.titleSmall.scaled(factor),
-        bodyLarge = base.bodyLarge.scaled(factor),
-        bodyMedium = base.bodyMedium.scaled(factor),
-        bodySmall = base.bodySmall.scaled(factor),
-        labelLarge = base.labelLarge.scaled(factor),
-        labelMedium = base.labelMedium.scaled(factor),
-        labelSmall = base.labelSmall.scaled(factor),
+        displayLarge = base.displayLarge.styled(),
+        displayMedium = base.displayMedium.styled(),
+        displaySmall = base.displaySmall.styled(),
+        headlineLarge = base.headlineLarge.styled(),
+        headlineMedium = base.headlineMedium.styled(),
+        headlineSmall = base.headlineSmall.styled(),
+        titleLarge = base.titleLarge.styled(),
+        titleMedium = base.titleMedium.styled(),
+        titleSmall = base.titleSmall.styled(),
+        bodyLarge = base.bodyLarge.styled(),
+        bodyMedium = base.bodyMedium.styled(),
+        bodySmall = base.bodySmall.styled(),
+        labelLarge = base.labelLarge.styled(),
+        labelMedium = base.labelMedium.styled(),
+        labelSmall = base.labelSmall.styled(),
     )
 }
 
