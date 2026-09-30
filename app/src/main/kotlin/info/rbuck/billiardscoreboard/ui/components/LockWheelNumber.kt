@@ -23,12 +23,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import info.rbuck.billiardscoreboard.ui.theme.LocalThemeFont
 
 /**
  * A score number that rolls each digit like a combination-lock wheel when the value changes - one
  * digit per wheel, rolling up on an increase and down on a decrease, instead of the whole number
- * just popping to the new value. Felt-theme-only touch (see call sites): every other theme keeps a
- * plain [Text].
+ * just popping to the new value. Used across all themes (see call sites); digits use the active
+ * theme's display font ([LocalThemeFont] - Felt/Vintage) where set, else plain monospace for even
+ * digit widths during the roll.
  */
 @Composable
 fun LockWheelNumber(
@@ -63,7 +65,7 @@ fun LockWheelNumber(
                     targetDigit.toString(),
                     fontSize = fontSize,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
+                    fontFamily = LocalThemeFont.current ?: FontFamily.Monospace,
                     color = if (color == Color.Unspecified) LocalContentColor.current else color,
                 )
             }

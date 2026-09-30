@@ -171,7 +171,7 @@ fun BilliardScoreboardTheme(
         AppTheme.VINTAGE -> ChicleFontFamily
         else -> null
     }
-    CompositionLocalProvider(LocalUiScale provides uiScale) {
+    CompositionLocalProvider(LocalUiScale provides uiScale, LocalThemeFont provides themedFontFamily) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = scaledTypography(uiScale, themedFontFamily),

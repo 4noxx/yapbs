@@ -18,6 +18,13 @@ import androidx.compose.ui.unit.TextUnitType
  */
 val LocalUiScale: ProvidableCompositionLocal<Float> = compositionLocalOf { 1f }
 
+/** The active theme's display font (Felt: Audiowide, Vintage: Chicle - see Fonts.kt), null for
+ * Light/Dark. For spots that draw a raw [androidx.compose.material3.Text] with an explicit
+ * `fontFamily` instead of a `MaterialTheme.typography.*` style (which already re-fonts itself via
+ * [scaledTypography]) - e.g. the score digits' monospace requirement for even digit widths during
+ * the lock-wheel roll animation. */
+val LocalThemeFont: ProvidableCompositionLocal<FontFamily?> = compositionLocalOf { null }
+
 @Composable
 fun rememberUiScale(): Float {
     val smallestWidthDp = LocalConfiguration.current.smallestScreenWidthDp
