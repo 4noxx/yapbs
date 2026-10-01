@@ -117,3 +117,16 @@ val FeltTextPrimary = Color(0xFFF4F6F5)
 val FeltTextSecondary = Color(0xFF93A19C)
 val FeltOutline = Color(0xFF3A4744)
 val FeltOutlineVariant = Color(0x14FFFFFF)
+
+// "Flap" theme: a split-flap/airport-departure-board look - strictly black, white and gray, no
+// hue anywhere (including the digit tiles' own split-flap chrome in LockWheelNumber). Structured
+// like Dark's calculator palette (near-black background, light primary "tile" color) but
+// desaturated, so the tile/surface hierarchy reads the same way, just without the orange.
+val FlapBackground = Color(0xFF0A0A0A)
+val FlapSurface = Color(0xFF1C1C1C)
+val FlapSurfaceVariant = Color(0xFF2B2B2B)
+val FlapPrimary = Color(0xFFE8E8E8)
+val FlapTextPrimary = Color(0xFFEDEDED)
+val FlapTextSecondary = Color(0xFFA0A0A0)
+val FlapOutline = Color(0xFF6B6B6B)
+val FlapInversePrimary = Color(0xFFCFCFCF)

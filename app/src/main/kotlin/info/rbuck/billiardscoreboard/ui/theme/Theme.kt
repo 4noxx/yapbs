@@ -12,12 +12,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-/** The 4 selectable app themes - see Settings > Display. */
+/** The 5 selectable app themes - see Settings > Display. */
 enum class AppTheme(val label: String) {
     LIGHT("Light"),
     DARK("Dark"),
     VINTAGE("Vintage"),
     FELT("Felt"),
+    FLAP("Flap"),
 }
 
 private val LightColors = lightColorScheme(
@@ -148,6 +149,41 @@ private val FeltColors = darkColorScheme(
     inversePrimary = FeltGreenLight,
 )
 
+// Flap: a strictly monochrome split-flap/airport-departure-board look - black background, light
+// gray "tile" primary, mid gray secondary, no hue anywhere in the palette (unlike every other
+// theme, which each keys off at least one accent color). Same light-on-dark contrast direction as
+// Dark/Felt. The digit-tile split-flap chrome itself lives in LockWheelNumber, gated on
+// LocalSplitFlapStyle - this theme's own colors are deliberately plain everywhere else, since
+// only the scoreboard numbers should read as a flap display.
+private val FlapColors = darkColorScheme(
+    primary = FlapPrimary,
+    onPrimary = Color.Black,
+    primaryContainer = FlapSurfaceVariant,
+    onPrimaryContainer = FlapTextPrimary,
+    secondary = FlapTextSecondary,
+    onSecondary = Color.Black,
+    tertiary = FlapPrimary,
+    background = FlapBackground,
+    onBackground = FlapTextPrimary,
+    surface = FlapSurface,
+    onSurface = FlapTextPrimary,
+    surfaceVariant = FlapSurfaceVariant,
+    onSurfaceVariant = FlapTextSecondary,
+    outline = FlapOutline,
+    outlineVariant = FlapSurfaceVariant,
+    error = ErrorRed,
+    surfaceContainerLowest = FlapBackground,
+    surfaceContainerLow = DarkSurfaceContainerLow,
+    surfaceContainer = FlapSurface,
+    surfaceContainerHigh = DarkSurfaceContainerHigh,
+    surfaceContainerHighest = DarkSurfaceContainerHighest,
+    surfaceDim = FlapBackground,
+    surfaceBright = DarkSurfaceBright,
+    inverseSurface = FlapTextPrimary,
+    inverseOnSurface = FlapBackground,
+    inversePrimary = FlapInversePrimary,
+)
+
 @Composable
 fun BilliardScoreboardTheme(
     appTheme: AppTheme = if (isSystemInDarkTheme()) AppTheme.DARK else AppTheme.LIGHT,
@@ -163,15 +199,21 @@ fun BilliardScoreboardTheme(
         appTheme == AppTheme.DARK -> DarkColors
         appTheme == AppTheme.VINTAGE -> VintageColors
         appTheme == AppTheme.FELT -> FeltColors
+        appTheme == AppTheme.FLAP -> FlapColors
         else -> LightColors
     }
     val uiScale = rememberUiScale()
     val themedFontFamily = when (appTheme) {
         AppTheme.FELT -> AudiowideFontFamily
         AppTheme.VINTAGE -> ChicleFontFamily
+        AppTheme.FLAP -> BebasNeueFontFamily
         else -> null
     }
-    CompositionLocalProvider(LocalUiScale provides uiScale, LocalThemeFont provides themedFontFamily) {
+    CompositionLocalProvider(
+        LocalUiScale provides uiScale,
+        LocalThemeFont provides themedFontFamily,
+        LocalSplitFlapStyle provides (appTheme == AppTheme.FLAP),
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = scaledTypography(uiScale, themedFontFamily),

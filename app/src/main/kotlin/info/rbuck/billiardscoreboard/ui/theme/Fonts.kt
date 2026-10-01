@@ -12,3 +12,7 @@ val AudiowideFontFamily = FontFamily(Font(R.font.audiowide_regular))
 /** Vintage's display font - a playful hand-drawn script matching its warm, retro design.
  * SIL Open Font License, bundled offline - see docs/fonts/Chicle-OFL.txt. */
 val ChicleFontFamily = FontFamily(Font(R.font.chicle_regular))
+
+/** Flap's display font - a tall condensed grotesque, the classic look of split-flap/departure-board
+ * lettering. SIL Open Font License, bundled offline - see docs/fonts/BebasNeue-OFL.txt. */
+val BebasNeueFontFamily = FontFamily(Font(R.font.bebas_neue_regular))

@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -68,7 +69,7 @@ import info.rbuck.billiardscoreboard.i18n.Strings
 import info.rbuck.billiardscoreboard.obs.ObsOutputState
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
-import info.rbuck.billiardscoreboard.ui.theme.AudiowideFontFamily
+import info.rbuck.billiardscoreboard.ui.theme.LocalThemeFont
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.hypot
 
@@ -96,10 +97,12 @@ fun StartScreen(
     val showRegieTile = obsWsEnabled && obsRegieTileEnabled
     val appTheme by bsApplication().settingsRepository.appTheme.collectAsStateWithLifecycle()
     val isFelt = appTheme == AppTheme.FELT
-    // Felt and Light both get the gradient/glow tile treatment - Dark and Vintage keep the plain
-    // flat-filled tile. Layout differences that are specifically Felt's own (no section headers,
-    // the wider title gap, the plain-text wordmark) stay gated on [isFelt] alone, further below.
+    // Felt and Light both get the gradient/glow tile treatment - Dark, Vintage and Flap keep the
+    // plain flat-filled tile (Flap deliberately so, per its "no colors, no chrome but the digits"
+    // brief). Layout differences shared by any theme using the plain-text wordmark (no section
+    // headers, the wider title gap) are gated on [usesTextWordmark] instead, further below.
     val useGradientTiles = isFelt || appTheme == AppTheme.LIGHT
+    val usesTextWordmark = isFelt || appTheme == AppTheme.FLAP
     val recordStatus by bsApplication().obsWebSocketClient.recordStatus.collectAsStateWithLifecycle()
     val streamStatus by bsApplication().obsWebSocketClient.streamStatus.collectAsStateWithLifecycle()
     val s = LocalStrings.current
@@ -117,18 +120,21 @@ fun StartScreen(
             // Felt's own, more generous breathing room between the title and the two tile rows -
             // its rows have no "Neues Spiel"/"Mehr" label to separate them from the title anymore,
             // so the gap itself needs to read as the section break.
-            val sectionGap = if (isFelt) 40.dp else if (wide) 8.dp else 28.dp
+            val sectionGap = if (usesTextWordmark) 40.dp else if (wide) 8.dp else 28.dp
             val rowArrangement = if (wide) Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally) else Arrangement.spacedBy(10.dp)
             fun RowScope.tileModifier(maxSize: Dp): Modifier =
                 if (wide) Modifier.weight(1f, fill = false).widthIn(max = maxSize * uiScale) else Modifier.weight(1f)
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    if (appTheme == AppTheme.FELT) {
-                        // Felt has no bespoke logo artwork (the other 3 themes each recolor the same
-                        // comic-style wordmark PNG) - a chunky arcade wordmark would clash with Felt's
-                        // clean, modern design, so it gets a plain text wordmark instead.
-                        FeltWordmark(uiScale)
+                    if (usesTextWordmark) {
+                        // Felt and Flap have no bespoke logo artwork (the other 3 themes each
+                        // recolor the same comic-style wordmark PNG, which is itself pre-colored
+                        // per theme - Flap in particular can't use that, it would pull in Dark's
+                        // baked-in orange) - a chunky arcade wordmark would also clash with either
+                        // theme's clean, modern design, so both get a plain text wordmark instead,
+                        // in the theme's own font and (grayscale-only) colors.
+                        TextWordmark(uiScale)
                     } else {
                         val logoRes = when (appTheme) {
                             AppTheme.LIGHT -> R.drawable.logo_light
@@ -148,7 +154,7 @@ fun StartScreen(
                 }
                 Spacer(Modifier.height(sectionGap))
 
-                if (!isFelt) {
+                if (!usesTextWordmark) {
                     Text(s.startNewMatch, style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(10.dp))
                 }
@@ -172,7 +178,7 @@ fun StartScreen(
                 }
 
                 Spacer(Modifier.height(sectionGap))
-                if (!isFelt) {
+                if (!usesTextWordmark) {
                     Text(s.startMore, style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(10.dp))
                 }
@@ -476,11 +482,12 @@ private fun IconTile(
     }
 }
 
-/** Felt's plain-text wordmark: a small primary/secondary accent square on each side of "YAPBS",
- * a tiny nod to the two accent colors used throughout the theme, in place of the other 3 themes'
- * comic-style logo artwork (see the call site). */
+/** Felt/Flap's plain-text wordmark: a small primary/secondary accent square on each side of
+ * "YAPBS" in the theme's own display font, a tiny nod to its two accent colors (for Flap, both
+ * just shades of gray), in place of the other 3 themes' comic-style logo artwork (which is itself
+ * pre-colored per theme - Flap can't reuse any of those without pulling in a color). */
 @Composable
-private fun FeltWordmark(uiScale: Float) {
+private fun TextWordmark(uiScale: Float) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp * uiScale)) {
             Box(
@@ -490,7 +497,7 @@ private fun FeltWordmark(uiScale: Float) {
             )
             Text(
                 "YAPBS",
-                fontFamily = AudiowideFontFamily,
+                fontFamily = LocalThemeFont.current ?: FontFamily.Default,
                 fontSize = 26.sp * uiScale,
                 letterSpacing = 3.sp,
                 color = MaterialTheme.colorScheme.onBackground,

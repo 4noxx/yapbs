@@ -71,8 +71,10 @@ import info.rbuck.billiardscoreboard.ui.components.ConfirmDialog
 import info.rbuck.billiardscoreboard.ui.components.FeltAccentSurface
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
 import info.rbuck.billiardscoreboard.ui.components.LockWheelNumber
+import info.rbuck.billiardscoreboard.ui.components.LockWheelText
 import info.rbuck.billiardscoreboard.ui.components.NumberStepper
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
+import info.rbuck.billiardscoreboard.ui.theme.LocalSplitFlapStyle
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.roundToInt
 
@@ -509,11 +511,35 @@ private fun TrainingPointsCard(
             ) {
                 if (header != null) header()
                 val plainCount = !(exercise.breakballBonus && currentRun > 14)
-                if (plainCount) {
+                // Flap always shows a fixed digit width per exercise, leading positions blank (see
+                // LockWheelNumber): HighRun is open-ended so it gets 3 digits, Equal Offense's plain
+                // ball count never exceeds its 15/20-ball rack so 2 digits cover it.
+                val minDigits = if (exercise == TrainingExercise.HIGH_RUN) 3 else 2
+                if (LocalSplitFlapStyle.current && exercise.breakballBonus) {
+                    // Level 4 reserves all 4 cards from the very first ball, not just once it crosses
+                    // 14 - so the board never jumps width mid-inning: blank-padded from the right like
+                    // every other exercise ("___0", "___1", ... "__14"), then "14+1" already fills
+                    // all 4 cards on its own once the breakball bonus kicks in.
+                    if (plainCount) {
+                        LockWheelNumber(
+                            value = currentRun,
+                            fontSize = scoreFontSize,
+                            color = MaterialTheme.colorScheme.primary,
+                            minDigits = 4,
+                        )
+                    } else {
+                        LockWheelText(
+                            text = TrainingMatchEngine.formatBallCount(exercise, currentRun),
+                            fontSize = scoreFontSize,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                } else if (plainCount) {
                     LockWheelNumber(
                         value = currentRun,
                         fontSize = scoreFontSize,
                         color = MaterialTheme.colorScheme.primary,
+                        minDigits = minDigits,
                     )
                 } else {
                     Text(

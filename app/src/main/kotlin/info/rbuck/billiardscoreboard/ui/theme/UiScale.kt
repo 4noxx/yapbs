@@ -25,6 +25,12 @@ val LocalUiScale: ProvidableCompositionLocal<Float> = compositionLocalOf { 1f }
  * the lock-wheel roll animation. */
 val LocalThemeFont: ProvidableCompositionLocal<FontFamily?> = compositionLocalOf { null }
 
+/** True only under the Flap theme. Gates the split-flap tile chrome (dark panel + center crease)
+ * drawn behind each digit in [info.rbuck.billiardscoreboard.ui.components.LockWheelNumber] - the
+ * one place in the app meant to look like a physical split-flap display, per user request
+ * ("nur die Zahl im Scoreboard als Faltblatt"). Every other Flap-themed surface stays plain. */
+val LocalSplitFlapStyle: ProvidableCompositionLocal<Boolean> = compositionLocalOf { false }
+
 @Composable
 fun rememberUiScale(): Float {
     val smallestWidthDp = LocalConfiguration.current.smallestScreenWidthDp

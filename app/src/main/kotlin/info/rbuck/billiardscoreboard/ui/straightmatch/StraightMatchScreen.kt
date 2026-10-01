@@ -83,6 +83,7 @@ import info.rbuck.billiardscoreboard.ui.components.NumberStepper
 import info.rbuck.billiardscoreboard.ui.components.HideStatusBarInDialog
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.theme.AppTheme
+import info.rbuck.billiardscoreboard.ui.theme.LocalSplitFlapStyle
 import info.rbuck.billiardscoreboard.ui.theme.LocalUiScale
 import kotlin.math.roundToInt
 
@@ -894,6 +895,7 @@ private fun StraightPlayerCard(
                     value = score,
                     fontSize = 44.sp * uiScale * compactScoreMultiplier,
                     color = MaterialTheme.colorScheme.primary,
+                    minDigits = if (LocalSplitFlapStyle.current) 3 else 1,
                 )
                 val avg = (stats.average * 10).roundToInt() / 10f
                 val baseStatsStyle = MaterialTheme.typography.bodyMedium
