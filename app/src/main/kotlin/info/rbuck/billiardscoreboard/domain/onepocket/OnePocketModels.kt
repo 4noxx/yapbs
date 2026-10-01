@@ -27,7 +27,7 @@ sealed class OnePocketAction {
 
 @Serializable
 data class OnePocketSettings(
-    val raceTo: Int = 8,
+    val raceTo: Int = OnePocketMatchEngine.OFFICIAL_RACE_TO,
     val firstBreakPlayer: Int = 0,
 )
 

@@ -101,7 +101,6 @@ fun SettingsScreen(onBack: () -> Unit, onOpenImportPlayersFile: (Uri) -> Unit) {
     val raceTo9Ball by settings.defaultRace9Ball.collectAsStateWithLifecycle()
     val raceTo10Ball by settings.defaultRace10Ball.collectAsStateWithLifecycle()
     val raceToStraightPool by settings.defaultRaceStraightPool.collectAsStateWithLifecycle()
-    val raceToOnePocket by settings.defaultRaceOnePocket.collectAsStateWithLifecycle()
     val onePocketEnabled by settings.onePocketEnabled.collectAsStateWithLifecycle()
     val defaultClubId by settings.defaultClubId.collectAsStateWithLifecycle()
     val clubs by app.clubRepository.observeClubs().collectAsStateWithLifecycle(initialValue = emptyList())
@@ -139,8 +138,6 @@ fun SettingsScreen(onBack: () -> Unit, onOpenImportPlayersFile: (Uri) -> Unit) {
                     RaceTargetRow(label = s.settingsRace10Ball, value = raceTo10Ball, onValueChange = settings::setDefaultRace10Ball)
                     HorizontalDivider()
                     RaceTargetRow(label = s.settingsRaceStraightPool, value = raceToStraightPool, onValueChange = settings::setDefaultRaceStraightPool)
-                    HorizontalDivider()
-                    RaceTargetRow(label = s.settingsRaceOnePocket, value = raceToOnePocket, onValueChange = settings::setDefaultRaceOnePocket)
                 }
             }
 

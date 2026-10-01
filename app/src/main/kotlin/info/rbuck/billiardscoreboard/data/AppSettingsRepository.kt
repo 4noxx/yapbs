@@ -82,9 +82,6 @@ class AppSettingsRepository(context: Context) {
     private val _defaultRaceStraightPool = MutableStateFlow(prefs.getInt(KEY_RACE_STRAIGHT_POOL, DEFAULT_RACE_STRAIGHT_POOL))
     val defaultRaceStraightPool: StateFlow<Int> = _defaultRaceStraightPool
 
-    private val _defaultRaceOnePocket = MutableStateFlow(prefs.getInt(KEY_RACE_ONE_POCKET, DEFAULT_RACE_ONE_POCKET))
-    val defaultRaceOnePocket: StateFlow<Int> = _defaultRaceOnePocket
-
     /** Pre-selected as the club filter whenever a player picker dialog opens. Null = "All clubs". */
     private val _defaultClubId = MutableStateFlow(prefs.getString(KEY_DEFAULT_CLUB_ID, null))
     val defaultClubId: StateFlow<String?> = _defaultClubId
@@ -197,11 +194,6 @@ class AppSettingsRepository(context: Context) {
         _defaultRaceStraightPool.value = raceTo
     }
 
-    fun setDefaultRaceOnePocket(raceTo: Int) {
-        prefs.edit().putInt(KEY_RACE_ONE_POCKET, raceTo).apply()
-        _defaultRaceOnePocket.value = raceTo
-    }
-
     fun setDefaultClubId(clubId: String?) {
         prefs.edit().putString(KEY_DEFAULT_CLUB_ID, clubId).apply()
         _defaultClubId.value = clubId
@@ -252,7 +244,6 @@ class AppSettingsRepository(context: Context) {
         private const val KEY_RACE_9BALL = "default_race_9ball"
         private const val KEY_RACE_10BALL = "default_race_10ball"
         private const val KEY_RACE_STRAIGHT_POOL = "default_race_straight_pool"
-        private const val KEY_RACE_ONE_POCKET = "default_race_one_pocket"
         private const val KEY_DEFAULT_CLUB_ID = "default_club_id"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_TOURNAMENT_UNLOCKED = "tournament_mode_unlocked"
@@ -266,7 +257,6 @@ class AppSettingsRepository(context: Context) {
         const val DEFAULT_RACE_9BALL = 7
         const val DEFAULT_RACE_10BALL = 6
         const val DEFAULT_RACE_STRAIGHT_POOL = 100
-        const val DEFAULT_RACE_ONE_POCKET = 8
 
         private fun systemDarkDefault(context: Context): Boolean {
             val nightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

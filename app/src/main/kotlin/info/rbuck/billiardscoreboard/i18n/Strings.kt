@@ -71,7 +71,6 @@ open class Strings {
     open val settingsRace9Ball = "9-Ball Race"
     open val settingsRace10Ball = "10-Ball Race"
     open val settingsRaceStraightPool = "14.1 Straight Pool Race"
-    open val settingsRaceOnePocket = "One Pocket Race"
     open val settingsSectionPlayerSelection = "Player selection"
     open val settingsDefaultClub = "Default club"
     open val settingsAllClubs = "All clubs"
@@ -83,7 +82,7 @@ open class Strings {
     open val settingsOnePocketMode = "One Pocket mode"
     open val settingsOnePocketModeDesc =
         "Adds a One Pocket tile to Start - each player scores only balls potted in their own " +
-            "assigned corner pocket, first to the target wins."
+            "assigned corner pocket, first to 8 wins (the official race-to target, fixed by the rules)."
     open val settingsSectionTraining = "Training"
     open val settingsSaveTrainingToHistory = "Save training to history"
     open val settingsSaveTrainingToHistoryDesc =
@@ -320,7 +319,6 @@ open class Strings {
         override val settingsRace9Ball = "9-Ball Race"
         override val settingsRace10Ball = "10-Ball Race"
         override val settingsRaceStraightPool = "14.1 Endlos Race"
-        override val settingsRaceOnePocket = "One-Pocket-Race"
         override val settingsSectionPlayerSelection = "Spielerauswahl"
         override val settingsDefaultClub = "Standard-Verein"
         override val settingsAllClubs = "Alle Vereine"
@@ -332,7 +330,8 @@ open class Strings {
         override val settingsOnePocketMode = "One-Pocket-Modus"
         override val settingsOnePocketModeDesc =
             "Fügt eine One-Pocket-Kachel zum Startbildschirm hinzu - jeder Spieler zählt nur Bälle in " +
-                "seiner eigenen zugewiesenen Ecktasche, wer zuerst das Ziel erreicht, gewinnt."
+                "seiner eigenen zugewiesenen Ecktasche, wer zuerst 8 erreicht, gewinnt (offizielles, " +
+                "festes Race-to-Ziel laut Regelwerk)."
         override val settingsSectionTraining = "Training"
         override val settingsSaveTrainingToHistory = "Trainingsstände im Verlauf speichern"
         override val settingsSaveTrainingToHistoryDesc =

@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.Handicap
 import info.rbuck.billiardscoreboard.domain.MatchStatePayload
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketMatchEngine
 import info.rbuck.billiardscoreboard.domain.simple.BreakMode
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchEngine
 import info.rbuck.billiardscoreboard.i18n.LocalStrings
@@ -90,8 +91,8 @@ fun NewSimpleMatchScreen(
             GameType.STRAIGHT_POOL -> app.settingsRepository.defaultRaceStraightPool.value
             // One Pocket has its own setup screen (NewOnePocketMatchScreen) and never reaches this
             // one - the discipline switcher routes to it directly (BsNavHost.navigateToNewMatch).
-            // Branch kept only so this `when` stays exhaustive.
-            GameType.ONE_POCKET -> app.settingsRepository.defaultRaceOnePocket.value
+            // Branch kept only so this `when` stays exhaustive; its race-to is fixed, not a setting.
+            GameType.ONE_POCKET -> OnePocketMatchEngine.OFFICIAL_RACE_TO
         }
     }
     var raceTo by rememberSaveable(gameType) { mutableStateOf(defaultRaceTo) }

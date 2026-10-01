@@ -9,6 +9,10 @@ object OnePocketMatchEngine {
 
     const val NO_WINNER = -1
 
+    /** Official BCA rule: One Pocket is always played to 8 balls - unlike 8/9/10-Ball/14.1, there's
+     * no variant with a different target, so this isn't user-configurable at setup. */
+    const val OFFICIAL_RACE_TO = 8
+
     /** A foul costs one ball: a previously scored ball is spotted back (or, if the player hasn't
      * scored any yet, they simply owe one) - floored at 0 rather than tracked negative, since a
      * digital scoreboard has no use for a more exact "owed" count. */

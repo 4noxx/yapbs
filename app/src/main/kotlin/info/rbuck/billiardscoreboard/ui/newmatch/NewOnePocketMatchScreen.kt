@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,12 +39,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.MatchStatePayload
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketMatchEngine
 import info.rbuck.billiardscoreboard.i18n.LocalStrings
 import info.rbuck.billiardscoreboard.ui.bsApplication
 import info.rbuck.billiardscoreboard.ui.headtohead.HeadToHeadInline
 import info.rbuck.billiardscoreboard.ui.components.ChoiceChip
 import info.rbuck.billiardscoreboard.ui.components.MatchSetupHeaderTitle
-import info.rbuck.billiardscoreboard.ui.components.NumberStepper
 import info.rbuck.billiardscoreboard.ui.components.PlayerSlotPicker
 import info.rbuck.billiardscoreboard.ui.components.SettingsCard
 import info.rbuck.billiardscoreboard.ui.components.SettingsLabel
@@ -76,7 +78,6 @@ fun NewOnePocketMatchScreen(
     var player2Id by rememberSaveable { mutableStateOf<String?>(null) }
     val player1 = players.find { it.id == player1Id }
     val player2 = players.find { it.id == player2Id }
-    var raceTo by rememberSaveable { mutableStateOf(app.settingsRepository.defaultRaceOnePocket.value) }
     var firstPlayer by rememberSaveable { mutableStateOf(0) }
 
     LaunchedEffect(rematchOfMatchId) {
@@ -84,7 +85,6 @@ fun NewOnePocketMatchScreen(
         val previous = (app.matchRepository.loadPayload(id) as? MatchStatePayload.OnePocket)?.state ?: return@LaunchedEffect
         player1Id = previous.playerIds.getOrNull(0)
         player2Id = previous.playerIds.getOrNull(1)
-        raceTo = previous.settings.raceTo
         firstPlayer = previous.settings.firstBreakPlayer
     }
 
@@ -109,7 +109,7 @@ fun NewOnePocketMatchScreen(
         viewModel.createOnePocketMatch(
             player1 = player1!!,
             player2 = player2!!,
-            raceTo = raceTo,
+            raceTo = OnePocketMatchEngine.OFFICIAL_RACE_TO,
             firstBreakPlayer = firstPlayer,
             onCreated = onMatchCreated,
         )
@@ -118,7 +118,9 @@ fun NewOnePocketMatchScreen(
     val settingsContent: @Composable () -> Unit = {
         Column {
             SettingsLabel(s.raceToPoints)
-            NumberStepper(label = "", value = raceTo, onValueChange = { raceTo = it.coerceAtLeast(1) }, min = 1)
+            // Fixed at 8, per the official BCA rules - unlike 8/9/10-Ball/14.1, One Pocket has no
+            // variant with a different target, so this isn't user-configurable here.
+            Text("${OnePocketMatchEngine.OFFICIAL_RACE_TO}", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         }
         Column {
             SettingsLabel(s.openingBreak)
