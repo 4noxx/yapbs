@@ -14,19 +14,19 @@ Frühe Entwicklungsversion (v0.1.x) – kostenlos, Open Source, ohne Gewähr. Bu
 - **Direktvergleich** zwischen zwei Spielern: Bilanz, Formkurve, Serien-Statistik, Filter nach Disziplin/Zeitraum
 - **Verlauf** mit Filter nach Name/Disziplin/Jahr, konfigurierbare Aufbewahrungsdauer
 - **OBS-Fernsteuerung** ("Regie"): Aufnahme/Stream direkt aus der App starten/stoppen/pausieren, Szenen-Elemente automatisch ein-/ausblenden, Wake-on-LAN für den Streaming-Rechner
-- **Vier Designs** (Light/Dark/Vintage/Felt), mehrsprachig (DE/EN/ES/FR)
+- **Fünf Designs** (Light/Dark/Vintage/Felt/Flap), mehrsprachig (DE/EN/ES/FR)
 
 ## Screenshots
 
 Namen und Vereine in den Screenshots sind frei erfunden.
 
-| Felt | Light | Dark | Vintage |
-| --- | --- | --- | --- |
-| ![Hauptmenü Felt](docs/screenshots/hauptmenue-felt.png) | ![Hauptmenü Light](docs/screenshots/hauptmenue-light.png) | ![Hauptmenü Dark](docs/screenshots/hauptmenue-dark.png) | ![Hauptmenü Vintage](docs/screenshots/hauptmenue-vintage.png) |
+| Felt | Light | Dark | Vintage | Flap |
+| --- | --- | --- | --- | --- |
+| ![Hauptmenü Felt](docs/screenshots/hauptmenue-felt.png) | ![Hauptmenü Light](docs/screenshots/hauptmenue-light.png) | ![Hauptmenü Dark](docs/screenshots/hauptmenue-dark.png) | ![Hauptmenü Vintage](docs/screenshots/hauptmenue-vintage.png) | ![Hauptmenü Flap](docs/screenshots/hauptmenue-flap.png) |
 
-| 8-Ball | 14.1 endlos |
-| --- | --- |
-| ![8-Ball Scoreboard](docs/screenshots/8ball-match.png) | ![14.1 Scoreboard](docs/screenshots/141-match.png) |
+| 8-Ball | 14.1 endlos | 8-Ball (Flap) |
+| --- | --- | --- |
+| ![8-Ball Scoreboard](docs/screenshots/8ball-match.png) | ![14.1 Scoreboard](docs/screenshots/141-match.png) | ![8-Ball Scoreboard Flap](docs/screenshots/8ball-match-flap.png) |
 
 ## Datenschutz
 
