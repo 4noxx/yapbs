@@ -21,6 +21,7 @@ import java.util.UUID
 sealed class RematchResult {
     data class Simple(val matchId: String) : RematchResult()
     data class Straight(val matchId: String) : RematchResult()
+    data class OnePocket(val matchId: String) : RematchResult()
 }
 
 class ArchiveViewModel(
@@ -83,6 +84,18 @@ class ArchiveViewModel(
                     )
                     matchRepository.save(swapped, archived = false)
                     onResult(RematchResult.Straight(swapped.id))
+                }
+
+                is MatchStatePayload.OnePocket -> {
+                    val old = payload.state
+                    val swapped = old.copy(
+                        id = UUID.randomUUID().toString(),
+                        playerIds = old.playerIds.reversed(),
+                        actions = emptyList(),
+                        createdAt = System.currentTimeMillis(),
+                    )
+                    matchRepository.save(swapped, archived = false)
+                    onResult(RematchResult.OnePocket(swapped.id))
                 }
 
                 null -> Unit

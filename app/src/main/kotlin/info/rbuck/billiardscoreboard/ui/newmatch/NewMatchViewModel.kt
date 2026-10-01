@@ -9,6 +9,8 @@ import info.rbuck.billiardscoreboard.data.Player
 import info.rbuck.billiardscoreboard.data.PlayerRepository
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.Handicap
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketMatchState
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketSettings
 import info.rbuck.billiardscoreboard.domain.simple.BreakMode
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchState
 import info.rbuck.billiardscoreboard.domain.simple.SimpleSettings
@@ -69,6 +71,24 @@ class NewMatchViewModel(
         val state = StraightMatchState(
             id = UUID.randomUUID().toString(),
             settings = StraightSettings(raceTo, maxInnings, handicap, firstPlayerIndex),
+            playerIds = listOf(player1.id, player2.id),
+        )
+        viewModelScope.launch {
+            matchRepository.save(state, archived = false)
+            onCreated(state.id)
+        }
+    }
+
+    fun createOnePocketMatch(
+        player1: Player,
+        player2: Player,
+        raceTo: Int,
+        firstBreakPlayer: Int,
+        onCreated: (String) -> Unit,
+    ) {
+        val state = OnePocketMatchState(
+            id = UUID.randomUUID().toString(),
+            settings = OnePocketSettings(raceTo, firstBreakPlayer),
             playerIds = listOf(player1.id, player2.id),
         )
         viewModelScope.launch {

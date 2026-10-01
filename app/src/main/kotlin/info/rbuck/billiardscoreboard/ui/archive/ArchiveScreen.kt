@@ -71,6 +71,7 @@ fun ArchiveScreen(
     onBack: () -> Unit,
     onOpenSimpleMatch: (String) -> Unit,
     onOpenStraightMatch: (String) -> Unit,
+    onOpenOnePocketMatch: (String) -> Unit,
 ) {
     val app = bsApplication()
     val viewModel: ArchiveViewModel = viewModel(
@@ -101,7 +102,11 @@ fun ArchiveScreen(
     }
 
     fun open(entity: MatchRecordEntity) {
-        if (entity.gameType == GameType.STRAIGHT_POOL.name) onOpenStraightMatch(entity.id) else onOpenSimpleMatch(entity.id)
+        when (entity.gameType) {
+            GameType.STRAIGHT_POOL.name -> onOpenStraightMatch(entity.id)
+            GameType.ONE_POCKET.name -> onOpenOnePocketMatch(entity.id)
+            else -> onOpenSimpleMatch(entity.id)
+        }
     }
 
     Scaffold(
@@ -188,6 +193,7 @@ fun ArchiveScreen(
                                                     when (result) {
                                                         is RematchResult.Simple -> onOpenSimpleMatch(result.matchId)
                                                         is RematchResult.Straight -> onOpenStraightMatch(result.matchId)
+                                                        is RematchResult.OnePocket -> onOpenOnePocketMatch(result.matchId)
                                                     }
                                                 }
                                             }) {

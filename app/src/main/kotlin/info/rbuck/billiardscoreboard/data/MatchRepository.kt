@@ -2,6 +2,8 @@ package info.rbuck.billiardscoreboard.data
 
 import info.rbuck.billiardscoreboard.domain.GameType
 import info.rbuck.billiardscoreboard.domain.MatchStatePayload
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketMatchEngine
+import info.rbuck.billiardscoreboard.domain.onepocket.OnePocketMatchState
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchEngine
 import info.rbuck.billiardscoreboard.domain.simple.SimpleMatchState
 import info.rbuck.billiardscoreboard.domain.straight.StraightMatchEngine
@@ -57,6 +59,23 @@ class MatchRepository(private val dao: MatchDao) {
             summary = "${StraightMatchEngine.score(state, 0)} : ${StraightMatchEngine.score(state, 1)}",
             winnerIndex = winner,
             stateJson = json.encodeToString(MatchStatePayload.serializer(), MatchStatePayload.Straight(state)),
+        )
+        dao.upsert(entity)
+    }
+
+    suspend fun save(state: OnePocketMatchState, archived: Boolean) {
+        val winner = OnePocketMatchEngine.winnerIndex(state)
+        val entity = MatchRecordEntity(
+            id = state.id,
+            gameType = GameType.ONE_POCKET.name,
+            createdAt = state.createdAt,
+            player1Id = state.playerIds.getOrElse(0) { "" },
+            player2Id = state.playerIds.getOrElse(1) { "" },
+            finished = OnePocketMatchEngine.isOver(state),
+            archived = archived,
+            summary = "${OnePocketMatchEngine.score(state, 0)} : ${OnePocketMatchEngine.score(state, 1)}",
+            winnerIndex = winner,
+            stateJson = json.encodeToString(MatchStatePayload.serializer(), MatchStatePayload.OnePocket(state)),
         )
         dao.upsert(entity)
     }

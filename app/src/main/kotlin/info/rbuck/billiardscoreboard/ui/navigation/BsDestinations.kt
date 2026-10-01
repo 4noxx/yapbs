@@ -17,8 +17,10 @@ object BsDestinations {
     // the "Save & Rematch" button on a finished match's scoreboard.
     const val NEW_SIMPLE_MATCH = "new_simple_match/{gameType}?rematchOf={rematchOf}"
     const val NEW_STRAIGHT_MATCH = "new_straight_match?rematchOf={rematchOf}"
+    const val NEW_ONE_POCKET_MATCH = "new_one_pocket_match?rematchOf={rematchOf}"
     const val SIMPLE_MATCH = "simple_match/{matchId}"
     const val STRAIGHT_MATCH = "straight_match/{matchId}"
+    const val ONE_POCKET_MATCH = "one_pocket_match/{matchId}"
     const val ARCHIVE_DETAIL = "archive_detail/{matchId}"
     const val NEW_TRAINING = "new_training"
     const val TRAINING_SESSION = "training_session/{exercise}/{playerId}"
@@ -38,8 +40,11 @@ object BsDestinations {
         if (rematchOf != null) "new_simple_match/$gameType?rematchOf=$rematchOf" else "new_simple_match/$gameType"
     fun newStraightMatch(rematchOf: String? = null) =
         if (rematchOf != null) "new_straight_match?rematchOf=$rematchOf" else "new_straight_match"
+    fun newOnePocketMatch(rematchOf: String? = null) =
+        if (rematchOf != null) "new_one_pocket_match?rematchOf=$rematchOf" else "new_one_pocket_match"
     fun simpleMatch(matchId: String) = "simple_match/$matchId"
     fun straightMatch(matchId: String) = "straight_match/$matchId"
+    fun onePocketMatch(matchId: String) = "one_pocket_match/$matchId"
     fun archiveDetail(matchId: String) = "archive_detail/$matchId"
     fun trainingSession(exercise: String, playerId: String) = "training_session/$exercise/$playerId"
     fun importPlayersFile(encodedUri: String) = "import_players_file/$encodedUri"

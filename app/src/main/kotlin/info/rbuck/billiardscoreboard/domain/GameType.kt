@@ -5,4 +5,5 @@ enum class GameType(val displayName: String, val isStraightPool: Boolean) {
     NINE_BALL("9-Ball", false),
     TEN_BALL("10-Ball", false),
     STRAIGHT_POOL("14.1 Straight Pool", true),
+    ONE_POCKET("One Pocket", false),
 }

@@ -126,8 +126,15 @@ fun TopBarStartButton(label: String, enabled: Boolean, onClick: () -> Unit, modi
     }
 }
 
-private fun GameType.badgeText() = if (this == GameType.STRAIGHT_POOL) "14.1" else displayName.substringBefore("-")
-private fun GameType.subtitleText() = if (this == GameType.STRAIGHT_POOL) displayName.uppercase() else "${displayName.uppercase()} POOL"
+private fun GameType.badgeText() = when (this) {
+    GameType.STRAIGHT_POOL -> "14.1"
+    GameType.ONE_POCKET -> "OP"
+    else -> displayName.substringBefore("-")
+}
+private fun GameType.subtitleText() = when (this) {
+    GameType.STRAIGHT_POOL, GameType.ONE_POCKET -> displayName.uppercase()
+    else -> "${displayName.uppercase()} POOL"
+}
 
 /** Setup-screen header title: circular discipline badge + "New Match" + small uppercase subtitle. Tapping the subtitle opens a menu to switch discipline. */
 @Composable

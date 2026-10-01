@@ -13,10 +13,12 @@ import info.rbuck.billiardscoreboard.domain.training.TrainingExercise
 import info.rbuck.billiardscoreboard.ui.archive.ArchiveScreen
 import info.rbuck.billiardscoreboard.ui.clubs.ClubsScreen
 import info.rbuck.billiardscoreboard.ui.headtohead.HeadToHeadScreen
+import info.rbuck.billiardscoreboard.ui.newmatch.NewOnePocketMatchScreen
 import info.rbuck.billiardscoreboard.ui.newmatch.NewSimpleMatchScreen
 import info.rbuck.billiardscoreboard.ui.newmatch.NewStraightMatchScreen
 import info.rbuck.billiardscoreboard.ui.newmatch.NewTrainingScreen
 import info.rbuck.billiardscoreboard.ui.obs.ObsControlScreen
+import info.rbuck.billiardscoreboard.ui.onepocketmatch.OnePocketMatchScreen
 import info.rbuck.billiardscoreboard.ui.players.PlayersScreen
 import info.rbuck.billiardscoreboard.ui.settings.ImportPlayersFileScreen
 import info.rbuck.billiardscoreboard.ui.settings.SettingsScreen
@@ -30,10 +32,10 @@ import info.rbuck.billiardscoreboard.ui.training.TrainingScoreScreen
 
 /** Switches the active new-match setup screen to a different discipline, replacing the current setup screen so Back still goes to Start. */
 private fun NavController.navigateToNewMatch(gameType: GameType) {
-    val route = if (gameType == GameType.STRAIGHT_POOL) {
-        BsDestinations.newStraightMatch()
-    } else {
-        BsDestinations.newSimpleMatch(gameType.name)
+    val route = when (gameType) {
+        GameType.STRAIGHT_POOL -> BsDestinations.newStraightMatch()
+        GameType.ONE_POCKET -> BsDestinations.newOnePocketMatch()
+        else -> BsDestinations.newSimpleMatch(gameType.name)
     }
     navigate(route) {
         popUpTo(BsDestinations.START) { inclusive = false }
@@ -52,6 +54,7 @@ fun BsNavHost() {
                     navController.navigate(BsDestinations.newSimpleMatch(gameType.name))
                 },
                 onNewStraightMatch = { navController.navigate(BsDestinations.newStraightMatch()) },
+                onNewOnePocketMatch = { navController.navigate(BsDestinations.newOnePocketMatch()) },
                 onOpenPlayers = { navController.navigate(BsDestinations.PLAYERS) },
                 onOpenArchive = { navController.navigate(BsDestinations.ARCHIVE) },
                 onOpenSettings = { navController.navigate(BsDestinations.SETTINGS) },
@@ -113,6 +116,7 @@ fun BsNavHost() {
                 onBack = { navController.popBackStack() },
                 onOpenSimpleMatch = { id -> navController.navigate(BsDestinations.simpleMatch(id)) },
                 onOpenStraightMatch = { id -> navController.navigate(BsDestinations.straightMatch(id)) },
+                onOpenOnePocketMatch = { id -> navController.navigate(BsDestinations.onePocketMatch(id)) },
             )
         }
 
@@ -157,6 +161,42 @@ fun BsNavHost() {
                 },
                 onGameTypeSelected = { newType -> navController.navigateToNewMatch(newType) },
                 onOpenHeadToHead = { a, b -> navController.navigate(BsDestinations.headToHead(a, b)) },
+            )
+        }
+
+        composable(
+            route = BsDestinations.NEW_ONE_POCKET_MATCH,
+            arguments = listOf(
+                navArgument("rematchOf") { type = NavType.StringType; nullable = true; defaultValue = null },
+            ),
+        ) { backStackEntry ->
+            val rematchOf = backStackEntry.arguments?.getString("rematchOf")
+            NewOnePocketMatchScreen(
+                rematchOfMatchId = rematchOf,
+                onBack = { navController.popBackStack() },
+                onMatchCreated = { id ->
+                    navController.navigate(BsDestinations.onePocketMatch(id)) {
+                        popUpTo(BsDestinations.START)
+                    }
+                },
+                onGameTypeSelected = { newType -> navController.navigateToNewMatch(newType) },
+                onOpenHeadToHead = { a, b -> navController.navigate(BsDestinations.headToHead(a, b)) },
+            )
+        }
+
+        composable(
+            route = BsDestinations.ONE_POCKET_MATCH,
+            arguments = listOf(navArgument("matchId") { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val matchId = backStackEntry.arguments?.getString("matchId") ?: return@composable
+            OnePocketMatchScreen(
+                matchId = matchId,
+                onBack = { navController.popBackStack(BsDestinations.START, inclusive = false) },
+                onSaveAndRematch = {
+                    navController.navigate(BsDestinations.newOnePocketMatch(rematchOf = matchId)) {
+                        popUpTo(BsDestinations.START)
+                    }
+                },
             )
         }
 

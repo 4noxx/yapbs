@@ -41,11 +41,28 @@ open class Strings {
     open val nineBall = "9-Ball"
     open val tenBall = "10-Ball"
     open val straightPool = "Straight Pool"
+    open val onePocket = "One Pocket"
     open val tilePlayers = "Players"
     open val tileHistory = "History"
     open val tileSettings = "Settings"
     open val tileTraining = "Training"
     open val tileTournament = "Tournament"
+
+    // One Pocket scoreboard
+    open val onePocketFouls = "Fouls"
+    open val onePocketMiss = "Miss / safety"
+    open val onePocketPot = "Pot"
+    open val onePocketFoul = "Foul"
+    open val onePocketRules = "Rules"
+    open val onePocketRulesText =
+        "Each player scores only balls potted in their own assigned corner pocket at the foot " +
+            "of the table - the other 4 pockets are neutral. First to the target wins. Every foul " +
+            "costs one ball; three fouls in a row loses the game outright."
+    open val onePocketThirdFoulTitle = "Third consecutive foul"
+    open val onePocketThirdFoulMessage =
+        "This is this player's third foul in a row - confirming ends the game immediately in the " +
+            "opponent's favor. Only confirm if the player was warned after the 2nd foul."
+    open val onePocketThirdFoulConfirm = "Confirm - game over"
 
     // Settings screen
     open val settingsTitle = "Settings"
@@ -54,6 +71,7 @@ open class Strings {
     open val settingsRace9Ball = "9-Ball Race"
     open val settingsRace10Ball = "10-Ball Race"
     open val settingsRaceStraightPool = "14.1 Straight Pool Race"
+    open val settingsRaceOnePocket = "One Pocket Race"
     open val settingsSectionPlayerSelection = "Player selection"
     open val settingsDefaultClub = "Default club"
     open val settingsAllClubs = "All clubs"
@@ -61,6 +79,11 @@ open class Strings {
     open val settingsTournamentMode = "Tournament mode"
     open val settingsTournamentModeDesc =
         "Adds a Tournament tile to Start, for running small tournaments with up to 8 players."
+    open val settingsSectionOnePocket = "One Pocket"
+    open val settingsOnePocketMode = "One Pocket mode"
+    open val settingsOnePocketModeDesc =
+        "Adds a One Pocket tile to Start - each player scores only balls potted in their own " +
+            "assigned corner pocket, first to the target wins."
     open val settingsSectionTraining = "Training"
     open val settingsSaveTrainingToHistory = "Save training to history"
     open val settingsSaveTrainingToHistoryDesc =
@@ -269,11 +292,27 @@ open class Strings {
         override val startNewMatch = "Neues Spiel"
         override val startMore = "Mehr"
         override val straightPool = "14.1 endlos"
+        override val onePocket = "One Pocket"
         override val tilePlayers = "Spieler"
         override val tileHistory = "Verlauf"
         override val tileSettings = "Einstellungen"
         override val tileTraining = "Training"
         override val tileTournament = "Turnier"
+
+        override val onePocketFouls = "Fouls"
+        override val onePocketMiss = "Fehler / Safety"
+        override val onePocketPot = "Versenkt"
+        override val onePocketFoul = "Foul"
+        override val onePocketRules = "Regeln"
+        override val onePocketRulesText =
+            "Jeder Spieler zählt nur Bälle, die in seiner eigenen zugewiesenen Ecktasche am Fußende " +
+                "versenkt werden - die anderen 4 Taschen sind neutral. Wer zuerst das Ziel erreicht, " +
+                "gewinnt. Jedes Foul kostet einen Ball; drei Fouls in Folge verlieren die Partie sofort."
+        override val onePocketThirdFoulTitle = "Drittes Foul in Folge"
+        override val onePocketThirdFoulMessage =
+            "Dies ist das dritte Foul dieses Spielers in Folge - eine Bestätigung beendet die Partie " +
+                "sofort zugunsten des Gegners. Nur bestätigen, wenn nach dem 2. Foul gewarnt wurde."
+        override val onePocketThirdFoulConfirm = "Bestätigen - Spiel vorbei"
 
         override val settingsTitle = "Einstellungen"
         override val settingsSectionRaceTargets = "Standard-Ziele (Race to)"
@@ -281,6 +320,7 @@ open class Strings {
         override val settingsRace9Ball = "9-Ball Race"
         override val settingsRace10Ball = "10-Ball Race"
         override val settingsRaceStraightPool = "14.1 Endlos Race"
+        override val settingsRaceOnePocket = "One-Pocket-Race"
         override val settingsSectionPlayerSelection = "Spielerauswahl"
         override val settingsDefaultClub = "Standard-Verein"
         override val settingsAllClubs = "Alle Vereine"
@@ -288,6 +328,11 @@ open class Strings {
         override val settingsTournamentMode = "Turniermodus"
         override val settingsTournamentModeDesc =
             "Fügt eine Turnier-Kachel zum Startbildschirm hinzu, für kleine Turniere mit bis zu 8 Spielern."
+        override val settingsSectionOnePocket = "One Pocket"
+        override val settingsOnePocketMode = "One-Pocket-Modus"
+        override val settingsOnePocketModeDesc =
+            "Fügt eine One-Pocket-Kachel zum Startbildschirm hinzu - jeder Spieler zählt nur Bälle in " +
+                "seiner eigenen zugewiesenen Ecktasche, wer zuerst das Ziel erreicht, gewinnt."
         override val settingsSectionTraining = "Training"
         override val settingsSaveTrainingToHistory = "Trainingsstände im Verlauf speichern"
         override val settingsSaveTrainingToHistoryDesc =

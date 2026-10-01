@@ -88,6 +88,10 @@ fun NewSimpleMatchScreen(
             GameType.NINE_BALL -> app.settingsRepository.defaultRace9Ball.value
             GameType.TEN_BALL -> app.settingsRepository.defaultRace10Ball.value
             GameType.STRAIGHT_POOL -> app.settingsRepository.defaultRaceStraightPool.value
+            // One Pocket has its own setup screen (NewOnePocketMatchScreen) and never reaches this
+            // one - the discipline switcher routes to it directly (BsNavHost.navigateToNewMatch).
+            // Branch kept only so this `when` stays exhaustive.
+            GameType.ONE_POCKET -> app.settingsRepository.defaultRaceOnePocket.value
         }
     }
     var raceTo by rememberSaveable(gameType) { mutableStateOf(defaultRaceTo) }

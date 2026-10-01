@@ -82,6 +82,9 @@ class AppSettingsRepository(context: Context) {
     private val _defaultRaceStraightPool = MutableStateFlow(prefs.getInt(KEY_RACE_STRAIGHT_POOL, DEFAULT_RACE_STRAIGHT_POOL))
     val defaultRaceStraightPool: StateFlow<Int> = _defaultRaceStraightPool
 
+    private val _defaultRaceOnePocket = MutableStateFlow(prefs.getInt(KEY_RACE_ONE_POCKET, DEFAULT_RACE_ONE_POCKET))
+    val defaultRaceOnePocket: StateFlow<Int> = _defaultRaceOnePocket
+
     /** Pre-selected as the club filter whenever a player picker dialog opens. Null = "All clubs". */
     private val _defaultClubId = MutableStateFlow(prefs.getString(KEY_DEFAULT_CLUB_ID, null))
     val defaultClubId: StateFlow<String?> = _defaultClubId
@@ -94,6 +97,10 @@ class AppSettingsRepository(context: Context) {
      * old easter-egg preference key so anyone who'd already unlocked it that way keeps it enabled. */
     private val _tournamentEnabled = MutableStateFlow(prefs.getBoolean(KEY_TOURNAMENT_UNLOCKED, false))
     val tournamentEnabled: StateFlow<Boolean> = _tournamentEnabled
+
+    /** Off by default - Settings > One Pocket. Reveals the One Pocket tile on Start. */
+    private val _onePocketEnabled = MutableStateFlow(prefs.getBoolean(KEY_ONE_POCKET_ENABLED, false))
+    val onePocketEnabled: StateFlow<Boolean> = _onePocketEnabled
 
     /** Off by default - Settings > Training. When on, a fully played-through solo training session
      * (all innings finished, or "Finish" on the open-ended HighRun) is written to History. */
@@ -190,6 +197,11 @@ class AppSettingsRepository(context: Context) {
         _defaultRaceStraightPool.value = raceTo
     }
 
+    fun setDefaultRaceOnePocket(raceTo: Int) {
+        prefs.edit().putInt(KEY_RACE_ONE_POCKET, raceTo).apply()
+        _defaultRaceOnePocket.value = raceTo
+    }
+
     fun setDefaultClubId(clubId: String?) {
         prefs.edit().putString(KEY_DEFAULT_CLUB_ID, clubId).apply()
         _defaultClubId.value = clubId
@@ -203,6 +215,11 @@ class AppSettingsRepository(context: Context) {
     fun setTournamentEnabled(enabled: Boolean) {
         prefs.edit().putBoolean(KEY_TOURNAMENT_UNLOCKED, enabled).apply()
         _tournamentEnabled.value = enabled
+    }
+
+    fun setOnePocketEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_ONE_POCKET_ENABLED, enabled).apply()
+        _onePocketEnabled.value = enabled
     }
 
     fun setSaveTrainingToHistory(enabled: Boolean) {
@@ -235,9 +252,11 @@ class AppSettingsRepository(context: Context) {
         private const val KEY_RACE_9BALL = "default_race_9ball"
         private const val KEY_RACE_10BALL = "default_race_10ball"
         private const val KEY_RACE_STRAIGHT_POOL = "default_race_straight_pool"
+        private const val KEY_RACE_ONE_POCKET = "default_race_one_pocket"
         private const val KEY_DEFAULT_CLUB_ID = "default_club_id"
         private const val KEY_LANGUAGE = "language"
         private const val KEY_TOURNAMENT_UNLOCKED = "tournament_mode_unlocked"
+        private const val KEY_ONE_POCKET_ENABLED = "one_pocket_mode_enabled"
         private const val KEY_SAVE_TRAINING_HISTORY = "save_training_to_history"
         private const val KEY_HISTORY_RETENTION_DAYS = "history_retention_days"
         const val DEFAULT_HISTORY_RETENTION_DAYS = 365
@@ -247,6 +266,7 @@ class AppSettingsRepository(context: Context) {
         const val DEFAULT_RACE_9BALL = 7
         const val DEFAULT_RACE_10BALL = 6
         const val DEFAULT_RACE_STRAIGHT_POOL = 100
+        const val DEFAULT_RACE_ONE_POCKET = 8
 
         private fun systemDarkDefault(context: Context): Boolean {
             val nightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

@@ -84,6 +84,7 @@ private val WideMoreTileMaxSize = 100.dp
 fun StartScreen(
     onNewSimpleMatch: (GameType) -> Unit,
     onNewStraightMatch: () -> Unit,
+    onNewOnePocketMatch: () -> Unit,
     onOpenPlayers: () -> Unit,
     onOpenArchive: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -92,6 +93,7 @@ fun StartScreen(
     onOpenObsControl: () -> Unit,
 ) {
     val tournamentEnabled by bsApplication().settingsRepository.tournamentEnabled.collectAsStateWithLifecycle()
+    val onePocketEnabled by bsApplication().settingsRepository.onePocketEnabled.collectAsStateWithLifecycle()
     val obsWsEnabled by bsApplication().settingsRepository.obsWebSocketEnabled.collectAsStateWithLifecycle()
     val obsRegieTileEnabled by bsApplication().settingsRepository.obsRegieTileEnabled.collectAsStateWithLifecycle()
     val showRegieTile = obsWsEnabled && obsRegieTileEnabled
@@ -164,6 +166,9 @@ fun StartScreen(
                         GameTile("9", s.nineBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.NINE_BALL) }
                         GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.TEN_BALL) }
                         GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewStraightMatch)
+                        if (onePocketEnabled) {
+                            GameTile("OP", s.onePocket, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewOnePocketMatch)
+                        }
                     }
                 } else {
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
@@ -174,6 +179,13 @@ fun StartScreen(
                     Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
                         GameTile("10", s.tenBall, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt) { onNewSimpleMatch(GameType.TEN_BALL) }
                         GameTile("14.1", s.straightPool, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewStraightMatch)
+                    }
+                    if (onePocketEnabled) {
+                        Spacer(Modifier.height(10.dp))
+                        Row(horizontalArrangement = rowArrangement, modifier = Modifier.fillMaxWidth()) {
+                            GameTile("OP", s.onePocket, tileModifier(WideGameTileMaxSize), useGradientTiles, twoToneAccent = isFelt, copper = true, onClick = onNewOnePocketMatch)
+                            Spacer(Modifier.weight(1f))
+                        }
                     }
                 }
 
